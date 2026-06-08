@@ -1,0 +1,224 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.sensor-panel {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.sensor-panel__header {
+    margin-bottom: 1.5rem;
+}
+
+.sensor-panel__header h3 {
+    color: #00d9ff;
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.sensor-panel__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Sensor Item */
+.sensor-item {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid rgba(0, 217, 255, 0.1);
+}
+
+.sensor-item__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.sensor-item__icon {
+    font-size: 1.2rem;
+}
+
+.sensor-item__name {
+    flex: 1;
+    color: #fff;
+    font-weight: 500;
+}
+
+.sensor-item__value {
+    color: #00ff88;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    min-width: 70px;
+    text-align: right;
+}
+
+.sensor-item__range {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #888;
+}
+
+/* Sliders */
+.sensor-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.sensor-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sensor-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Temperature slider - Orange theme */
+.sensor-slider--temp::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff4500 100%);
+    box-shadow: 0 2px 10px rgba(255, 107, 53, 0.5);
+}
+
+.sensor-slider--temp::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #4a90d9, #ff6b35);
+    height: 8px;
+    border-radius: 4px;
+}
+
+/* Light slider - Yellow theme */
+.sensor-slider--light::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+    box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+}
+
+.sensor-slider--light::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #333, #ffd700);
+    height: 8px;
+    border-radius: 4px;
+}
+
+/* Accelerometer sliders */
+.sensor-slider--accel-x::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #ff3366 0%, #cc2952 100%);
+    box-shadow: 0 2px 10px rgba(255, 51, 102, 0.5);
+}
+
+.sensor-slider--accel-y::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+    box-shadow: 0 2px 10px rgba(0, 255, 136, 0.5);
+}
+
+.sensor-slider--accel-z::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+    box-shadow: 0 2px 10px rgba(0, 217, 255, 0.5);
+}
+
+/* Accelerometer Layout */
+.accel-axes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.accel-axis {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.accel-axis label {
+    color: #888;
+    font-weight: 600;
+    width: 20px;
+}
+
+.accel-axis .sensor-slider {
+    flex: 1;
+}
+
+.accel-value {
+    color: #00d9ff;
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+    min-width: 70px;
+    text-align: right;
+}
+
+/* Tilt Indicator */
+.tilt-indicator {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(0, 217, 255, 0.3);
+    margin: 1rem auto 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.tilt-indicator::before {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(0, 217, 255, 0.3);
+    font-size: 2rem;
+}
+
+.tilt-ball {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+    box-shadow: 0 2px 10px rgba(0, 255, 136, 0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    transition: transform 0.1s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sensor-panel {
+        padding: 1rem;
+    }
+
+    .tilt-indicator {
+        width: 80px;
+        height: 80px;
+    }
+}

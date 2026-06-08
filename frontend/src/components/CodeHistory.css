@@ -1,0 +1,173 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.code-history {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.code-history__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.code-history__header h3 {
+    color: #00d9ff;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.clear-btn {
+    background: rgba(255, 51, 102, 0.2);
+    border: 1px solid rgba(255, 51, 102, 0.3);
+    color: #ff3366;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.code-history__list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.history-empty {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+}
+
+.history-item {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(0, 217, 255, 0.1);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.history-item.success {
+    border-left: 3px solid #00ff88;
+}
+
+.history-item.error {
+    border-left: 3px solid #ff3366;
+}
+
+.history-item__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.history-item__header:hover {
+    background: rgba(0, 217, 255, 0.05);
+}
+
+.history-status {
+    font-size: 0.9rem;
+}
+
+.history-item.success .history-status {
+    color: #00ff88;
+}
+
+.history-item.error .history-status {
+    color: #ff3366;
+}
+
+.history-preview {
+    flex: 1;
+    color: #aaa;
+    font-size: 0.8rem;
+    font-family: monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-time {
+    color: #666;
+    font-size: 0.7rem;
+}
+
+.history-item__expanded {
+    padding: 0.75rem;
+    border-top: 1px solid rgba(0, 217, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.history-item__expanded pre {
+    margin: 0 0 0.5rem 0;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow-x: auto;
+    max-height: 150px;
+}
+
+.history-item__expanded code {
+    color: #00ff88;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.history-output {
+    color: #888;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-family: monospace;
+}
+
+.load-btn {
+    width: 100%;
+    background: rgba(0, 217, 255, 0.2);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    color: #00d9ff;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.load-btn:hover {
+    background: rgba(0, 217, 255, 0.3);
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+}

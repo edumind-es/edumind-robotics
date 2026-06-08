@@ -1,0 +1,244 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.export-panel {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    max-width: 100%;
+    min-width: 0;
+}
+
+.export-panel__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.export-panel__header h3 {
+    color: #00d9ff;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.export-info {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.hardware-target {
+    display: grid;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    color: #bdefff;
+    font-size: 0.9rem;
+}
+
+.hardware-target select {
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    border: 1px solid rgba(0, 217, 255, 0.35);
+    border-radius: 8px;
+    padding: 0.7rem;
+}
+
+/* Export Formats */
+.export-formats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.export-format-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(0, 217, 255, 0.2);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.export-format-btn:hover:not(:disabled) {
+    border-color: rgba(0, 217, 255, 0.5);
+    transform: translateX(5px);
+}
+
+.export-format-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.export-format-btn.exporting {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.format-icon {
+    font-size: 2rem;
+}
+
+.format-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.format-info strong {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.format-info span {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.export-spinner {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.export-warning {
+    color: #ffcc00;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(255, 204, 0, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #ffcc00;
+}
+
+/* Instructions Button */
+.instructions-btn {
+    width: 100%;
+    background: rgba(0, 217, 255, 0.1);
+    border: 2px solid rgba(0, 217, 255, 0.3);
+    color: #00d9ff;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.instructions-btn:hover {
+    background: rgba(0, 217, 255, 0.2);
+    border-color: #00d9ff;
+}
+
+/* Instructions Modal */
+.instructions-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.instructions-modal {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 2px solid rgba(0, 217, 255, 0.3);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.instructions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.instructions-header h3 {
+    margin: 0;
+    color: #00d9ff;
+}
+
+.instructions-header button {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.instructions-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.instructions-content pre {
+    color: #ccc;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+.close-btn:hover {
+    color: #fff;
+}

@@ -1,0 +1,250 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.projects-panel {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.projects-panel__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.projects-panel__header h3 {
+    color: #00d9ff;
+    font-size: 1.1rem;
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+.projects-panel__actions {
+    margin-bottom: 1rem;
+}
+
+.projects-panel__secondary-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.projects-panel__secondary-actions button {
+    background: rgba(0, 217, 255, 0.12);
+    border: 1px solid rgba(0, 217, 255, 0.35);
+    color: #bdefff;
+    padding: 0.55rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.projects-panel__secondary-actions button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.save-new-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+    border: none;
+    color: #000;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.save-new-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+}
+
+.projects-panel__list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.projects-empty {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+}
+
+.projects-empty small {
+    display: block;
+    margin-top: 0.5rem;
+    color: #666;
+}
+
+.project-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(0, 217, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.project-item:hover {
+    border-color: rgba(0, 217, 255, 0.3);
+}
+
+.project-item.active {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.project-item__info {
+    flex: 1;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.project-name {
+    color: #fff;
+    font-weight: 500;
+}
+
+.project-date {
+    color: #888;
+    font-size: 0.75rem;
+}
+
+.project-item__actions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.project-item__actions button {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.project-item__actions button:hover {
+    opacity: 1;
+}
+
+/* Save Modal */
+.save-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.save-modal {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border: 2px solid rgba(0, 217, 255, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 300px;
+}
+
+.save-modal h4 {
+    color: #00d9ff;
+    margin: 0 0 1rem 0;
+}
+
+.save-modal input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(0, 217, 255, 0.3);
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.save-modal input:focus {
+    outline: none;
+    border-color: #00d9ff;
+}
+
+.save-modal__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.save-modal__actions button {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.save-modal__actions button:first-child {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.save-modal__actions button.primary {
+    background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+    color: #000;
+    font-weight: 600;
+}
+
+.save-modal__actions button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -1,0 +1,197 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.achievements {
+    background: linear-gradient(135deg, #2e1a4e 0%, #1a1a2e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.achievements__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.achievements__header h3 {
+    color: #ffd700;
+    margin: 0;
+}
+
+.achievements__stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+.achievements__stats .stat {
+    flex: 1;
+    text-align: center;
+}
+
+.achievements__stats .stat-value {
+    color: #ffd700;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: block;
+}
+
+.achievements__stats .stat-label {
+    color: #888;
+    font-size: 0.7rem;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.achievements__filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.achievements__filters button {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    color: #888;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.achievements__filters button:hover {
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.achievements__filters button.active {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+    color: #ffd700;
+}
+
+.achievements__list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.achievement-item.unlocked {
+    border-color: rgba(255, 215, 0, 0.3);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.achievement-item.locked {
+    opacity: 0.5;
+}
+
+.achievement-item.locked .achievement-icon {
+    filter: grayscale(100%);
+}
+
+.achievement-icon {
+    font-size: 1.5rem;
+}
+
+.achievement-info {
+    flex: 1;
+}
+
+.achievement-info h4 {
+    color: #fff;
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+.achievement-info p {
+    color: #888;
+    margin: 0;
+    font-size: 0.75rem;
+}
+
+.achievement-item.unlocked .achievement-info h4 {
+    color: #ffd700;
+}
+
+.achievement-points {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.achievement-item.locked .achievement-points {
+    color: #555;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Scrollbar */
+.achievements__list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.achievements__list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.achievements__list::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 3px;
+}

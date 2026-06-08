@@ -1,0 +1,278 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.nezha-robot {
+    background: linear-gradient(135deg, #1a2e1a 0%, #1a1a2e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid rgba(0, 255, 136, 0.3);
+}
+
+.nezha-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.nezha-header h3 {
+    color: #00ff88;
+    margin: 0;
+}
+
+.nezha-tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nezha-tabs button {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    color: #888;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.nezha-tabs button.active {
+    background: rgba(0, 255, 136, 0.2);
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+.nezha-visualization {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.robot-body {
+    width: 180px;
+    position: relative;
+}
+
+.ultrasonic-sensor {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.ultrasonic-eyes {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.eye {
+    font-size: 1.5rem;
+}
+
+.ultrasonic-value {
+    color: #00d9ff;
+    font-size: 0.8rem;
+    font-family: monospace;
+}
+
+.chassis {
+    background: linear-gradient(180deg, #333 0%, #222 100%);
+    border: 3px solid #444;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.cpu {
+    background: #00ff88;
+    color: #000;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.ports {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.port {
+    background: #111;
+    color: #888;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 0.6rem;
+}
+
+.wheels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -10px;
+    padding: 0 10px;
+}
+
+.wheel {
+    width: 40px;
+    height: 40px;
+    background: #111;
+    border: 4px solid #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: #888;
+    transition: border-color 0.2s;
+}
+
+.wheel.rotating-forward {
+    animation: rotate-forward 0.5s linear infinite;
+}
+
+.wheel.rotating-backward {
+    animation: rotate-backward 0.5s linear infinite;
+}
+
+@keyframes rotate-forward {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-backward {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+.line-followers {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 0.5rem;
+}
+
+.line-sensor {
+    width: 20px;
+    height: 10px;
+    background: #333;
+    border-radius: 2px;
+    font-size: 0.5rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.line-sensor.active {
+    background: #ff3366;
+    color: #fff;
+}
+
+/* Controls */
+.nezha-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.motor-control,
+.servo-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.motor-control label,
+.servo-control label {
+    color: #888;
+    font-size: 0.75rem;
+    width: 80px;
+}
+
+.motor-control input,
+.servo-control input {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #333;
+}
+
+.motor-control input::-webkit-slider-thumb,
+.servo-control input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00ff88;
+    cursor: pointer;
+}
+
+.motor-value,
+.servo-value {
+    width: 40px;
+    text-align: right;
+    font-family: monospace;
+    font-size: 0.8rem;
+}
+
+.servo-value {
+    color: #00d9ff;
+}
+
+/* Sensors view */
+.nezha-sensors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sensor-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+.sensor-icon {
+    font-size: 1rem;
+}
+
+.sensor-name {
+    flex: 1;
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.sensor-value {
+    color: #00ff88;
+    font-family: monospace;
+    font-size: 0.85rem;
+}

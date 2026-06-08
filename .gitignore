@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+vendor/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Builds and generated output
+dist/
+build/
+.next/
+out/
+coverage/
+htmlcov/
+playwright-report/
+test-results/
+.pytest_cache/
+.ruff_cache/
+*.tsbuildinfo
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.local
+
+# Runtime data, user content and backups
+/data/
+/apps/api/data/
+uploads/
+static/uploads/
+backend/static/uploads/
+backups/
+backup/
+*.sqlite
+*.sqlite-*
+*.db
+*.sql
+*.sql.gz
+*.log
+
+# Local/editor state
+.DS_Store
+.idea/
+.vscode/
+.local/
+.build/
+run/
+
+# Deployment-local files
+*.service
+*.conf
+*.bak
+*.new

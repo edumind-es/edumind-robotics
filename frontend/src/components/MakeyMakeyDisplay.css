@@ -1,0 +1,164 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.makey-makey-display {
+    background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+.makey-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.makey-header h3 {
+    color: #ff6b35;
+    margin: 0;
+}
+
+.makey-subtitle {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.makey-board {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 3px solid #333;
+    position: relative;
+}
+
+.makey-ground {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #333;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: #00ff88;
+}
+
+.ground-wire {
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background: #00ff88;
+    left: 50%;
+    bottom: -20px;
+}
+
+.makey-pins {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.makey-pin {
+    width: 80px;
+    height: 100px;
+    background: linear-gradient(180deg, #333 0%, #222 100%);
+    border: 3px solid #444;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+}
+
+.makey-pin:hover {
+    border-color: #ff6b35;
+    transform: scale(1.05);
+}
+
+.makey-pin.touched {
+    background: linear-gradient(180deg, #ff6b35 0%, #cc5429 100%);
+    border-color: #ffaa00;
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
+    transform: scale(1.1);
+}
+
+.pin-touch-zone {
+    text-align: center;
+}
+
+.pin-icon {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.pin-label {
+    color: #888;
+    font-size: 0.7rem;
+}
+
+.pin-note {
+    color: #00d9ff;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.makey-pin.touched .pin-label,
+.makey-pin.touched .pin-note {
+    color: #fff;
+}
+
+.pin-count {
+    position: absolute;
+    bottom: -10px;
+    background: #00d9ff;
+    color: #000;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.makey-chip {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, #ff6b35 0%, #cc5429 100%);
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.makey-instructions {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #ff6b35;
+}
+
+.makey-instructions p {
+    margin: 0;
+    color: #ccc;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}

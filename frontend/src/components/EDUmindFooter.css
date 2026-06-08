@@ -1,0 +1,238 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/* EDUmind Footer - Modern, Responsive, Dark Mode Compatible */
+
+.edumind-footer {
+    /* Layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+
+    /* Visual */
+    background-color: var(--footer-bg, #f8f9fa);
+    border-top: 1px solid var(--footer-border, #e9ecef);
+    color: var(--footer-text, #6c757d);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.9rem;
+
+    /* Transitions */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .edumind-footer {
+        --footer-bg: #1a1a1a;
+        --footer-border: #333;
+        --footer-text: #a0a0a0;
+        --link-color: #60a5fa;
+        --link-hover: #93c5fd;
+    }
+}
+
+/* Explicit dark mode class support */
+.dark .edumind-footer,
+[data-theme="dark"] .edumind-footer {
+    --footer-bg: #1a1a1a;
+    --footer-border: #333;
+    --footer-text: #a0a0a0;
+    --link-color: #60a5fa;
+    --link-hover: #93c5fd;
+}
+
+/* Navigation Section */
+.footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.nav-btn {
+    text-decoration: none;
+    color: var(--link-color, #007bff);
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-btn:hover {
+    color: var(--link-hover, #0056b3);
+    background-color: var(--hover-bg, rgba(0, 123, 255, 0.05));
+}
+
+.nav-btn:focus {
+    outline: 2px solid var(--link-color, #007bff);
+    outline-offset: 2px;
+}
+
+.divider {
+    margin: 0 0.5rem;
+    color: var(--footer-border, #ccc);
+    user-select: none;
+}
+
+/* Info Section */
+.footer-info {
+    flex: 1;
+    text-align: center;
+    min-width: 200px;
+}
+
+.footer-info p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.footer-info strong {
+    color: var(--footer-text-strong, #495057);
+    font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+    .footer-info strong {
+        color: var(--footer-text-strong, #d0d0d0);
+    }
+}
+
+/* Meta Section (Version + Feedback) */
+.footer-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.version-badge {
+    background-color: var(--badge-bg, #e2e6ea);
+    color: var(--badge-text, #495057);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+@media (prefers-color-scheme: dark) {
+    .version-badge {
+        --badge-bg: #2a2a2a;
+        --badge-text: #b0b0b0;
+    }
+}
+
+.feedback-link {
+    text-decoration: none;
+    color: var(--link-color, #007bff);
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.feedback-link:hover {
+    color: var(--link-hover, #0056b3);
+    background-color: var(--hover-bg, rgba(0, 123, 255, 0.05));
+}
+
+.feedback-link:focus {
+    outline: 2px solid var(--link-color, #007bff);
+    outline-offset: 2px;
+}
+
+/* Responsive Design - Mobile First */
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+    .edumind-footer {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 1rem 1.5rem;
+    }
+
+    .footer-nav {
+        order: 1;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-info {
+        order: 2;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-meta {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Mobile (600px and below) */
+@media (max-width: 600px) {
+    .edumind-footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .footer-nav,
+    .footer-info,
+    .footer-meta {
+        width: 100%;
+    }
+
+    .footer-info p {
+        font-size: 0.85rem;
+    }
+
+    .version-badge,
+    .feedback-link {
+        font-size: 0.75rem;
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+
+    .edumind-footer,
+    .nav-btn,
+    .feedback-link {
+        transition: none;
+    }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .edumind-footer {
+        border-top-width: 2px;
+    }
+
+    .nav-btn:focus,
+    .feedback-link:focus {
+        outline-width: 3px;
+    }
+}

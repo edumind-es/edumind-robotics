@@ -1,0 +1,111 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.theme-toggle {
+    background: rgba(0, 217, 255, 0.1);
+    border: 2px solid rgba(0, 217, 255, 0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(0, 217, 255, 0.2);
+    border-color: #00d9ff;
+    transform: rotate(15deg);
+}
+
+.theme-icon {
+    font-size: 1.2rem;
+}
+
+/* Light theme CSS variables */
+[data-theme="light"] {
+    --bg-primary: #f5f5f5;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --text-primary: #1a1a2e;
+    --text-secondary: #666;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --accent-cyan: #0099cc;
+    --accent-green: #00aa66;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0f0f1e;
+    --bg-secondary: #1a1a2e;
+    --bg-card: rgba(26, 26, 46, 0.95);
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --border-color: rgba(0, 217, 255, 0.2);
+    --accent-cyan: #00d9ff;
+    --accent-green: #00ff88;
+}
+
+/* Apply theme to common elements */
+[data-theme="light"] .edm-app {
+    background: var(--bg-primary);
+}
+
+[data-theme="light"] .lab-view {
+    background: linear-gradient(135deg, #f0f4f8 0%, #e8ecf0 50%, #dce4ea 100%);
+}
+
+[data-theme="light"] .lme-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .lme-card h3,
+[data-theme="light"] .lme-card__badge {
+    color: var(--accent-cyan);
+}
+
+[data-theme="light"] .code-editor-container {
+    background: var(--bg-card);
+}
+
+[data-theme="light"] .sensor-panel,
+[data-theme="light"] .examples-panel,
+[data-theme="light"] .export-panel,
+[data-theme="light"] .projects-panel,
+[data-theme="light"] .code-history {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .chat-panel {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .message--user {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    color: #1a1a2e;
+}
+
+[data-theme="light"] .message--assistant {
+    background: #f5f5f5;
+    color: #333;
+}

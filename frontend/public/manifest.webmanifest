@@ -1,0 +1,25 @@
+{
+  "name": "EDUmind Robotics Guide",
+  "short_name": "EDUmind",
+  "description": "Guía educativa interactiva para proyectos de robótica EDUmind.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5efe6",
+  "theme_color": "#4f9ec4",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

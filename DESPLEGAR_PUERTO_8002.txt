@@ -1,0 +1,90 @@
+═══════════════════════════════════════════════════════════════
+  🚀 EDUmind Robotics - Despliegue en Puerto 8002
+═══════════════════════════════════════════════════════════════
+
+✅ SOLUCIÓN: Usar puerto 8002 (dejando 8001 libre)
+
+Se han creado:
+  • /tmp/edumind-robotics-port8002.service (systemd en puerto 8002)
+  • /tmp/edumind-robotics-port8002.nginx (proxy a puerto 8002)
+
+═══════════════════════════════════════════════════════════════
+
+📋 EJECUTA ESTOS COMANDOS:
+
+# 1. Actualizar servicio systemd al puerto 8002
+sudo cp /tmp/edumind-robotics-port8002.service /etc/systemd/system/edumind-robotics.service
+
+# 2. Actualizar configuración de Nginx
+sudo cp /tmp/edumind-robotics-port8002.nginx /etc/nginx/sites-available/edumind-robotics
+
+# 3. Verificar configuración de Nginx
+sudo nginx -t
+
+# 4. Recargar systemd
+sudo systemctl daemon-reload
+
+# 5. Reiniciar backend
+sudo systemctl restart edumind-robotics
+
+# 6. Recargar Nginx
+sudo systemctl reload nginx
+
+# 7. Esperar y verificar backend
+sleep 3 && sudo systemctl status edumind-robotics --no-pager
+
+# 8. Verificar que escucha en puerto 8002
+sudo lsof -i :8002
+
+═══════════════════════════════════════════════════════════════
+
+✅ DEBERÍAS VER:
+
+Backend:
+● edumind-robotics.service - EDUmind Robotics Backend API
+   Active: active (running) since ...
+
+INFO: Started server process [PID]
+INFO: ✅ EDUmind Robotics API is ready!
+INFO: Uvicorn running on http://0.0.0.0:8002 ✅
+
+Puerto 8002:
+python  [PID]  nuevoadmin  ... TCP *:8002 (LISTEN) ✅
+
+═══════════════════════════════════════════════════════════════
+
+🌐 PRUEBA LA APLICACIÓN:
+
+1. Abre: http://robotics.edumind.es
+2. Click en "Abrir Laboratorio"
+3. Ejecuta código en el simulador
+4. Habla con la IA
+
+═══════════════════════════════════════════════════════════════
+
+🔧 SI ALGO FALLA:
+
+# Ver logs del backend
+sudo journalctl -u edumind-robotics -n 30 --no-pager
+
+# Verificar puertos en uso
+sudo lsof -i :8001
+sudo lsof -i :8002
+
+# Probar backend manualmente
+cd /var/www/edumind_robotics/backend
+/var/www/edumind_robotics/venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8002
+
+═══════════════════════════════════════════════════════════════
+
+📊 CAMBIOS REALIZADOS:
+
+ANTES:
+  Backend intenta usar puerto 8001 → Conflicto ❌
+
+AHORA:
+  Backend usa puerto 8002 → Sin conflicto ✅
+  Nginx proxy /api/ → localhost:8002 ✅
+  Puerto 8001 queda libre para lo que tenías ✅
+
+═══════════════════════════════════════════════════════════════

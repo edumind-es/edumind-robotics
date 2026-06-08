@@ -1,0 +1,89 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.code-editor-container {
+  background: linear-gradient(135deg, #1e1e2e 0%, #2a2a3e 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.code-editor-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.code-editor-header h3 {
+  color: #00d9ff;
+  font-size: 1.3rem;
+  flex: 1;
+  margin: 0;
+}
+
+.code-editor-header .edm-button--primary {
+  background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+  color: #000;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
+}
+
+.code-editor-header .edm-button--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 217, 255, 0.5);
+}
+
+.code-editor-header .edm-button--primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.code-editor-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  margin-bottom: 1rem;
+}
+
+.code-editor-tips {
+  background: rgba(0, 217, 255, 0.1);
+  border-left: 4px solid #00d9ff;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.tip-text {
+  color: #ccc;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.tip-text code {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #00ff88;
+  font-family: 'Courier New', monospace;
+}

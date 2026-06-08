@@ -1,0 +1,156 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.microbit-container {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.microbit-title {
+  color: #00d9ff;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.microbit-board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: #0f3460;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+/* LED Matrix */
+.led-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #000;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(255, 51, 51, 0.3);
+}
+
+.led-row {
+  display: flex;
+  gap: 8px;
+}
+
+.led-pixel {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #1a1a1a;
+  transition: all 0.2s ease;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(255, 51, 51, 0.2);
+}
+
+.led-pixel[style*="opacity: 0"] {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Buttons */
+.microbit-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid #555;
+  background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  user-select: none;
+}
+
+.microbit-button:hover {
+  background: linear-gradient(145deg, #3a3a4e, #2a2a3e);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.microbit-button:active,
+.microbit-button.pressed {
+  background: linear-gradient(145deg, #1a1a2e, #0f0f1e);
+  transform: translateY(1px);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.microbit-button--a {
+  border-color: #00d9ff;
+}
+
+.microbit-button--b {
+  border-color: #ffcc00;
+}
+
+.microbit-button--a.pressed {
+  background: linear-gradient(145deg, #00d9ff, #0099cc);
+  color: #000;
+}
+
+.microbit-button--b.pressed {
+  background: linear-gradient(145deg, #ffcc00, #cc9900);
+  color: #000;
+}
+
+/* Status */
+.microbit-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 10px #00ff88;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.status-text {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

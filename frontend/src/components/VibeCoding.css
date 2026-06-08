@@ -1,0 +1,726 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * VibeCoding — Zona de programación pedagógica con IA para 7-12 años
+ */
+
+/* ─── Root ─── */
+.vc-root {
+  min-height: 100vh;
+  background: var(--edm-bg, linear-gradient(135deg, #0f0c29 0%, #1a1a2e 60%, #16213e 100%));
+  padding: 1.5rem clamp(1rem, 3vw, 2.5rem) 3rem;
+  font-family: var(--edm-font-body, 'Nunito', 'Segoe UI', sans-serif);
+  color: #eee;
+}
+
+/* ─── Hardware selector ─── */
+.vc-hardware-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.vc-hw-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vc-hw-btn:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.vc-hw-btn--active {
+  border-color: var(--hw-color, #00d9ff);
+  background: color-mix(in srgb, var(--hw-color, #00d9ff) 15%, transparent);
+  color: var(--hw-color, #00d9ff);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hw-color, #00d9ff) 40%, transparent);
+}
+
+.vc-hw-icon {
+  font-size: 1.1rem;
+}
+
+/* ─── Steps indicator ─── */
+.vc-steps {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.vc-step {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  flex: 1;
+  min-width: 90px;
+  position: relative;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.vc-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 60%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.vc-step--active {
+  opacity: 1;
+}
+
+.vc-step--done {
+  opacity: 0.7;
+}
+
+.vc-step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 217, 255, 0.1);
+  border: 2px solid rgba(0, 217, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.vc-step--active .vc-step-circle {
+  background: rgba(0, 217, 255, 0.2);
+  border-color: #00d9ff;
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
+}
+
+.vc-step--done .vc-step-circle {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: #00ff88;
+  color: #00ff88;
+}
+
+.vc-step-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.vc-step-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #eee;
+  line-height: 1.2;
+}
+
+.vc-step-desc {
+  font-size: 0.75rem;
+  color: #888;
+  line-height: 1.2;
+}
+
+/* ─── Layout ─── */
+.vc-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.vc-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vc-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: sticky;
+  top: 1rem;
+}
+
+/* ─── Cards ─── */
+.vc-card {
+  background: rgba(22, 33, 62, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vc-card--active {
+  border-color: rgba(0, 217, 255, 0.35);
+  box-shadow: 0 0 0 1px rgba(0, 217, 255, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.vc-card-header {
+  margin-bottom: 1.25rem;
+}
+
+.vc-card-step {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #00d9ff;
+  margin-bottom: 0.4rem;
+}
+
+.vc-card h3 {
+  font-family: var(--edm-font-head, 'Orbitron', 'Arial', sans-serif);
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.vc-card-hint {
+  font-size: 0.95rem;
+  color: #9ab;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.vc-card-hint strong {
+  color: #cde;
+}
+
+/* ─── Textarea / Input ─── */
+.vc-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(0, 217, 255, 0.25);
+  border-radius: 10px;
+  color: #fff;
+  padding: 1rem 1.1rem;
+  font-size: 1.05rem;
+  font-family: var(--edm-font-body, 'Nunito', 'Segoe UI', sans-serif);
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.25s ease;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.vc-textarea:focus {
+  outline: none;
+  border-color: #00d9ff;
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.12);
+}
+
+.vc-textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vc-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Buttons ─── */
+.vc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.75rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  width: 100%;
+}
+
+.vc-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.vc-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.vc-btn--generate {
+  background: linear-gradient(120deg, #00d9ff, #0099cc);
+  color: #000;
+  box-shadow: 0 4px 18px rgba(0, 217, 255, 0.35);
+}
+
+.vc-btn--generate:hover:not(:disabled) {
+  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.55);
+}
+
+.vc-btn--insert {
+  background: linear-gradient(120deg, #00ff88, #00cc66);
+  color: #000;
+  box-shadow: 0 4px 18px rgba(0, 255, 136, 0.3);
+  margin-top: 1rem;
+}
+
+.vc-btn--insert:hover {
+  box-shadow: 0 6px 24px rgba(0, 255, 136, 0.5);
+}
+
+.vc-btn--new {
+  background: linear-gradient(120deg, #ff9900, #cc7700);
+  color: #000;
+  box-shadow: 0 4px 18px rgba(255, 153, 0, 0.35);
+}
+
+/* ─── Spinner / loading ─── */
+.vc-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: vc-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes vc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Puntos de carga inline en títulos */
+.vc-dot-pulse {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffcc00;
+  margin-right: 0.5rem;
+  animation: vc-pulse 1s ease-in-out infinite;
+}
+
+@keyframes vc-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* ─── Quick ideas ─── */
+.vc-quick-ideas {
+  margin-top: 1rem;
+}
+
+.vc-quick-ideas-label {
+  font-size: 0.82rem;
+  color: #888;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.vc-quick-ideas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.vc-idea-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #bcd;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vc-idea-chip:hover:not(:disabled) {
+  background: rgba(0, 217, 255, 0.08);
+  border-color: rgba(0, 217, 255, 0.3);
+  color: #00d9ff;
+  transform: translateX(4px);
+}
+
+.vc-idea-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Response area ─── */
+.vc-response-area {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  max-height: 480px;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+}
+
+.vc-response-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.vc-response-area::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.vc-response-area::-webkit-scrollbar-thumb {
+  background: rgba(0, 217, 255, 0.3);
+  border-radius: 3px;
+}
+
+.vc-response-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Bloque de código generado */
+.vc-code-block {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.vc-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 217, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+}
+
+.vc-code-lang {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #00d9ff;
+  letter-spacing: 0.08em;
+}
+
+.vc-code-label {
+  font-size: 0.78rem;
+  color: #667;
+}
+
+.vc-code-pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.vc-code-pre code {
+  color: #00ff88;
+  font-family: 'Courier New', 'Fira Code', monospace;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  display: block;
+  white-space: pre;
+}
+
+/* Explicación de la IA */
+.vc-explanation {
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  border-left: 3px solid rgba(0, 217, 255, 0.4);
+}
+
+.vc-explanation-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #00d9ff;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.vc-explanation-text {
+  font-size: 0.97rem;
+  color: #cde;
+  line-height: 1.65;
+}
+
+.vc-explanation-text p {
+  margin: 0.3rem 0;
+}
+
+.vc-explanation-text strong {
+  color: #ffcc00;
+}
+
+.vc-explanation-text code {
+  background: rgba(0, 0, 0, 0.4);
+  color: #00ff88;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: 'Courier New', monospace;
+}
+
+/* Streaming text */
+.vc-streaming-text {
+  color: #dde;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Thinking state */
+.vc-thinking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+  color: #667;
+}
+
+.vc-thinking-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vc-thinking-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00d9ff;
+  animation: vc-bounce 1.2s ease-in-out infinite;
+}
+
+.vc-thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.vc-thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes vc-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ─── Congrats card ─── */
+.vc-card--congrats {
+  border-color: rgba(255, 204, 0, 0.3);
+  background: rgba(255, 204, 0, 0.05);
+}
+
+.vc-congrats-inner {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.vc-congrats-emoji {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+  animation: vc-tada 0.6s ease;
+}
+
+@keyframes vc-tada {
+  0% { transform: scale(0.5) rotate(-10deg); }
+  70% { transform: scale(1.15) rotate(5deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.vc-card--congrats h3 {
+  font-size: 1.4rem;
+  color: #ffcc00;
+  justify-content: center;
+}
+
+.vc-card--congrats p {
+  color: #bcd;
+  font-size: 0.97rem;
+  line-height: 1.7;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.vc-congrats-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.vc-congrats-actions .vc-btn {
+  width: auto;
+  padding: 0.85rem 2rem;
+}
+
+/* ─── Simulator card ─── */
+.vc-card--simulator .vc-card-header {
+  margin-bottom: 1rem;
+}
+
+.vc-sensors {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vc-sensor-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.vc-sensor-row strong {
+  color: #00ff88;
+}
+
+/* ─── Explainer pedagógico ─── */
+.vc-card--explainer {
+  border-color: rgba(255, 204, 0, 0.15);
+  background: rgba(255, 204, 0, 0.04);
+}
+
+.vc-card--explainer h4 {
+  font-family: var(--edm-font-head, 'Orbitron', sans-serif);
+  font-size: 0.95rem;
+  color: #ffcc00;
+  margin: 0 0 1rem 0;
+}
+
+.vc-explainer-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.vc-explainer-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.88rem;
+  color: #bcd;
+  line-height: 1.5;
+}
+
+.vc-explainer-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 204, 0, 0.15);
+  border: 1px solid rgba(255, 204, 0, 0.3);
+  color: #ffcc00;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.vc-explainer-footer {
+  font-size: 0.85rem;
+  color: #aaa;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.vc-explainer-footer strong {
+  color: #ffcc00;
+}
+
+/* ─── Tips card ─── */
+.vc-card--tips h4 {
+  font-family: var(--edm-font-head, 'Orbitron', sans-serif);
+  font-size: 0.95rem;
+  color: #00d9ff;
+  margin: 0 0 0.75rem 0;
+}
+
+.vc-tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.vc-tips-list li {
+  font-size: 0.88rem;
+  color: #9ab;
+  padding-left: 0.5rem;
+  line-height: 1.5;
+}
+
+.vc-tips-list kbd {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.78rem;
+  font-family: monospace;
+  color: #eee;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1100px) {
+  .vc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .vc-right {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .vc-right .vc-card {
+    flex: 1;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 680px) {
+  .vc-steps {
+    gap: 0;
+  }
+
+  .vc-step {
+    padding: 0.4rem 0.5rem;
+    min-width: 60px;
+  }
+
+  .vc-step-desc {
+    display: none;
+  }
+
+  .vc-right .vc-card {
+    flex: 1 1 100%;
+  }
+}

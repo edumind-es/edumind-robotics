@@ -1,0 +1,278 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * App layout — vistas Home, Lab y Vibe Coding unificadas al tema oscuro premium
+ */
+
+/* ─── App wrapper ─── */
+.edm-app {
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ─── Vista Home ─── */
+.edm-hero {
+  background: rgba(22, 33, 62, 0.72);
+  border-radius: var(--edm-radius-card);
+  padding: 2.5rem;
+  box-shadow: var(--edm-shadow);
+  text-align: center;
+  border: 1px solid var(--edm-border);
+}
+
+.edm-kicker {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--edm-cyan);
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+}
+
+.edm-hero h1 {
+  font-family: var(--edm-font-head);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: var(--edm-text);
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 0 40px rgba(0, 217, 255, 0.25);
+}
+
+.edm-subtitle {
+  color: var(--edm-text-soft);
+  font-size: 1.1rem;
+  margin: 0.5rem 0 1.75rem;
+  line-height: 1.6;
+}
+
+.edm-hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.edm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ─── Policy strip ─── */
+.policy-strip {
+  width: min(100%, 920px);
+  margin: 1rem auto 1.25rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--edm-text-soft);
+}
+
+.policy-strip--ok {
+  border-color: rgba(0, 255, 136, 0.25);
+  background: rgba(0, 255, 136, 0.06);
+  color: #aad;
+}
+
+.policy-strip--warn {
+  border-color: rgba(255, 153, 0, 0.35);
+  background: rgba(255, 153, 0, 0.07);
+  color: #dca;
+}
+
+.lab-title .policy-strip {
+  margin: 0.6rem 0 0;
+  max-width: 700px;
+}
+
+.floating-policy {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 900;
+  width: min(520px, calc(100vw - 2rem));
+}
+
+.floating-policy .policy-strip {
+  margin: 0;
+}
+
+/* ─── Lab view ─── */
+.lab-view {
+  background: var(--edm-bg);
+}
+
+.lab-container {
+  width: 100%;
+  max-width: min(1600px, 100vw);
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.lab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--edm-border);
+}
+
+.lab-title h1 {
+  font-family: var(--edm-font-head);
+  color: var(--edm-cyan);
+  font-size: 1.8rem;
+  margin: 0 0 0.2rem 0;
+}
+
+.lab-title .edm-kicker {
+  color: var(--edm-text-muted);
+  margin: 0;
+}
+
+.lab-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 1.75rem;
+}
+
+.lab-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.lab-section {
+  width: 100%;
+}
+
+.lab-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+  min-width: 0;
+}
+
+/* ─── LME card ─── */
+.lme-card {
+  background: rgba(22, 33, 62, 0.92);
+  border-radius: var(--edm-radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--edm-shadow);
+  border: 1px solid var(--edm-border);
+  max-width: 100%;
+  min-width: 0;
+}
+
+.lme-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--edm-cyan-soft);
+  color: var(--edm-cyan);
+  margin-bottom: 0.5rem;
+}
+
+/* ─── Lab header actions ─── */
+.lab-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.edm-button--small {
+  padding: 0.45rem 0.95rem;
+  font-size: 0.82rem;
+  border-radius: 8px;
+  background: var(--edm-cyan-soft);
+  border: 1px solid rgba(0, 217, 255, 0.25);
+  color: var(--edm-cyan);
+  font-family: var(--edm-font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edm-button--small:hover {
+  background: rgba(0, 217, 255, 0.2);
+  border-color: var(--edm-cyan);
+}
+
+.edm-button--small.active {
+  background: var(--edm-green-soft);
+  border-color: rgba(0, 255, 136, 0.4);
+  color: var(--edm-green);
+}
+
+/* Panel overlay */
+.lab-panel-overlay {
+  margin-bottom: 1rem;
+  max-height: 420px;
+  overflow: auto;
+  border-radius: var(--edm-radius-card);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1200px) {
+  .lab-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-sidebar {
+    position: static;
+  }
+
+  .lab-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .lab-header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .lab-container {
+    padding: 1rem;
+  }
+
+  .edm-hero {
+    padding: 2rem 1.25rem;
+  }
+
+  .edm-container {
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .lab-panel-overlay {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .lab-header-actions {
+    justify-content: flex-start;
+  }
+
+  .floating-policy {
+    position: static;
+    width: auto;
+    margin: 1rem;
+  }
+}

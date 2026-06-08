@@ -1,0 +1,213 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * Sistema de diseño EDUmind premium — tema oscuro con soporte e-ink opt-in
+ */
+
+/* ─── Variables globales EDUmind ─── */
+:root {
+  /* Tipografía */
+  --edm-font-head: 'Orbitron', 'Arial Black', sans-serif;
+  --edm-font-body: 'Nunito', 'Segoe UI', sans-serif;
+
+  /* Paleta de fondo */
+  --edm-bg-deep:    #0a0818;
+  --edm-bg-base:    #0f0c29;
+  --edm-bg-mid:     #1a1a2e;
+  --edm-bg-soft:    #16213e;
+  --edm-bg-card:    rgba(22, 33, 62, 0.92);
+
+  /* Acentos */
+  --edm-cyan:       #00d9ff;
+  --edm-cyan-soft:  rgba(0, 217, 255, 0.18);
+  --edm-green:      #00ff88;
+  --edm-green-soft: rgba(0, 255, 136, 0.18);
+  --edm-gold:       #ffcc00;
+  --edm-gold-soft:  rgba(255, 204, 0, 0.18);
+  --edm-pink:       #ff3399;
+
+  /* Texto */
+  --edm-text:       #eef2f7;
+  --edm-text-soft:  #9aabb8;
+  --edm-text-muted: #5e7080;
+
+  /* Bordes */
+  --edm-border:     rgba(0, 217, 255, 0.18);
+
+  /* Sombras */
+  --edm-shadow:     0 8px 32px rgba(0, 0, 0, 0.45);
+  --edm-shadow-sm:  0 4px 16px rgba(0, 0, 0, 0.3);
+
+  /* Radios */
+  --edm-radius-card: 16px;
+  --edm-radius:      10px;
+  --edm-radius-sm:   6px;
+
+  /* Gradiente de fondo */
+  --edm-bg: linear-gradient(135deg, var(--edm-bg-base) 0%, var(--edm-bg-mid) 60%, var(--edm-bg-soft) 100%);
+}
+
+/* ─── Reset base ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--edm-bg);
+  background-attachment: fixed;
+  color: var(--edm-text);
+  font-family: var(--edm-font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Modo e-ink opt-in ─── */
+/* Se activa añadiendo class="eink" al <html> via toggle en NavBar */
+html.eink {
+  filter: sepia(16%) saturate(70%) brightness(97%) contrast(86%);
+}
+
+html.eink body {
+  background: #d4cfc7;
+  color: #252422;
+  font-family: 'Atkinson Hyperlegible', 'Verdana', sans-serif;
+}
+
+html.eink :root {
+  --edm-bg:       #d4cfc7;
+  --edm-bg-card:  #ddd8d0;
+  --edm-text:     #252422;
+  --edm-text-soft:#3d3a36;
+  --edm-border:   rgba(37, 36, 34, 0.2);
+}
+
+/* ─── Componentes base ─── */
+.edm-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem clamp(1.25rem, 4vw, 3.5rem) 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.edm-card {
+  background: var(--edm-bg-card);
+  border-radius: var(--edm-radius-card);
+  padding: 2rem;
+  box-shadow: var(--edm-shadow);
+  border: 1px solid var(--edm-border);
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+
+.edm-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+}
+
+.edm-card--cyan {
+  border-color: rgba(0, 217, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, var(--edm-bg-card) 100%);
+}
+
+.edm-card--lime {
+  border-color: rgba(0, 255, 136, 0.3);
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.08) 0%, var(--edm-bg-card) 100%);
+}
+
+.edm-card--pink {
+  border-color: rgba(255, 51, 153, 0.3);
+  background: linear-gradient(135deg, rgba(255, 51, 153, 0.08) 0%, var(--edm-bg-card) 100%);
+}
+
+.edm-card h3 {
+  margin-top: 0.6rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--edm-font-head);
+  font-size: 1.1rem;
+  color: var(--edm-text);
+}
+
+.edm-card p {
+  margin: 0 0 1.25rem;
+  color: var(--edm-text-soft);
+  line-height: 1.65;
+  font-size: 0.97rem;
+}
+
+.edm-card--cyan h3,
+.edm-card--cyan .edm-card__badge { color: var(--edm-cyan); }
+
+.edm-card--lime h3,
+.edm-card--lime .edm-card__badge { color: var(--edm-green); }
+
+.edm-card--pink h3,
+.edm-card--pink .edm-card__badge { color: var(--edm-pink); }
+
+.edm-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--edm-cyan-soft);
+  color: var(--edm-cyan);
+}
+
+.edm-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.8rem 1.75rem;
+  border-radius: 999px;
+  border: none;
+  font-family: var(--edm-font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #000;
+  cursor: pointer;
+  background: linear-gradient(120deg, var(--edm-cyan), #0099cc);
+  box-shadow: 0 6px 20px rgba(0, 217, 255, 0.3);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.edm-button:focus-visible {
+  outline: 3px solid var(--edm-cyan);
+  outline-offset: 3px;
+}
+
+.edm-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 217, 255, 0.45);
+}
+
+.edm-button--ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--edm-text-soft);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.12);
+}
+
+.edm-button--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+  color: var(--edm-text);
+}
+
+.edm-button--primary {
+  background: linear-gradient(120deg, var(--edm-cyan), #0099cc);
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  .edm-card { padding: 1.4rem; }
+}
