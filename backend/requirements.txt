@@ -1,14 +1,14 @@
 # Core Framework
-fastapi==0.110.0
-uvicorn[standard]==0.27.0
-pydantic==2.5.0
+fastapi==0.139.2
+uvicorn[standard]==0.51.0
+pydantic==2.13.4
 
 # HTTP Client para Ollama
-httpx==0.26.0
+httpx==0.28.1
 
 # Utilidades
-python-multipart==0.0.6
+python-multipart==0.0.32
 aiofiles==23.2.1
 
 # Logging y debugging
-python-dotenv==1.0.0
+python-dotenv==1.2.2
