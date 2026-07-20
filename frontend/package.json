@@ -13,7 +13,7 @@
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
-    "@edumind/footer": "^1.0.0",
+    "@edumind/footer": "github:edumind-es/edumind-footer",
     "@monaco-editor/react": "^4.7.0",
     "axios": "^1.13.2",
     "react": "^19.2.0",
