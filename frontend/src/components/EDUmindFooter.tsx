@@ -76,7 +76,7 @@ export default function EDUmindFooter({
     appName,
     version,
     versionStage,
-    author = 'EDUmind Team',
+    author = 'Luis Vilela Acuña',
     year = new Date().getFullYear(),
     previousPage,
     nextPage,
@@ -127,6 +127,16 @@ export default function EDUmindFooter({
                     {t.copyright.replace('{year}', year.toString())}{' '}
                     <strong>{author}</strong>
                     {appName && <span className="footer-app-name"> · {appName}</span>}
+                </p>
+                <p className="footer-license" style={{ marginTop: '0.35rem', fontSize: '0.875rem' }}>
+                    Software libre con licencia{' '}
+                    <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>AGPL-3.0-or-later</a>
+                    {' / '}
+                    <a href="https://eupl.eu/1.2/es/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>EUPL-1.2</a>
+                    <span style={{ margin: '0 0.5rem' }}>·</span>
+                    <a href="https://github.com/edumind-es/edumind-robotics" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                        Código fuente en GitHub
+                    </a>
                 </p>
             </div>
 

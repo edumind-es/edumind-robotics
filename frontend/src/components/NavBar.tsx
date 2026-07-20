@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react'
 import { useEinkMode } from '../hooks/useEinkMode'
+import { logoutUrl, type AuthUser } from '../lib/auth'
 import './NavBar.css'
 
 type View = 'home' | 'lab' | 'vibe'
@@ -16,6 +17,7 @@ interface NavBarProps {
   onNavigate: (view: View) => void
   isAiReady: boolean
   isStreaming: boolean
+  user: AuthUser
 }
 
 const NAV_LINKS: { view: View; label: string; icon: string }[] = [
@@ -24,7 +26,7 @@ const NAV_LINKS: { view: View; label: string; icon: string }[] = [
   { view: 'vibe', label: 'Vibe Coding', icon: '✨' },
 ]
 
-const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isStreaming }) => {
+const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isStreaming, user }) => {
   const { eink, setEink } = useEinkMode()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -80,6 +82,11 @@ const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isS
           >
             {eink ? '📖 E-Ink' : '🖥️ Normal'}
           </button>
+
+          <div className="edm-navbar__user" title={user.email ?? user.username}>
+            <span>{user.username}</span>
+            <a href={logoutUrl()}>Salir</a>
+          </div>
 
           {/* Hamburger móvil */}
           <button

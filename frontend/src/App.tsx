@@ -17,6 +17,7 @@ import EDUmindFooter from './components/EDUmindFooter'
 import NavBar from './components/NavBar'
 import { useEinkMode } from './hooks/useEinkMode'
 import { useAppStore } from './store/useAppStore'
+import { checkAuth, loginUrl, type AuthState } from './lib/auth'
 
 type View = 'home' | 'lab' | 'vibe'
 
@@ -39,6 +40,7 @@ function App() {
   const [showSensors, setShowSensors] = useState(false)
   const [showProjects, setShowProjects] = useState(false)
   const [policyStatus, setPolicyStatus] = useState<PolicyStatus | null>(null)
+  const [auth, setAuth] = useState<AuthState>({ status: 'checking' })
 
   /* Inicializar e-ink desde localStorage en el arranque */
   useEinkMode()
@@ -68,10 +70,14 @@ function App() {
   }
 
   useEffect(() => {
+    checkAuth().then(setAuth)
+  }, [])
+
+  useEffect(() => {
     if ((view === 'lab' || view === 'vibe') && !isSessionReady) {
       initSession()
     }
-  }, [view, isSessionReady, initSession])
+  }, [view, isSessionReady, initSession, auth.status])
 
   useEffect(() => {
     fetch('/api/system/policy')
@@ -83,6 +89,39 @@ function App() {
   const aiLocal = policyStatus?.ai?.ai_endpoint_local !== false
   const aiModel = policyStatus?.ai?.model ?? 'modelo local'
   const promptsPersisted = policyStatus?.ai?.prompts_persisted === true
+
+  if (auth.status === 'checking') {
+    return (
+      <main className="auth-gate" aria-live="polite">
+        <div className="auth-gate__card">
+          <p className="edm-kicker">EDUmind Robotics</p>
+          <h1>Comprobando sesión segura</h1>
+          <p>Conectando con la identidad EDUmind.</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (auth.status === 'anonymous') {
+    return (
+      <main className="auth-gate">
+        <div className="auth-gate__card">
+          <p className="edm-kicker">Laboratorio educativo protegido</p>
+          <h1>EDUmind Robotics Lab</h1>
+          <p>
+            Inicia sesión directamente con EDUmind para acceder al simulador,
+            al tutor de IA local y a las herramientas de exportación.
+          </p>
+          {new URLSearchParams(window.location.search).has('auth_error') && (
+            <p className="auth-gate__error">No se pudo completar el acceso. Inténtalo de nuevo.</p>
+          )}
+          <a className="edm-button auth-gate__button" href={loginUrl()}>
+            Entrar con EDUmind
+          </a>
+        </div>
+      </main>
+    )
+  }
 
   const PolicyStrip = () => (
     <aside className={`policy-strip ${aiLocal ? 'policy-strip--ok' : 'policy-strip--warn'}`}>
@@ -99,6 +138,7 @@ function App() {
         onNavigate={(v) => setView(v)}
         isAiReady={aiLocal}
         isStreaming={isStreaming}
+        user={auth.user}
       />
 
       {view === 'home' && (

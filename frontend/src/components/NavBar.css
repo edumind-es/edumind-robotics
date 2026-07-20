@@ -208,6 +208,23 @@
   color: #ffcc00;
 }
 
+.edm-navbar__user {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font: 600 0.78rem 'Nunito', sans-serif;
+  color: rgba(238, 242, 247, 0.72);
+}
+
+.edm-navbar__user a {
+  color: #00d9ff;
+  text-decoration: none;
+}
+
+.edm-navbar__user a:hover {
+  text-decoration: underline;
+}
+
 /* Hamburger mobile */
 .edm-navbar__burger {
   display: none;
@@ -273,6 +290,10 @@
   .edm-navbar__eink-btn {
     font-size: 0.72rem;
     padding: 0.3rem 0.6rem;
+  }
+
+  .edm-navbar__user span {
+    display: none;
   }
 }
 
