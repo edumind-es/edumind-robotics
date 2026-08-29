@@ -1,0 +1,44 @@
+# Fusiona sola las actualizaciones de menores y parches de Dependabot, y solo
+# si el CI pasa: `--auto` no fusiona nada hasta que los checks obligatorios de
+# la rama protegida están en verde.
+#
+# Las versiones MAYORES no entran aquí a propósito: son las que rompen y las
+# revisa una persona.
+#
+# Requiere que el repositorio tenga activada la fusión automática y que main
+# tenga checks obligatorios. Sin checks obligatorios esto fusionaría al
+# instante sin validar nada, que es justo lo contrario de lo que se busca.
+name: Fusión automática de Dependabot
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    # Solo PR abiertos por Dependabot.
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Leer los metadatos del PR
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Activar la fusión automática si es menor o parche
+        if: |
+          steps.meta.outputs.update-type == 'version-update:semver-minor' ||
+          steps.meta.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dejar constancia cuando es una versión mayor
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+        run: |
+          echo "Versión mayor (${{ steps.meta.outputs.dependency-names }}): no se fusiona sola." >> "$GITHUB_STEP_SUMMARY"
+          echo "Requiere revisión manual." >> "$GITHUB_STEP_SUMMARY"
