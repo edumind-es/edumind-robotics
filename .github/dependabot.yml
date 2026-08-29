@@ -1,16 +1,40 @@
+# Dependabot: un PR al mes por ecosistema, con todo agrupado.
+#
+# Las actualizaciones de SEGURIDAD no dependen de esta programación: llegan por
+# su propio canal en cuanto se publica el aviso. Bajar la cadencia aquí no
+# retrasa ningún parche.
+#
+# Antes esto abría hasta 5 PR por ecosistema cada semana y las versiones
+# mayores iban sueltas: 49 PR abiertos a la vez en la organización, y un correo
+# por cada uno.
 version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "chore(deps)"
     groups:
-      dependencias-menores:
+      menores-y-parches:
         update-types: ["minor", "patch"]
+      mayores:
+        # Agrupadas también, pero aparte: son las que rompen y se revisan
+        # con calma. Si una necesita atención propia, se saca de aquí.
+        update-types: ["major"]
+
   - package-ecosystem: "pip"
     directory: "/backend"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "chore(deps)"
     groups:
-      dependencias-menores:
+      menores-y-parches:
         update-types: ["minor", "patch"]
+      mayores:
+        # Agrupadas también, pero aparte: son las que rompen y se revisan
+        # con calma. Si una necesita atención propia, se saca de aquí.
+        update-types: ["major"]
