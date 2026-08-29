@@ -408,10 +408,12 @@ class MicrobitSimulator:
             "buttons": {
                 "a": {
                     "state": self.button_a_state.value,
+                    "pressed": self.button_a_state == ButtonState.PRESSED,
                     "pressed_count": self.button_a_pressed_count
                 },
                 "b": {
                     "state": self.button_b_state.value,
+                    "pressed": self.button_b_state == ButtonState.PRESSED,
                     "pressed_count": self.button_b_pressed_count
                 }
             },

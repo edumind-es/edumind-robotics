@@ -20,14 +20,29 @@
 WebSocket router for real-time updates.
 """
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from app.services.websocket_service import ws_manager
 
-router = APIRouter(prefix="/ws", tags=["websocket"])
+from .. import auth
+from ..services.websocket_service import ws_manager
+from ..simulator import simulator_manager
+
+router = APIRouter(prefix="/api/ws", tags=["websocket"])
 
 
 @router.websocket("/{session_id}")
 async def websocket_endpoint(websocket: WebSocket, session_id: str):
     """WebSocket endpoint for real-time updates."""
+    user = auth.verify_session(
+        websocket.cookies.get(auth.settings.session_cookie_name)
+    )
+    if auth.settings.enabled and user is None:
+        await websocket.close(code=4401, reason="Authentication required")
+        return
+
+    owner_id = str(user["id"]) if user else "local-dev"
+    if simulator_manager.get_session(session_id, owner_id) is None:
+        await websocket.close(code=4404, reason="Session not found")
+        return
+
     await ws_manager.connect(websocket, session_id)
     try:
         while True:
@@ -43,6 +58,5 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
     
     except WebSocketDisconnect:
         ws_manager.disconnect(websocket, session_id)
-    except Exception as e:
-        print(f"WebSocket error: {e}")
+    except Exception:
         ws_manager.disconnect(websocket, session_id)

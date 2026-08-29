@@ -20,6 +20,19 @@ export const mockEdumindApi = async (page: Page) => {
     localStorage.clear()
   })
 
+  await page.route('**/api/auth/me', async (route) => {
+    await route.fulfill({
+      json: {
+        user: {
+          id: 'e2e-user',
+          username: 'Docente E2E',
+          email: 'docente@example.test',
+          role: 'teacher',
+        },
+      },
+    })
+  })
+
   await page.route('**/api/system/policy', async (route) => {
     await route.fulfill({
       json: {

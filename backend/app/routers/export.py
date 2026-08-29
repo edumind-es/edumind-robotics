@@ -22,7 +22,7 @@ Permite descargar código en diferentes formatos para hardware real.
 """
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any
 
 from ..services.export_service import export_service
@@ -37,8 +37,8 @@ router = APIRouter(
 # ==================== SCHEMAS ====================
 
 class ExportRequest(BaseModel):
-    code: str
-    project_name: Optional[str] = "EDUmind_Project"
+    code: str = Field(..., max_length=50_000)
+    project_name: Optional[str] = Field(default="EDUmind_Project", max_length=100)
 
 
 class HardwareBundleRequest(ExportRequest):
@@ -117,6 +117,17 @@ async def export_scratch(request: ExportRequest):
         request.project_name
     )
 
+    if not result.success:
+        raise HTTPException(status_code=500, detail=result.error)
+
+    return Response(
+        content=result.data,
+        media_type=result.content_type,
+        headers={
+            "Content-Disposition": f"attachment; filename={result.filename}"
+        }
+    )
+
 
 @router.post("/hardware-bundle")
 async def export_hardware_bundle(request: HardwareBundleRequest):
@@ -135,17 +146,6 @@ async def export_hardware_bundle(request: HardwareBundleRequest):
     if not result.success:
         raise HTTPException(status_code=500, detail=result.error)
 
-    return Response(
-        content=result.data,
-        media_type=result.content_type,
-        headers={
-            "Content-Disposition": f"attachment; filename={result.filename}"
-        }
-    )
-    
-    if not result.success:
-        raise HTTPException(status_code=500, detail=result.error)
-    
     return Response(
         content=result.data,
         media_type=result.content_type,

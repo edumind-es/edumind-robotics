@@ -38,5 +38,6 @@
     "typescript-eslint": "^8.46.3",
     "vite": "^7.2.2"
   },
-  "license": "(AGPL-3.0-or-later OR EUPL-1.2)"
+  "license": "(AGPL-3.0-or-later OR EUPL-1.2)",
+  "author": "Luis Vilela Acuña <contacto@edumind.es>"
 }

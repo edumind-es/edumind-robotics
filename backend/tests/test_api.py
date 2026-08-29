@@ -21,6 +21,7 @@
 from fastapi.testclient import TestClient
 
 from app.main import app
+from app.services.metrics_service import metrics
 
 
 client = TestClient(app)
@@ -46,6 +47,16 @@ def test_readiness_endpoint_exposes_operational_contract():
     assert data["capabilities"]["privacy_first_policy"] is True
     assert data["policy"]["mode"] == "local-first"
     assert data["policy"]["remote_ai_allowed"] is False
+
+
+def test_application_metrics_record_requests_by_route_template():
+    before = metrics.request_counts["/api/health"]
+
+    assert client.get("/api/health").status_code == 200
+
+    response = client.get("/api/metrics")
+    assert response.status_code == 200
+    assert response.json()["requests"]["/api/health"] == before + 1
 
 
 def test_code_templates_endpoint_returns_catalog():
@@ -88,6 +99,26 @@ def test_export_micropython_downloads_python_file():
     assert response.status_code == 200
     assert response.headers["content-disposition"].endswith(".py")
     assert "print('test')" in response.text
+
+
+def test_export_scratch_downloads_valid_sb3_archive():
+    response = client.post(
+        "/api/export/scratch",
+        json={
+            "code": "from microbit import *\ndisplay.show(Image.HEART)",
+            "project_name": "Robot Aula",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["content-disposition"].endswith(".sb3")
+    assert response.headers["content-type"] == "application/x-scratch"
+
+    import io
+    import zipfile
+
+    with zipfile.ZipFile(io.BytesIO(response.content)) as zf:
+        assert "project.json" in zf.namelist()
 
 
 def test_export_hardware_bundle_contains_code_profile_and_instructions():

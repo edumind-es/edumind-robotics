@@ -57,15 +57,16 @@ class MessageRole(str, Enum):
 class ChatMessage(BaseModel):
     """Mensaje individual en el chat"""
     role: MessageRole
-    content: str
+    content: str = Field(..., max_length=4_000)
     timestamp: Optional[str] = None
 
 
 class ChatRequest(BaseModel):
     """Petición de chat con la IA"""
-    message: str = Field(..., description="Mensaje del usuario")
+    message: str = Field(..., max_length=4_000, description="Mensaje del usuario")
     conversation_history: List[ChatMessage] = Field(
-        default=[],
+        default_factory=list,
+        max_length=12,
         description="Historial de conversación"
     )
     platform: PlatformType = Field(
@@ -112,7 +113,11 @@ class ChatResponse(BaseModel):
 
 class CodeGenerationRequest(BaseModel):
     """Petición para generar código"""
-    objective: str = Field(..., description="Objetivo que quiere lograr el alumno")
+    objective: str = Field(
+        ...,
+        max_length=4_000,
+        description="Objetivo que quiere lograr el alumno",
+    )
     platform: PlatformType
     language: LanguageType
     difficulty: DifficultyLevel = DifficultyLevel.BEGINNER
@@ -135,7 +140,7 @@ class CodeGenerationRequest(BaseModel):
 
 class CodeExplanationRequest(BaseModel):
     """Petición para explicar código"""
-    code: str = Field(..., description="Código a explicar")
+    code: str = Field(..., max_length=50_000, description="Código a explicar")
     language: LanguageType
     platform: PlatformType
     specific_question: Optional[str] = Field(
@@ -209,7 +214,7 @@ class ExportFormat(str, Enum):
 
 class ExportRequest(BaseModel):
     """Petición de exportación de código"""
-    code: str = Field(..., description="Código a exportar")
+    code: str = Field(..., max_length=50_000, description="Código a exportar")
     language: LanguageType
     platform: PlatformType
     format: ExportFormat

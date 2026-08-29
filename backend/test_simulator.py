@@ -67,6 +67,7 @@ def test_microbit_buttons_and_sensors_are_stateful():
 
     state = client.get(f"/api/simulator/session/{session_id}").json()
     assert state["microbit"]["buttons"]["a"]["state"] == "pressed"
+    assert state["microbit"]["buttons"]["a"]["pressed"] is True
     assert state["microbit"]["sensors"]["temperature"] == 25
 
 
@@ -129,3 +130,35 @@ def test_syntax_errors_are_reported_without_crashing_api():
     result = response.json()
     assert result["success"] is False
     assert "Syntax Error" in result["error"]
+
+
+def test_execution_limits_large_ranges_and_dunder_introspection():
+    session_id = _create_session()
+
+    large_range = client.post(
+        "/api/simulator/execute",
+        json={
+            "session_id": session_id,
+            "code": "for value in range(100000000):\n    pass",
+        },
+    ).json()
+    introspection = client.post(
+        "/api/simulator/execute",
+        json={
+            "session_id": session_id,
+            "code": "print((1).__class__.__mro__)",
+        },
+    ).json()
+
+    assert large_range["success"] is False
+    assert "Range limit exceeded" in large_range["error"]
+    assert introspection["success"] is False
+    assert "Forbidden attribute" in introspection["error"]
+
+
+def test_websocket_ping_uses_an_existing_owned_session():
+    session_id = _create_session()
+
+    with client.websocket_connect(f"/api/ws/{session_id}") as websocket:
+        websocket.send_json({"type": "ping"})
+        assert websocket.receive_json() == {"type": "pong"}

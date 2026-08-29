@@ -20,13 +20,37 @@
 Motor de ejecución de código MicroPython en sandbox.
 Ejecuta código de forma segura emulando la API de micro:bit.
 """
-import re
+import ast
 import time
 import math
 import random
 from typing import Dict, Any, Optional
 from .microbit_sim import MicrobitSimulator, Image as MicrobitImage
 from .nezha_sim import NezhaSimulator
+
+
+class LoopGuardTransformer(ast.NodeTransformer):
+    """Añade un contador global a cada bucle antes de compilarlo."""
+
+    @staticmethod
+    def _guard() -> ast.Expr:
+        return ast.Expr(
+            value=ast.Call(
+                func=ast.Name(id="__edumind_tick", ctx=ast.Load()),
+                args=[],
+                keywords=[],
+            )
+        )
+
+    def visit_For(self, node: ast.For):
+        self.generic_visit(node)
+        node.body.insert(0, self._guard())
+        return node
+
+    def visit_While(self, node: ast.While):
+        self.generic_visit(node)
+        node.body.insert(0, self._guard())
+        return node
 
 
 class MicrobitAPI:
@@ -322,12 +346,33 @@ class CodeExecutor:
         self.simulator.running = True
         self.simulator.code = code
 
+        iteration_count = 0
+
+        def guard_iteration():
+            nonlocal iteration_count
+            iteration_count += 1
+            if iteration_count > max_iterations:
+                raise SecurityError(
+                    f"Loop iteration limit exceeded ({max_iterations})"
+                )
+
+        def safe_range(*args):
+            value = range(*args)
+            try:
+                if len(value) > max_iterations:
+                    raise SecurityError(
+                        f"Range limit exceeded ({max_iterations})"
+                    )
+            except OverflowError as exc:
+                raise SecurityError("Range is too large") from exc
+            return value
+
         # Crear contexto de ejecución seguro
         safe_globals = {
             "__builtins__": {
                 # Funciones básicas permitidas
                 "print": self._safe_print,
-                "range": range,
+                "range": safe_range,
                 "len": len,
                 "str": str,
                 "int": int,
@@ -362,6 +407,7 @@ class CodeExecutor:
             "Nezha": lambda: self.nezha_api,
             # Clases
             "Image": MicrobitImage,
+            "__edumind_tick": guard_iteration,
         }
 
         try:
@@ -371,8 +417,11 @@ class CodeExecutor:
             # Pre-procesar código para eliminar imports
             processed_code = self._preprocess_code(code, max_iterations=max_iterations)
 
-            # Ejecutar código
-            exec(processed_code, safe_globals, {})
+            # Instrumentar todos los bucles y ejecutar el AST validado.
+            tree = ast.parse(processed_code, mode="exec")
+            tree = LoopGuardTransformer().visit(tree)
+            ast.fix_missing_locations(tree)
+            exec(compile(tree, "<edumind-simulator>", "exec"), safe_globals, {})
 
             return {
                 "success": True,
@@ -443,21 +492,44 @@ class CodeExecutor:
         """
         Valida que el código no contenga operaciones peligrosas.
         """
-        # Lista de palabras clave prohibidas
-        forbidden = [
-            "import os", "import sys", "__import__",
-            "eval", "exec", "compile", "open",
-            "file", "input", "raw_input"
-        ]
-
-        code_lower = code.lower()
-        for forbidden_word in forbidden:
-            if forbidden_word in code_lower:
-                raise SecurityError(f"Forbidden operation: {forbidden_word}")
-
-        # Limitar longitud del código
         if len(code) > 50000:  # 50KB max
             raise SecurityError("Code too long")
+
+        tree = ast.parse(code, mode="exec")
+        allowed_modules = {"microbit", "music", "random", "math", "nezha"}
+        forbidden_names = {
+            "__import__",
+            "eval",
+            "exec",
+            "compile",
+            "open",
+            "input",
+            "breakpoint",
+            "globals",
+            "locals",
+            "vars",
+            "getattr",
+            "setattr",
+            "delattr",
+        }
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                if any(alias.name not in allowed_modules for alias in node.names):
+                    raise SecurityError("Only educational simulator imports are allowed")
+            elif isinstance(node, ast.ImportFrom):
+                if node.level or node.module not in allowed_modules:
+                    raise SecurityError("Only educational simulator imports are allowed")
+            elif isinstance(node, ast.Name):
+                if node.id.startswith("__") or node.id in forbidden_names:
+                    raise SecurityError(f"Forbidden name: {node.id}")
+            elif isinstance(node, ast.Attribute) and node.attr.startswith("__"):
+                raise SecurityError(f"Forbidden attribute: {node.attr}")
+            elif isinstance(
+                node,
+                (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp),
+            ):
+                raise SecurityError("Comprehensions are not available in the simulator")
 
     def execute_step(self, code: str, step: int = 0) -> Dict[str, Any]:
         """

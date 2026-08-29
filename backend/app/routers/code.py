@@ -21,7 +21,7 @@ Router para validación y generación de código.
 Fase 2: Validadores y Generadores de código educativo.
 """
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 from enum import Enum
 
@@ -58,7 +58,7 @@ class ValidationResultSchema(BaseModel):
 
 
 class ValidateCodeRequest(BaseModel):
-    code: str
+    code: str = Field(..., max_length=50_000)
 
 
 class SuggestionSchema(BaseModel):
@@ -88,7 +88,7 @@ class TemplatesResponse(BaseModel):
 
 
 class GenerateCodeRequest(BaseModel):
-    objective: str
+    objective: str = Field(..., max_length=4_000)
     platform: Optional[str] = "microbit"
 
 

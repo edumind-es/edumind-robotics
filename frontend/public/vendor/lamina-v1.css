@@ -1,0 +1,298 @@
+/* ==========================================================================
+   EDUmind · Sistema Lámina — v1.1 (2026-07)
+   Tokens y componentes base del modelo estético «lámina Cinco Mundos».
+   Canon: https://edumind.es/design/lamina.html
+   Uso en apps: vendorizar este archivo (copia local) y no editarlo;
+   las personalizaciones van en la hoja propia de cada app.
+   Prefijos: tokens --lm-*, clases .lm-* (sin colisiones con CSS existente).
+   Variantes: [data-lm-theme="noche"] (proyección) · .lm-alumno (alumnado).
+   ========================================================================== */
+
+:root {
+  /* --- Los Cinco Mundos (color plano, sin gradientes) --- */
+  --lm-fisico:    #e8613f;
+  --lm-social:    #e8a92e;
+  --lm-emocional: #6ea94a;
+  --lm-mental:    #3f7d99;
+  --lm-interior:  #2c5c66;
+
+  /* Variantes -deep: ÚNICAS válidas para texto pequeño sobre papel (≥4.5:1) */
+  --lm-fisico-deep:    #a63a1f;
+  --lm-social-deep:    #7d560e;
+  --lm-emocional-deep: #3f6b2a;
+  --lm-mental-deep:    #2f6076;
+  --lm-interior-deep:  #2c5c66; /* ya cumple 4.5:1 sobre papel */
+
+  /* --- Papel y tinta --- */
+  --lm-paper:   #e9e6dd;
+  --lm-paper-2: #f0ede5;
+  --lm-ink:     #1c1a16;
+  --lm-ink-2:   #4f4a41;
+  --lm-ink-3:   #8a8377; /* 3:1 sobre papel: solo texto grande (≥24px) o decorativo */
+  --lm-rule:        #c7c0b1;
+  --lm-rule-strong: #1c1a16;
+
+  /* --- Tipografía (cada app debe cargar/vendorizar sus fuentes) --- */
+  --lm-display: "Bricolage Grotesque", "Outfit", "Poppins", "Helvetica Neue", Arial, sans-serif;
+  --lm-body:    "Poppins", "Outfit", "Segoe UI", system-ui, sans-serif;
+  --lm-mono:    "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Tokens de texto por mundo: conmutan con el tema.
+     En claro apuntan a las -deep; en noche, a variantes aclaradas. */
+  --lm-fisico-text:    var(--lm-fisico-deep);
+  --lm-social-text:    var(--lm-social-deep);
+  --lm-emocional-text: var(--lm-emocional-deep);
+  --lm-mental-text:    var(--lm-mental-deep);
+  --lm-interior-text:  var(--lm-interior-deep);
+
+  /* --- Interacción --- */
+  --lm-focus: var(--lm-mental);
+}
+
+/* ==========================================================================
+   TEMA NOCTURNO — proyección en aula a oscuras
+   Activar con <html data-lm-theme="noche"> (o en el contenedor raíz).
+   Papel/tinta invertidos en cálido; mundos aclarados para texto (≥4.5:1).
+   ========================================================================== */
+[data-lm-theme="noche"] {
+  --lm-paper:   #1b1916;
+  --lm-paper-2: #242019;
+  --lm-ink:     #ece8dd;
+  --lm-ink-2:   #b8b1a3;
+  --lm-ink-3:   #7d766a;
+  --lm-rule:        #3a362e;
+  --lm-rule-strong: #ece8dd;
+
+  --lm-fisico-text:    #f0795a;
+  --lm-social-text:    #f2bc55;
+  --lm-emocional-text: #8cc26a;
+  --lm-mental-text:    #6aa3bf;
+  --lm-interior-text:  #5d93a1;
+
+  --lm-focus: #6aa3bf;
+}
+[data-lm-theme="noche"] .lm-grain { opacity: .08; mix-blend-mode: screen; }
+
+/* ==========================================================================
+   1 · IDENTIDAD (nivel 1 — toda app EDUmind lleva esto)
+   ========================================================================== */
+
+/* Barra de mundos a sangre: siempre lo primero del <body> */
+.lm-plate-top { display: flex; height: 14px; }
+.lm-plate-top i { flex: 1; }
+.lm-plate-top i:nth-child(1) { background: var(--lm-fisico); }
+.lm-plate-top i:nth-child(2) { background: var(--lm-social); }
+.lm-plate-top i:nth-child(3) { background: var(--lm-emocional); }
+.lm-plate-top i:nth-child(4) { background: var(--lm-mental); }
+.lm-plate-top i:nth-child(5) { background: var(--lm-interior); }
+/* Variante compacta: para apps con superficie de trabajo (ahorra vertical) */
+.lm-plate-top--compact { height: 7px; }
+
+/* Cabecera de lámina: nombre del sistema + número de figura */
+.lm-plate-meta {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 2px solid var(--lm-rule-strong);
+  padding: .7rem 0 .5rem;
+  font-family: var(--lm-mono); font-size: .72rem; letter-spacing: .02em;
+  color: var(--lm-ink-2); text-transform: uppercase;
+}
+.lm-plate-meta .lm-fig { color: var(--lm-ink); font-weight: 600; }
+
+/* Pie de lámina / firma */
+.lm-foot {
+  border-top: 2px solid var(--lm-rule-strong);
+  padding: 1.2rem 0 2rem;
+  color: var(--lm-ink-2); font-size: .82rem;
+}
+.lm-foot b { color: var(--lm-ink); }
+
+/* Grano de impresión — OPCIONAL: no usar sobre superficies de trabajo
+   ni en dispositivos modestos. Se desactiva solo con reduced-motion. */
+.lm-grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9;
+  opacity: .05; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: reduce) { .lm-grain { display: none; } }
+
+/* ==========================================================================
+   2 · CHROME (nivel 2 — portada, login, ajustes, ayuda)
+   ========================================================================== */
+
+.lm-page {
+  background: var(--lm-paper); color: var(--lm-ink);
+  font-family: var(--lm-body); line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.lm-wrap { max-width: 1020px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.2rem); }
+
+.lm-kicker {
+  font-family: var(--lm-body); font-weight: 600; font-size: .82rem;
+  color: var(--lm-fisico-text); margin: 0 0 .4rem; letter-spacing: .01em;
+}
+.lm-display {
+  font-family: var(--lm-display); font-weight: 800;
+  font-size: clamp(2.6rem, 7.5vw, 4.6rem);
+  line-height: .92; letter-spacing: -.03em; margin: 0;
+}
+.lm-tagline { font-size: 1.1rem; color: var(--lm-ink-2); margin: .6rem 0 0; max-width: 34ch; }
+.lm-lead {
+  font-size: 1.25rem; line-height: 1.4; color: var(--lm-ink);
+  margin: 0 0 1.1rem; font-family: var(--lm-display); font-weight: 500;
+}
+
+/* Botón tinta */
+.lm-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  font-family: var(--lm-display); font-weight: 700; font-size: .95rem;
+  color: var(--lm-paper); background: var(--lm-ink);
+  border: none; border-radius: 2px; padding: .8rem 1.3rem; cursor: pointer;
+  text-transform: uppercase; letter-spacing: .03em;
+  transition: background .15s;
+  text-decoration: none;
+}
+.lm-btn:hover { background: var(--lm-btn-hover, var(--lm-fisico-text)); }
+
+/* Botón secundario reglado */
+.lm-btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  font-family: var(--lm-body); font-size: .9rem; color: var(--lm-ink-2);
+  background: transparent; border: 1px solid var(--lm-rule); border-radius: 2px;
+  padding: .65rem 1.1rem; cursor: pointer; text-decoration: none;
+  transition: border-color .15s, color .15s;
+}
+.lm-btn-ghost:hover { border-color: var(--lm-ink); color: var(--lm-ink); }
+
+/* Sello de estado (validación, beta…) */
+.lm-stamp {
+  font-family: var(--lm-mono); font-size: .72rem;
+  color: var(--lm-emocional-text); border: 1.5px solid var(--lm-emocional-text);
+  padding: .35rem .6rem; letter-spacing: .03em; text-transform: uppercase;
+}
+
+/* Sección numerada */
+.lm-section { display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; }
+.lm-num {
+  font-family: var(--lm-display); font-weight: 800; font-size: 2.4rem;
+  line-height: .8; color: var(--lm-mental-text); letter-spacing: -.03em;
+}
+.lm-sec-body { border-top: 2px solid var(--lm-rule-strong); padding-top: .7rem; }
+.lm-sec-body > h2 {
+  font-family: var(--lm-display); font-weight: 700; font-size: 1.35rem;
+  margin: 0 0 1rem; letter-spacing: -.01em;
+}
+
+/* Filas regladas (nunca tarjetas flotantes) */
+.lm-rows { border-top: 1px solid var(--lm-rule); }
+.lm-rows .lm-r {
+  padding: .55rem 0; border-bottom: 1px solid var(--lm-rule);
+  font-size: .95rem; color: var(--lm-ink-2); display: flex; gap: .7rem;
+}
+.lm-rows .lm-r::before { content: "—"; color: var(--lm-ink-3); }
+
+/* Epígrafe mono */
+.lm-sub {
+  font-family: var(--lm-mono); font-size: .64rem; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--lm-ink-2); margin: 1.6rem 0 .6rem;
+}
+
+/* Metas regladas en línea */
+.lm-metas { display: flex; flex-wrap: wrap; gap: 0; margin-top: 1.2rem; border-top: 1px solid var(--lm-rule); }
+.lm-metas span {
+  font-family: var(--lm-mono); font-size: .74rem; color: var(--lm-ink-2);
+  padding: .55rem .9rem .55rem 0; margin-right: .9rem;
+  border-right: 1px solid var(--lm-rule);
+}
+.lm-metas span:last-child { border-right: none; }
+
+/* Facts de aside */
+.lm-facts { border-top: 2px solid var(--lm-rule-strong); }
+.lm-facts .lm-f { padding: .7rem 0; border-bottom: 1px solid var(--lm-rule); }
+.lm-facts .lm-k {
+  font-family: var(--lm-mono); font-size: .62rem; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--lm-ink-2);
+}
+.lm-facts .lm-v { font-family: var(--lm-display); font-weight: 600; font-size: 1rem; margin-top: .1rem; }
+
+/* Chips de mundo — REGLA DE CONTRASTE:
+   físico/social/emocional → texto TINTA; mental/interior → texto PAPEL. */
+.lm-wc {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--lm-display); font-weight: 700; font-size: .82rem;
+  padding: .4rem .8rem; border-radius: 2px;
+  text-transform: uppercase; letter-spacing: .02em;
+}
+.lm-wc-fisico    { background: var(--lm-fisico);    color: var(--lm-ink); }
+.lm-wc-social    { background: var(--lm-social);    color: var(--lm-ink); }
+.lm-wc-emocional { background: var(--lm-emocional); color: var(--lm-ink); }
+.lm-wc-mental    { background: var(--lm-mental);    color: var(--lm-paper); }
+.lm-wc-interior  { background: var(--lm-interior);  color: var(--lm-paper); }
+
+/* Nota al margen (corrección de imprenta) */
+.lm-auto {
+  margin-top: 1.4rem; border-left: 3px solid var(--lm-fisico);
+  padding: .4rem 0 .4rem .9rem; color: var(--lm-ink-2); font-size: .86rem;
+}
+.lm-auto .lm-flag {
+  font-family: var(--lm-mono); font-size: .58rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--lm-fisico-text);
+  border: 1px solid var(--lm-fisico-text); padding: .05rem .3rem; margin-right: .5rem;
+}
+
+/* ==========================================================================
+   3 · SUPERFICIE DE TRABAJO (nivel 3 — formularios y foco)
+   ========================================================================== */
+
+.lm-input, .lm-select, .lm-textarea {
+  font-family: var(--lm-body); font-size: .95rem; color: var(--lm-ink);
+  background: var(--lm-paper-2); border: 1px solid var(--lm-rule);
+  border-radius: 2px; padding: .6rem .8rem; width: 100%;
+}
+.lm-input:focus, .lm-select:focus, .lm-textarea:focus,
+.lm-btn:focus-visible, .lm-btn-ghost:focus-visible, a.lm-focusable:focus-visible {
+  outline: 2px solid var(--lm-focus); outline-offset: 2px;
+}
+.lm-label {
+  display: block; font-family: var(--lm-mono); font-size: .64rem;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--lm-ink-2);
+  margin-bottom: .35rem;
+}
+
+/* Tabla reglada */
+.lm-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.lm-table th {
+  font-family: var(--lm-mono); font-size: .64rem; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--lm-ink-2); text-align: left;
+  border-bottom: 2px solid var(--lm-rule-strong); padding: .5rem .6rem .4rem 0;
+}
+.lm-table td { border-bottom: 1px solid var(--lm-rule); padding: .55rem .6rem .55rem 0; color: var(--lm-ink); }
+
+/* ==========================================================================
+   VARIANTE ALUMNO — pantallas que usa el alumnado (6–12 años)
+   Activar con class="lm-alumno" en el contenedor raíz de esas pantallas.
+   Misma lámina, escala amable: targets táctiles ≥48px, sin versalitas,
+   radio más redondeado y foco más visible. El canon adulto queda intacto.
+   ========================================================================== */
+.lm-alumno { font-size: 1.08em; }
+
+.lm-alumno .lm-btn,
+.lm-alumno .lm-btn-ghost {
+  min-height: 48px; min-width: 48px;
+  padding: .9rem 1.5rem; font-size: 1.05rem;
+  border-radius: 8px; text-transform: none; letter-spacing: 0;
+}
+.lm-alumno .lm-input,
+.lm-alumno .lm-select,
+.lm-alumno .lm-textarea {
+  min-height: 48px; font-size: 1.05rem; border-radius: 8px;
+  padding: .7rem 1rem;
+}
+.lm-alumno .lm-wc {
+  font-size: 1rem; padding: .55rem 1rem; border-radius: 8px;
+  text-transform: none; letter-spacing: 0;
+}
+.lm-alumno .lm-rows .lm-r { padding: .8rem 0; font-size: 1.05rem; }
+.lm-alumno .lm-display { font-size: clamp(2.2rem, 6vw, 3.4rem); letter-spacing: -.02em; }
+.lm-alumno :focus-visible { outline-width: 3px !important; }
+/* El grano nunca en pantallas de alumnado */
+.lm-alumno .lm-grain { display: none; }

@@ -20,12 +20,22 @@
 EDUmind Robotics API
 Sistema de aprendizaje de programación asistida por IA para micro:bit y Nezha
 """
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import logging
+from pathlib import Path
 
-from .routers import chat, lessons, simulator, code, export, system
+from dotenv import load_dotenv
+
+# The production service runs from backend/, while the private deployment
+# environment lives at the repository root and is excluded from Git.
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
+
+from .routers import chat, lessons, simulator, code, export, system, websocket
+from .auth import router as auth_router, settings as auth_settings, user_from_request
 from .services import ollama_service, lesson_engine
+from .services.metrics_service import metrics
 from .simulator import simulator_manager
 from .models.schemas import HealthResponse, ModelsListResponse, OllamaModel
 
@@ -48,23 +58,66 @@ app = FastAPI(
 # CORS - permitir peticiones desde el frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://robotics.edumind.es",
-        "https://auth.edumind.es",
-        "https://panel.edumind.es",
-    ],
+    allow_origins=["https://robotics.edumind.es"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Authentication is enforced centrally so new API routers are protected by
+# default. Operational probes and the transparency policy remain public.
+PUBLIC_API_PATHS = {
+    "/api/health",
+    "/api/ready",
+    "/api/system/policy",
+}
+
+
+@app.middleware("http")
+async def require_application_session(request: Request, call_next):
+    path = request.url.path.rstrip("/") or "/"
+    is_public = path in PUBLIC_API_PATHS or path.startswith("/api/auth/")
+    is_internal_metrics = (
+        path in {"/api/metrics", "/api/metrics/prometheus"}
+        and request.client is not None
+        and request.client.host in {"127.0.0.1", "::1"}
+    )
+    if (
+        auth_settings.enabled
+        and path.startswith("/api/")
+        and not is_public
+        and not is_internal_metrics
+        and user_from_request(request) is None
+    ):
+        response = JSONResponse(
+            status_code=401,
+            content={"detail": "Authentication required"},
+            headers={"Cache-Control": "no-store"},
+        )
+        metrics.record_request(path, response.status_code)
+        return response
+
+    try:
+        response = await call_next(request)
+    except Exception:
+        metrics.record_request(path, 500)
+        raise
+
+    route = request.scope.get("route")
+    endpoint = getattr(route, "path", path)
+    metrics.record_request(endpoint, response.status_code)
+    return response
+
+
 # Registrar routers
+app.include_router(auth_router)
 app.include_router(chat.router)
 app.include_router(lessons.router)
 app.include_router(simulator.router)
 app.include_router(code.router)
 app.include_router(export.router)
 app.include_router(system.router)
+app.include_router(websocket.router)
 
 
 # ==================== HEALTH & STATUS ENDPOINTS ====================
@@ -141,7 +194,6 @@ async def list_models():
 @app.get("/api/metrics")
 async def get_metrics():
     """Get application metrics."""
-    from .services.metrics_service import metrics
     return metrics.get_metrics()
 
 
@@ -149,7 +201,6 @@ async def get_metrics():
 async def get_prometheus_metrics():
     """Get Prometheus metrics."""
     from fastapi.responses import PlainTextResponse
-    from .services.metrics_service import metrics
     return PlainTextResponse(metrics.get_prometheus_metrics())
 
 

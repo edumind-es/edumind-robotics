@@ -5,6 +5,7 @@ pydantic==2.5.0
 
 # HTTP Client para Ollama
 httpx==0.26.0
+python-jose[cryptography]==3.5.0
 
 # Utilidades
 python-multipart==0.0.6

@@ -20,12 +20,13 @@
 Router para el simulador de micro:bit y Nezha.
 Permite ejecutar código y controlar simuladores sin hardware físico.
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any
 
 from ..simulator import simulator_manager
 from ..models.schemas import PlatformType
+from ..auth import user_from_request
 
 router = APIRouter(prefix="/api/simulator", tags=["Simulator"])
 
@@ -50,7 +51,11 @@ class CreateSessionResponse(BaseModel):
 class ExecuteCodeRequest(BaseModel):
     """Petición para ejecutar código"""
     session_id: str = Field(..., description="ID de sesión del simulador")
-    code: str = Field(..., description="Código MicroPython a ejecutar")
+    code: str = Field(
+        ...,
+        max_length=50_000,
+        description="Código MicroPython a ejecutar",
+    )
 
     class Config:
         json_schema_extra = {
@@ -86,10 +91,22 @@ class SensorUpdateRequest(BaseModel):
 
 # ==================== ENDPOINTS DE SESIÓN ====================
 
-def _create_session_response(request: CreateSessionRequest) -> CreateSessionResponse:
-    platform_value = request.platform.value if hasattr(request.platform, 'value') else str(request.platform)
+def _owner_id(request: Request) -> str:
+    user = user_from_request(request)
+    return str(user["id"]) if user else "local-dev"
 
-    session_id = simulator_manager.create_session(platform_value)
+
+def _create_session_response(
+    payload: CreateSessionRequest,
+    owner_id: str,
+) -> CreateSessionResponse:
+    platform_value = (
+        payload.platform.value
+        if hasattr(payload.platform, "value")
+        else str(payload.platform)
+    )
+
+    session_id = simulator_manager.create_session(platform_value, owner_id)
 
     return CreateSessionResponse(
         session_id=session_id,
@@ -99,31 +116,34 @@ def _create_session_response(request: CreateSessionRequest) -> CreateSessionResp
 
 
 @router.post("/session/create", response_model=CreateSessionResponse)
-async def create_session(request: CreateSessionRequest):
+async def create_session(payload: CreateSessionRequest, request: Request):
     """
     Crea una nueva sesión de simulación.
 
     Returns:
         session_id único para usar en peticiones posteriores
     """
-    return _create_session_response(request)
+    return _create_session_response(payload, _owner_id(request))
 
 
 @router.post("/session", response_model=CreateSessionResponse)
-async def create_session_compat(request: CreateSessionRequest = CreateSessionRequest()):
+async def create_session_compat(
+    request: Request,
+    payload: CreateSessionRequest = CreateSessionRequest(),
+):
     """
     Crea una sesión de simulación usando la ruta histórica.
     Mantiene compatibilidad con scripts y pruebas existentes.
     """
-    return _create_session_response(request)
+    return _create_session_response(payload, _owner_id(request))
 
 
 @router.get("/session/{session_id}")
-async def get_session_state(session_id: str):
+async def get_session_state(session_id: str, request: Request):
     """
     Obtiene el estado actual de una sesión de simulación.
     """
-    session = simulator_manager.get_session(session_id)
+    session = simulator_manager.get_session(session_id, _owner_id(request))
 
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
@@ -132,11 +152,11 @@ async def get_session_state(session_id: str):
 
 
 @router.delete("/session/{session_id}")
-async def delete_session(session_id: str):
+async def delete_session(session_id: str, request: Request):
     """
     Elimina una sesión de simulación.
     """
-    success = simulator_manager.delete_session(session_id)
+    success = simulator_manager.delete_session(session_id, _owner_id(request))
 
     if not success:
         raise HTTPException(status_code=404, detail="Session not found")
@@ -145,11 +165,11 @@ async def delete_session(session_id: str):
 
 
 @router.post("/session/{session_id}/reset")
-async def reset_session(session_id: str):
+async def reset_session(session_id: str, request: Request):
     """
     Resetea una sesión de simulación a su estado inicial.
     """
-    session = simulator_manager.get_session(session_id)
+    session = simulator_manager.get_session(session_id, _owner_id(request))
 
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
@@ -162,20 +182,20 @@ async def reset_session(session_id: str):
 # ==================== EJECUCIÓN DE CÓDIGO ====================
 
 @router.post("/execute", response_model=ExecuteCodeResponse)
-async def execute_code(request: ExecuteCodeRequest):
+async def execute_code(payload: ExecuteCodeRequest, request: Request):
     """
     Ejecuta código MicroPython en el simulador.
 
     El código se ejecuta en un sandbox seguro y actualiza el estado
     del simulador (display, sensores, etc.).
     """
-    session = simulator_manager.get_session(request.session_id)
+    session = simulator_manager.get_session(payload.session_id, _owner_id(request))
 
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
     # Ejecutar código
-    result = session.executor.execute_code(request.code)
+    result = session.executor.execute_code(payload.code)
 
     return ExecuteCodeResponse(
         success=result["success"],
@@ -189,17 +209,17 @@ async def execute_code(request: ExecuteCodeRequest):
 # ==================== CONTROL DE BOTONES ====================
 
 @router.post("/button")
-async def button_action(request: ButtonActionRequest):
+async def button_action(payload: ButtonActionRequest, request: Request):
     """
     Simula presión/liberación de botones A o B.
     """
-    session = simulator_manager.get_session(request.session_id)
+    session = simulator_manager.get_session(payload.session_id, _owner_id(request))
 
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    button = request.button.lower()
-    action = request.action.lower()
+    button = payload.button.lower()
+    action = payload.action.lower()
 
     if button not in ["a", "b"]:
         raise HTTPException(status_code=400, detail="Invalid button. Use 'a' or 'b'")
@@ -228,7 +248,7 @@ async def button_action(request: ButtonActionRequest):
 # ==================== ACTUALIZACIÓN DE SENSORES ====================
 
 @router.post("/sensor")
-async def update_sensor(request: SensorUpdateRequest):
+async def update_sensor(payload: SensorUpdateRequest, request: Request):
     """
     Actualiza valores de sensores para simulación.
 
@@ -239,36 +259,36 @@ async def update_sensor(request: SensorUpdateRequest):
     - compass: int (0-359 grados)
     - ultrasonic (Nezha): int (distancia en cm)
     """
-    session = simulator_manager.get_session(request.session_id)
+    session = simulator_manager.get_session(payload.session_id, _owner_id(request))
 
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    sensor = request.sensor.lower()
+    sensor = payload.sensor.lower()
 
     try:
         if sensor == "temperature":
-            session.microbit.set_temperature(int(request.value))
+            session.microbit.set_temperature(int(payload.value))
 
         elif sensor == "light_level":
-            session.microbit.set_light_level(int(request.value))
+            session.microbit.set_light_level(int(payload.value))
 
         elif sensor == "accelerometer":
-            if not isinstance(request.value, dict):
+            if not isinstance(payload.value, dict):
                 raise ValueError("Accelerometer requires dict with x, y, z")
             session.microbit.set_accelerometer(
-                request.value["x"],
-                request.value["y"],
-                request.value["z"]
+                payload.value["x"],
+                payload.value["y"],
+                payload.value["z"]
             )
 
         elif sensor == "compass":
-            session.microbit.set_compass_heading(int(request.value))
+            session.microbit.set_compass_heading(int(payload.value))
 
         elif sensor == "ultrasonic":
             if not session.nezha:
                 raise HTTPException(status_code=400, detail="Nezha not enabled for this session")
-            session.nezha.ultrasonic_set_distance(int(request.value))
+            session.nezha.ultrasonic_set_distance(int(payload.value))
 
         else:
             raise HTTPException(status_code=400, detail=f"Unknown sensor: {sensor}")
@@ -286,6 +306,7 @@ async def update_sensor(request: SensorUpdateRequest):
 
 @router.post("/nezha/motor")
 async def nezha_motor_control(
+    request: Request,
     session_id: str,
     motor: int,
     speed: int
@@ -297,7 +318,7 @@ async def nezha_motor_control(
         motor: Número de motor (1-4)
         speed: Velocidad (-100 a 100)
     """
-    session = simulator_manager.get_session(session_id)
+    session = simulator_manager.get_session(session_id, _owner_id(request))
 
     if not session or not session.nezha:
         raise HTTPException(status_code=404, detail="Nezha session not found")
@@ -312,6 +333,7 @@ async def nezha_motor_control(
 
 @router.post("/nezha/servo")
 async def nezha_servo_control(
+    request: Request,
     session_id: str,
     servo: int,
     angle: int
@@ -323,7 +345,7 @@ async def nezha_servo_control(
         servo: Número de servo (1-4)
         angle: Ángulo (0-180 grados)
     """
-    session = simulator_manager.get_session(session_id)
+    session = simulator_manager.get_session(session_id, _owner_id(request))
 
     if not session or not session.nezha:
         raise HTTPException(status_code=404, detail="Nezha session not found")
@@ -339,11 +361,11 @@ async def nezha_servo_control(
 # ==================== INFORMACIÓN ====================
 
 @router.get("/sessions")
-async def list_sessions():
+async def list_sessions(request: Request):
     """
-    Lista todas las sesiones activas.
+    Lista las sesiones activas del usuario autenticado.
     """
-    sessions = simulator_manager.get_all_sessions()
+    sessions = simulator_manager.get_all_sessions(_owner_id(request))
 
     return {
         "total": len(sessions),
