@@ -1,14 +1,10 @@
 # EDUmind Robotics Lab
 
-EDUmind Robotics Lab is an educational robotics learning platform with a
-FastAPI backend, React frontend and local AI-assisted learning flows.
+Plataforma de robótica educativa: el alumnado programa y simula robots desde el navegador, sin necesidad de hardware. Backend en FastAPI, frontend en React y flujos de aprendizaje asistidos por IA que corre en local.
 
-This public repository is a sanitized source release for code review,
-educational reuse and community audit. Production secrets, deployment
-configuration, private runbooks, generated environments and operational
-state are not included.
+> Los modelos de IA se ejecutan en el servidor del centro, no en un servicio externo. Nada de lo que escribe el alumnado sale de ahí.
 
-## Development
+## Arrancar en local
 
 Frontend:
 
@@ -27,14 +23,27 @@ python3 -m venv .venv
 pip install -r requirements.txt
 ```
 
-Use `.env.example` as a placeholder template only.
+Copia `.env.example` a `.env` y rellénalo. Los valores del ejemplo son marcadores: genera secretos nuevos para cualquier despliegue real.
 
-## Release Scope
+## Pruebas
 
-See `OPEN_SOURCE_RELEASE.md` for what is included and excluded.
+```bash
+cd backend && pytest        # backend
+cd frontend && npm run lint # frontend
+```
 
-## License
+## Colaborar
 
-Licensed under `AGPL-3.0-or-later OR EUPL-1.2`.
+Se puede colaborar **sin programar**: contar cómo te ha ido en clase, reportar un fallo, revisar los textos o traducir. Todo el proyecto está en español. Empieza por [CONTRIBUTING.md](CONTRIBUTING.md) y el [código de conducta](CODE_OF_CONDUCT.md).
 
-EDUmind(R), logos and brand assets are reserved. See `TRADEMARKS.md`.
+¿Un fallo de seguridad? No abras un issue público: ver [SECURITY.md](SECURITY.md).
+
+Este repositorio es una *release saneada* para revisión y auditoría: no incluye secretos, configuración de despliegue ni datos de aula. Ver [OPEN_SOURCE_RELEASE.md](OPEN_SOURCE_RELEASE.md).
+
+## Licencia
+
+Licencia doble **AGPL-3.0-or-later** *o* **EUPL-1.2**, a elección de quien la reutilice. Ver [LICENSE](LICENSE) y [NOTICE](NOTICE).
+
+EDUmind® es marca registrada en España (OEPM). El código es libre; la marca y los logotipos no se ceden con él — ver [TRADEMARKS.md](TRADEMARKS.md).
+
+Por **Luis Vilela Acuña** — maestro de Educación Física.

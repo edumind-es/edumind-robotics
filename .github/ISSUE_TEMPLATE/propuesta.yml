@@ -1,0 +1,33 @@
+name: Proponer una mejora
+description: Una idea, una necesidad de tu aula, algo que echas en falta
+title: "[Propuesta]: "
+labels: ["propuesta"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Las mejores ideas de este proyecto han salido de docentes contando qué necesitaban en clase. Cuéntalo sin filtros técnicos.
+  - type: textarea
+    id: necesidad
+    attributes:
+      label: Qué necesitas hacer y hoy no puedes
+      description: Describe la situación de aula, no la solución técnica.
+      placeholder: Al final del trimestre necesito entregar al tutor un resumen por equipo, y ahora lo copio a mano.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Cómo te lo imaginas
+      description: Opcional. Si tienes una idea de cómo debería funcionar, cuéntala.
+  - type: textarea
+    id: apanyo
+    attributes:
+      label: Cómo lo resuelves ahora
+      description: El apaño que usas hoy. Ayuda mucho a entender la urgencia real.
+  - type: dropdown
+    id: mundo
+    attributes:
+      label: Con qué Mundo se relaciona
+      description: El marco pedagógico de EDUmind. Si no lo tienes claro, deja "No lo sé".
+      options: ["No lo sé", "Físico", "Mental", "Emocional", "Social", "Interior", "Ninguno / es técnico"]

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Fallo de seguridad
+    url: https://github.com/edumind-es/edumind-robotics/security/policy
+    about: No abras un issue público. Sigue la política de divulgación responsable.
+  - name: Dudas sobre uso en el aula o en un centro
+    url: mailto:contacto@edumind.es
+    about: Escríbenos directamente.
+  - name: Uso de la marca EDUmind®
+    url: mailto:legal@edumind.es
+    about: La marca no se cede con la licencia del código.

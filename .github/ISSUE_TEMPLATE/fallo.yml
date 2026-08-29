@@ -1,0 +1,48 @@
+name: Reportar un fallo
+description: Algo no funciona como debería
+title: "[Fallo]: "
+labels: ["fallo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por avisar. No hace falta que sepas programar: describe lo que viste y con eso basta.
+
+        ⚠️ **No incluyas datos reales de alumnado** (nombres, fotos, notas) ni en el texto ni en las capturas.
+  - type: textarea
+    id: que-pasa
+    attributes:
+      label: Qué ocurre
+      description: Cuéntalo con tus palabras.
+      placeholder: Al guardar el resultado de un partido, el marcador vuelve a cero.
+    validations:
+      required: true
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Cómo reproducirlo
+      description: Los pasos que hiciste, en orden.
+      placeholder: |
+        1. Entro en la liga "6º A"
+        2. Abro el partido del martes
+        3. Escribo 3-1 y pulso Guardar
+        4. El marcador aparece 0-0
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Qué esperabas que pasara
+    validations:
+      required: true
+  - type: input
+    id: contexto
+    attributes:
+      label: Dónde te ocurre
+      description: Navegador y dispositivo. Si fue en clase, dilo — el contexto de aula importa.
+      placeholder: Chrome en un portátil Windows / Safari en iPad del aula
+  - type: textarea
+    id: capturas
+    attributes:
+      label: Capturas o vídeo
+      description: Opcional. Arrastra los ficheros aquí. Tapa cualquier dato de alumnado.
