@@ -17,10 +17,10 @@
  */
 
 .projects-panel {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: linear-gradient(135deg, var(--lm-paper) 0%, var(--lm-paper-2) 100%);
     border-radius: 12px;
     padding: 1.5rem;
-    border: 1px solid rgba(0, 217, 255, 0.2);
+    border: 1px solid color-mix(in srgb, var(--lm-mental) 32%, transparent);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -36,7 +36,7 @@
 }
 
 .projects-panel__header h3 {
-    color: #00d9ff;
+    color: var(--lm-mental-text);
     font-size: 1.1rem;
     margin: 0;
     min-width: 0;
@@ -48,7 +48,7 @@
 .close-btn {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--lm-ink-3);
     font-size: 1.5rem;
     cursor: pointer;
     min-width: 44px;
@@ -73,8 +73,8 @@
 }
 
 .projects-panel__secondary-actions button {
-    background: rgba(0, 217, 255, 0.12);
-    border: 1px solid rgba(0, 217, 255, 0.35);
+    background: color-mix(in srgb, var(--lm-mental) 19%, transparent);
+    border: 1px solid color-mix(in srgb, var(--lm-mental) 56%, transparent);
     color: #bdefff;
     padding: 0.55rem;
     border-radius: 8px;
@@ -88,9 +88,9 @@
 
 .save-new-btn {
     width: 100%;
-    background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+    background: linear-gradient(135deg, var(--lm-emocional-text) 0%, var(--lm-emocional) 100%);
     border: none;
-    color: #000;
+    color: var(--lm-ink);
     padding: 0.75rem;
     border-radius: 8px;
     font-weight: 600;
@@ -100,7 +100,7 @@
 
 .save-new-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--lm-emocional) 60%, transparent);
 }
 
 .projects-panel__list {
@@ -111,21 +111,21 @@
 .projects-empty {
     text-align: center;
     padding: 2rem;
-    color: #888;
+    color: var(--lm-ink-3);
 }
 
 .projects-empty small {
     display: block;
     margin-top: 0.5rem;
-    color: #666;
+    color: var(--lm-ink-2);
 }
 
 .project-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(0, 217, 255, 0.1);
+    background: var(--lm-paper);
+    border: 2px solid color-mix(in srgb, var(--lm-mental) 16%, transparent);
     border-radius: 8px;
     padding: 0.75rem;
     margin-bottom: 0.5rem;
@@ -133,12 +133,12 @@
 }
 
 .project-item:hover {
-    border-color: rgba(0, 217, 255, 0.3);
+    border-color: color-mix(in srgb, var(--lm-mental) 48%, transparent);
 }
 
 .project-item.active {
-    border-color: #00ff88;
-    background: rgba(0, 255, 136, 0.1);
+    border-color: var(--lm-emocional-text);
+    background: color-mix(in srgb, var(--lm-emocional) 16%, transparent);
 }
 
 .project-item__info {
@@ -150,12 +150,12 @@
 }
 
 .project-name {
-    color: #fff;
+    color: var(--lm-ink);
     font-weight: 500;
 }
 
 .project-date {
-    color: #888;
+    color: var(--lm-ink-3);
     font-size: 0.75rem;
 }
 
@@ -185,7 +185,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: color-mix(in srgb, var(--lm-rule) 70%, transparent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -193,23 +193,23 @@
 }
 
 .save-modal {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border: 2px solid rgba(0, 217, 255, 0.3);
+    background: linear-gradient(135deg, var(--lm-paper) 0%, var(--lm-paper-2) 100%);
+    border: 2px solid color-mix(in srgb, var(--lm-mental) 48%, transparent);
     border-radius: 12px;
     padding: 1.5rem;
     width: 300px;
 }
 
 .save-modal h4 {
-    color: #00d9ff;
+    color: var(--lm-mental-text);
     margin: 0 0 1rem 0;
 }
 
 .save-modal input {
     width: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px solid rgba(0, 217, 255, 0.3);
-    color: #fff;
+    background: var(--lm-paper);
+    border: 2px solid color-mix(in srgb, var(--lm-mental) 48%, transparent);
+    color: var(--lm-ink);
     padding: 0.75rem;
     border-radius: 8px;
     margin-bottom: 1rem;
@@ -217,7 +217,7 @@
 
 .save-modal input:focus {
     outline: none;
-    border-color: #00d9ff;
+    border-color: var(--lm-mental-text);
 }
 
 .save-modal__actions {
@@ -234,13 +234,13 @@
 }
 
 .save-modal__actions button:first-child {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: color-mix(in srgb, var(--lm-paper-2) 20%, transparent);
+    color: var(--lm-ink);
 }
 
 .save-modal__actions button.primary {
-    background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
-    color: #000;
+    background: linear-gradient(135deg, var(--lm-emocional-text) 0%, var(--lm-emocional) 100%);
+    color: var(--lm-ink);
     font-weight: 600;
 }
 

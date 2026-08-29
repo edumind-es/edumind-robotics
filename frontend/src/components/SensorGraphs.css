@@ -17,10 +17,10 @@
  */
 
 .sensor-graphs {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: var(--lm-paper-2);
     border-radius: 12px;
     padding: 1rem;
-    border: 1px solid rgba(0, 217, 255, 0.2);
+    border: 1px solid rgba(106, 163, 191, 0.2);
 }
 
 .sensor-graphs__header {
@@ -31,7 +31,7 @@
 }
 
 .sensor-graphs__header h3 {
-    color: #00d9ff;
+    color: #6aa3bf;
     font-size: 1rem;
     margin: 0;
 }
@@ -44,9 +44,9 @@
 
 .sensor-graphs__tabs button {
     flex: 1;
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(0, 217, 255, 0.2);
-    color: #888;
+    background: color-mix(in srgb, var(--lm-rule) 30%, transparent);
+    border: 2px solid rgba(106, 163, 191, 0.2);
+    color: var(--lm-ink-2);
     padding: 0.5rem;
     border-radius: 6px;
     font-size: 0.75rem;
@@ -55,18 +55,18 @@
 }
 
 .sensor-graphs__tabs button:hover {
-    border-color: rgba(0, 217, 255, 0.4);
-    color: #fff;
+    border-color: rgba(106, 163, 191, 0.4);
+    color: var(--lm-ink);
 }
 
 .sensor-graphs__tabs button.active {
-    background: rgba(0, 217, 255, 0.2);
-    border-color: #00d9ff;
-    color: #00d9ff;
+    background: rgba(106, 163, 191, 0.2);
+    border-color: #6aa3bf;
+    color: #6aa3bf;
 }
 
 .sensor-graphs__canvas {
-    background: rgba(0, 0, 0, 0.3);
+    background: color-mix(in srgb, var(--lm-rule) 30%, transparent);
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 0.75rem;
@@ -87,7 +87,7 @@
 }
 
 .stat-label {
-    color: #888;
+    color: var(--lm-ink-2);
     font-size: 0.7rem;
     display: block;
 }
@@ -99,21 +99,21 @@
 }
 
 .stat-value.temp {
-    color: #ff6b35;
+    color: #f0795a;
 }
 
 .stat-value.light {
-    color: #ffd700;
+    color: #f2bc55;
 }
 
 .stat-value.accel {
-    color: #00ff88;
+    color: #8cc26a;
 }
 
 .close-btn {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--lm-ink-2);
     font-size: 1.25rem;
     cursor: pointer;
 }

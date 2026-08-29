@@ -11,6 +11,9 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import CodeEditor from './CodeEditor'
 import MicrobitDisplay from './MicrobitDisplay'
+import MakeyMakeyDisplay from './MakeyMakeyDisplay'
+import NezhaRobot from './NezhaRobot'
+import { useAppStore } from '../store/useAppStore'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import './VibeCoding.css'
@@ -51,19 +54,19 @@ const HARDWARE_INFO: Record<HardwareType, { label: string; icon: string; color: 
   microbit: {
     label: 'micro:bit',
     icon: '🔬',
-    color: '#00d9ff',
+    color: 'var(--lm-mental-text)',
     promptHint: 'Ej: hacer parpadear los LEDs, mostrar mi nombre, detectar temperatura...',
   },
   nezha: {
     label: 'Nezha Robot',
     icon: '🤖',
-    color: '#00ff88',
+    color: 'var(--lm-emocional-text)',
     promptHint: 'Ej: mover los motores hacia adelante, hacer girar las ruedas, parar el robot...',
   },
   makey: {
     label: 'Makey Makey',
     icon: '🎹',
-    color: '#ff9900',
+    color: 'var(--lm-social-text)',
     promptHint: 'Ej: tocar una nota al tocar la banana, crear un piano con frutas, controlar un juego...',
   },
 }
@@ -143,6 +146,25 @@ const VibeCoding: React.FC<VibeCodingProps> = ({
   const [executedOnce, setExecutedOnce] = useState(false)
 
   const responseRef = useRef<HTMLDivElement>(null)
+
+  const makeyPins = useAppStore((s) => s.makeyPins)
+  const nezhaState = useAppStore((s) => s.nezhaState)
+  const setMotor = useAppStore((s) => s.setMotor)
+  const setServo = useAppStore((s) => s.setServo)
+  const initNezhaSession = useAppStore((s) => s.initNezhaSession)
+  const touchPin = useAppStore((s) => s.touchPin)
+  const releasePin = useAppStore((s) => s.releasePin)
+  const initMakeySession = useAppStore((s) => s.initMakeySession)
+
+  /* El Makey Makey necesita su propia sesión en el backend; se crea cuando el
+     alumno lo elige, no al abrir la vista. */
+  useEffect(() => {
+    if (hardware === 'makey') {
+      initMakeySession()
+    } else if (hardware === 'nezha') {
+      initNezhaSession()
+    }
+  }, [hardware, initMakeySession, initNezhaSession])
 
   const lastAiMessage = messages.filter((m) => m.role === 'assistant').pop()
   const extractedCode = lastAiMessage ? extractCode(lastAiMessage.content) : null
@@ -431,12 +453,28 @@ AHORA genera el código para: ${objective}`
                 en el robot real.
               </p>
             </div>
-            <MicrobitDisplay
-              grid={simulatorState.display.grid}
-              buttons={simulatorState.buttons}
-              onButtonPress={onButtonPress}
-              onButtonRelease={onButtonRelease}
-            />
+            {hardware === 'nezha' ? (
+              <NezhaRobot
+                motors={nezhaState.motors}
+                servos={nezhaState.servos}
+                sensors={nezhaState.sensors}
+                onMotorChange={setMotor}
+                onServoChange={setServo}
+              />
+            ) : hardware === 'makey' ? (
+              <MakeyMakeyDisplay
+                pins={makeyPins}
+                onPinTouch={touchPin}
+                onPinRelease={releasePin}
+              />
+            ) : (
+              <MicrobitDisplay
+                grid={simulatorState.display.grid}
+                buttons={simulatorState.buttons}
+                onButtonPress={onButtonPress}
+                onButtonRelease={onButtonRelease}
+              />
+            )}
             <div className="vc-sensors">
               <div className="vc-sensor-row">
                 <span>🌡️ Temperatura</span>

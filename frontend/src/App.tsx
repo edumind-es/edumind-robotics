@@ -3,13 +3,14 @@
  * Author: Luis Vilela Acuña
  */
 
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import './App.css'
 import MicrobitDisplay from './components/MicrobitDisplay'
-import CodeEditor from './components/CodeEditor'
-import ChatPanel from './components/ChatPanel'
-import VibeCoding from './components/VibeCoding'
+
 import SensorPanel from './components/SensorPanel'
+/* Las gráficas existían sin usarse: muestran cómo evoluciona cada sensor en
+   el tiempo, que es justo lo que hace falta para entender un sensor. */
+import SensorGraphs from './components/SensorGraphs'
 import ExamplesPanel from './components/ExamplesPanel'
 import ExportPanel from './components/ExportPanel'
 import ProjectsPanel from './components/ProjectsPanel'
@@ -19,7 +20,29 @@ import { useEinkMode } from './hooks/useEinkMode'
 import { useAppStore } from './store/useAppStore'
 import { checkAuth, loginUrl, type AuthState } from './lib/auth'
 
-type View = 'home' | 'lab' | 'vibe'
+/*
+ * Vibe Coding y Pedagogía no hacen falta para abrir la app: se cargan cuando
+ * el alumno entra en ellas. Así la primera pantalla pesa bastante menos, que
+ * es lo que se sufre en el wifi de un colegio.
+ */
+const VibeCoding = lazy(() => import('./components/VibeCoding'))
+/* El editor arrastra Monaco y el chat arrastra el resaltado de sintaxis:
+   334 kB que la portada no necesita para nada. */
+const CodeEditor = lazy(() => import('./components/CodeEditor'))
+const ChatPanel = lazy(() => import('./components/ChatPanel'))
+const Pedagogia = lazy(() => import('./components/Pedagogia'))
+
+/* Mensaje mientras llega el trozo de código de la vista. */
+const Cargando = () => (
+  <main className="edm-app" aria-live="polite">
+    <div className="edm-container">
+      <p className="edm-kicker">Cargando…</p>
+    </div>
+  </main>
+)
+
+
+type View = 'home' | 'lab' | 'vibe' | 'pedagogia'
 
 interface PolicyStatus {
   ai?: {
@@ -138,8 +161,14 @@ function App() {
         onNavigate={(v) => setView(v)}
         isAiReady={aiLocal}
         isStreaming={isStreaming}
-        user={auth.user}
+        user={'user' in auth ? auth.user : null}
       />
+
+      {view === 'pedagogia' && (
+        <Suspense fallback={<Cargando />}>
+          <Pedagogia aiModel={aiModel} aiLocal={aiLocal} onStart={() => setView('lab')} />
+        </Suspense>
+      )}
 
       {view === 'home' && (
         <main className="edm-app">
@@ -158,8 +187,12 @@ function App() {
                 <button className="edm-button" type="button" onClick={() => setView('lab')}>
                   🔬 Abrir Laboratorio
                 </button>
-                <button className="edm-button edm-button--ghost" type="button">
-                  📚 Ver tutoriales
+                <button
+                  className="edm-button edm-button--ghost"
+                  type="button"
+                  onClick={() => setView('pedagogia')}
+                >
+                  📚 Por qué la IA es local
                 </button>
               </div>
             </header>
@@ -178,8 +211,8 @@ function App() {
                 <div className="edm-card__badge">Asistente IA</div>
                 <h3>Tutor educativo local</h3>
                 <p>
-                  Pregunta, aprende y genera código con IA ejecutándose en tu servidor.
-                  Phi3 te guía paso a paso en tu aprendizaje.
+                  Pregunta, aprende y genera código con una IA que se ejecuta en el
+                  propio centro. Te explica cada línea, no solo te la entrega.
                 </p>
               </article>
 
@@ -229,6 +262,7 @@ function App() {
       )}
 
       {view === 'vibe' && (
+        <Suspense fallback={<Cargando />}>
         <VibeCoding
           onExecute={executeCode}
           isExecuting={isExecuting}
@@ -239,9 +273,11 @@ function App() {
           isStreaming={isStreaming}
           messages={messages}
         />
+        </Suspense>
       )}
 
       {view === 'lab' && (
+        <Suspense fallback={<Cargando />}>
         <main className="edm-app lab-view">
           <div className="lab-container">
             <header className="lab-header">
@@ -308,6 +344,7 @@ function App() {
                       sensors={simulatorState.sensors}
                       onUpdateSensor={updateSensor}
                     />
+                    <SensorGraphs sensors={simulatorState.sensors} />
                   </div>
                 )}
               </div>
@@ -351,6 +388,7 @@ function App() {
             </div>
           </div>
         </main>
+        </Suspense>
       )}
     </>
   )

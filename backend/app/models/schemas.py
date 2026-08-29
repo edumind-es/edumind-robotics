@@ -35,6 +35,7 @@ class PlatformType(str, Enum):
     """Plataformas soportadas"""
     MICROBIT = "micro:bit"
     NEZHA = "nezha"
+    MAKEY = "makey_makey"
 
 
 class LanguageType(str, Enum):
@@ -146,6 +147,15 @@ class CodeExplanationRequest(BaseModel):
     specific_question: Optional[str] = Field(
         default=None,
         description="Pregunta específica sobre el código"
+    )
+    focus_line: Optional[int] = Field(
+        default=None,
+        ge=1,
+        description=(
+            "Número de línea (empezando en 1) sobre la que centrar la "
+            "explicación. El resto del código se envía igualmente como "
+            "contexto: una línea suelta no significa nada sin el programa."
+        ),
     )
 
     class Config:

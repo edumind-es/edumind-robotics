@@ -17,8 +17,8 @@
  */
 
 .theme-toggle {
-    background: rgba(0, 217, 255, 0.1);
-    border: 2px solid rgba(0, 217, 255, 0.3);
+    background: color-mix(in srgb, var(--lm-mental) 16%, transparent);
+    border: 2px solid color-mix(in srgb, var(--lm-mental) 48%, transparent);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -30,8 +30,8 @@
 }
 
 .theme-toggle:hover {
-    background: rgba(0, 217, 255, 0.2);
-    border-color: #00d9ff;
+    background: color-mix(in srgb, var(--lm-mental) 32%, transparent);
+    border-color: var(--lm-mental-text);
     transform: rotate(15deg);
 }
 
@@ -44,22 +44,22 @@
     --bg-primary: #f5f5f5;
     --bg-secondary: #ffffff;
     --bg-card: #ffffff;
-    --text-primary: #1a1a2e;
-    --text-secondary: #666;
-    --border-color: rgba(0, 0, 0, 0.1);
-    --accent-cyan: #0099cc;
+    --text-primary: var(--lm-paper);
+    --text-secondary: var(--lm-ink-2);
+    --border-color: color-mix(in srgb, var(--lm-rule) 10%, transparent);
+    --accent-cyan: var(--lm-mental);
     --accent-green: #00aa66;
 }
 
 [data-theme="dark"] {
     --bg-primary: #0f0f1e;
-    --bg-secondary: #1a1a2e;
-    --bg-card: rgba(26, 26, 46, 0.95);
+    --bg-secondary: var(--lm-paper);
+    --bg-card: var(--lm-paper-2);
     --text-primary: #ffffff;
     --text-secondary: #aaaaaa;
-    --border-color: rgba(0, 217, 255, 0.2);
-    --accent-cyan: #00d9ff;
-    --accent-green: #00ff88;
+    --border-color: color-mix(in srgb, var(--lm-mental) 32%, transparent);
+    --accent-cyan: var(--lm-mental-text);
+    --accent-green: var(--lm-emocional-text);
 }
 
 /* Apply theme to common elements */
@@ -74,7 +74,7 @@
 [data-theme="light"] .lme-card {
     background: var(--bg-card);
     border-color: var(--border-color);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--lm-rule) 10%, transparent);
 }
 
 [data-theme="light"] .lme-card h3,
@@ -102,10 +102,10 @@
 
 [data-theme="light"] .message--user {
     background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    color: #1a1a2e;
+    color: var(--lm-paper);
 }
 
 [data-theme="light"] .message--assistant {
     background: #f5f5f5;
-    color: #333;
+    color: var(--lm-ink);
 }

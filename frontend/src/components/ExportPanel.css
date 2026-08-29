@@ -17,10 +17,10 @@
  */
 
 .export-panel {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: linear-gradient(135deg, var(--lm-paper) 0%, var(--lm-paper-2) 100%);
     border-radius: 12px;
     padding: 1.5rem;
-    border: 1px solid rgba(0, 217, 255, 0.2);
+    border: 1px solid color-mix(in srgb, var(--lm-mental) 32%, transparent);
     max-width: 100%;
     min-width: 0;
 }
@@ -33,13 +33,13 @@
 }
 
 .export-panel__header h3 {
-    color: #00d9ff;
+    color: var(--lm-mental-text);
     font-size: 1.2rem;
     margin: 0;
 }
 
 .export-info {
-    color: #aaa;
+    color: var(--lm-ink-3);
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
 }
@@ -53,9 +53,9 @@
 }
 
 .hardware-target select {
-    background: rgba(0, 0, 0, 0.35);
-    color: #fff;
-    border: 1px solid rgba(0, 217, 255, 0.35);
+    background: var(--lm-paper);
+    color: var(--lm-ink);
+    border: 1px solid color-mix(in srgb, var(--lm-mental) 56%, transparent);
     border-radius: 8px;
     padding: 0.7rem;
 }
@@ -71,8 +71,8 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(0, 217, 255, 0.2);
+    background: var(--lm-paper);
+    border: 2px solid color-mix(in srgb, var(--lm-mental) 32%, transparent);
     border-radius: 10px;
     padding: 1rem;
     cursor: pointer;
@@ -81,7 +81,7 @@
 }
 
 .export-format-btn:hover:not(:disabled) {
-    border-color: rgba(0, 217, 255, 0.5);
+    border-color: color-mix(in srgb, var(--lm-mental) 60%, transparent);
     transform: translateX(5px);
 }
 
@@ -91,8 +91,8 @@
 }
 
 .export-format-btn.exporting {
-    border-color: #00ff88;
-    background: rgba(0, 255, 136, 0.1);
+    border-color: var(--lm-emocional-text);
+    background: color-mix(in srgb, var(--lm-emocional) 16%, transparent);
 }
 
 .format-icon {
@@ -106,13 +106,13 @@
 }
 
 .format-info strong {
-    color: #fff;
+    color: var(--lm-ink);
     font-size: 1rem;
     margin-bottom: 0.25rem;
 }
 
 .format-info span {
-    color: #888;
+    color: var(--lm-ink-3);
     font-size: 0.8rem;
 }
 
@@ -133,21 +133,21 @@
 }
 
 .export-warning {
-    color: #ffcc00;
+    color: var(--lm-social-text);
     font-size: 0.85rem;
     margin-top: 1rem;
     padding: 0.75rem;
-    background: rgba(255, 204, 0, 0.1);
+    background: color-mix(in srgb, var(--lm-social) 16%, transparent);
     border-radius: 8px;
-    border-left: 3px solid #ffcc00;
+    border-left: 3px solid var(--lm-social-text);
 }
 
 /* Instructions Button */
 .instructions-btn {
     width: 100%;
-    background: rgba(0, 217, 255, 0.1);
-    border: 2px solid rgba(0, 217, 255, 0.3);
-    color: #00d9ff;
+    background: color-mix(in srgb, var(--lm-mental) 16%, transparent);
+    border: 2px solid color-mix(in srgb, var(--lm-mental) 48%, transparent);
+    color: var(--lm-mental-text);
     padding: 0.75rem;
     border-radius: 8px;
     margin-top: 1rem;
@@ -156,8 +156,8 @@
 }
 
 .instructions-btn:hover {
-    background: rgba(0, 217, 255, 0.2);
-    border-color: #00d9ff;
+    background: color-mix(in srgb, var(--lm-mental) 32%, transparent);
+    border-color: var(--lm-mental-text);
 }
 
 /* Instructions Modal */
@@ -167,7 +167,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: color-mix(in srgb, var(--lm-rule) 70%, transparent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,8 +175,8 @@
 }
 
 .instructions-modal {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border: 2px solid rgba(0, 217, 255, 0.3);
+    background: linear-gradient(135deg, var(--lm-paper) 0%, var(--lm-paper-2) 100%);
+    border: 2px solid color-mix(in srgb, var(--lm-mental) 48%, transparent);
     border-radius: 12px;
     width: 90%;
     max-width: 600px;
@@ -191,18 +191,18 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+    border-bottom: 1px solid color-mix(in srgb, var(--lm-mental) 32%, transparent);
 }
 
 .instructions-header h3 {
     margin: 0;
-    color: #00d9ff;
+    color: var(--lm-mental-text);
 }
 
 .instructions-header button {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--lm-ink-3);
     font-size: 1.5rem;
     cursor: pointer;
 }
@@ -213,7 +213,7 @@
 }
 
 .instructions-content pre {
-    color: #ccc;
+    color: var(--lm-rule);
     font-family: 'Courier New', monospace;
     font-size: 0.9rem;
     line-height: 1.6;
@@ -224,7 +224,7 @@
 .close-btn {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--lm-ink-3);
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0;
@@ -240,5 +240,5 @@
 }
 
 .close-btn:hover {
-    color: #fff;
+    color: var(--lm-ink);
 }

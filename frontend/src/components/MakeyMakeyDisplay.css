@@ -17,7 +17,7 @@
  */
 
 .makey-makey-display {
-    background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);
+    background: var(--lm-paper-2);
     border-radius: 12px;
     padding: 1.5rem;
     border: 2px solid rgba(255, 107, 53, 0.3);
@@ -29,17 +29,17 @@
 }
 
 .makey-header h3 {
-    color: #ff6b35;
+    color: #f0795a;
     margin: 0;
 }
 
 .makey-subtitle {
-    color: #888;
+    color: var(--lm-ink-2);
     font-size: 0.8rem;
 }
 
 .makey-board {
-    background: #1a1a2e;
+    background: var(--lm-paper-2);
     border-radius: 12px;
     padding: 1.5rem;
     border: 3px solid #333;
@@ -54,14 +54,14 @@
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
     font-size: 0.7rem;
-    color: #00ff88;
+    color: #8cc26a;
 }
 
 .ground-wire {
     position: absolute;
     width: 2px;
     height: 20px;
-    background: #00ff88;
+    background: #8cc26a;
     left: 50%;
     bottom: -20px;
 }
@@ -76,8 +76,9 @@
 .makey-pin {
     width: 80px;
     height: 100px;
-    background: linear-gradient(180deg, #333 0%, #222 100%);
-    border: 3px solid #444;
+    padding-bottom: 0.5rem;
+    background: var(--lm-paper);
+    border: 3px solid var(--lm-ink);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -89,12 +90,12 @@
 }
 
 .makey-pin:hover {
-    border-color: #ff6b35;
+    border-color: var(--lm-fisico);
     transform: scale(1.05);
 }
 
 .makey-pin.touched {
-    background: linear-gradient(180deg, #ff6b35 0%, #cc5429 100%);
+    background: linear-gradient(180deg, #f0795a 0%, #cc5429 100%);
     border-color: #ffaa00;
     box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
     transform: scale(1.1);
@@ -110,26 +111,27 @@
 }
 
 .pin-label {
-    color: #888;
+    color: var(--lm-ink-2);
     font-size: 0.7rem;
 }
 
 .pin-note {
-    color: #00d9ff;
+    color: var(--lm-mental-text);
     font-weight: bold;
     font-size: 0.9rem;
 }
 
 .makey-pin.touched .pin-label,
 .makey-pin.touched .pin-note {
-    color: #fff;
+    color: var(--lm-ink);
 }
 
 .pin-count {
     position: absolute;
-    bottom: -10px;
-    background: #00d9ff;
-    color: #000;
+    bottom: -14px;
+    background: var(--lm-mental);
+    color: var(--lm-paper);
+    border: 1.5px solid var(--lm-ink);
     font-size: 0.6rem;
     font-weight: bold;
     padding: 2px 6px;
@@ -140,11 +142,11 @@
     text-align: center;
     margin-top: 1rem;
     padding: 0.5rem;
-    background: linear-gradient(135deg, #ff6b35 0%, #cc5429 100%);
+    background: linear-gradient(135deg, #f0795a 0%, #cc5429 100%);
     border-radius: 6px;
     font-size: 0.7rem;
     font-weight: bold;
-    color: #fff;
+    color: var(--lm-ink);
     letter-spacing: 2px;
 }
 
@@ -153,12 +155,12 @@
     padding: 0.75rem;
     background: rgba(255, 107, 53, 0.1);
     border-radius: 8px;
-    border-left: 3px solid #ff6b35;
+    border-left: 3px solid #f0795a;
 }
 
 .makey-instructions p {
     margin: 0;
-    color: #ccc;
+    color: var(--lm-ink-2);
     font-size: 0.8rem;
     line-height: 1.4;
 }

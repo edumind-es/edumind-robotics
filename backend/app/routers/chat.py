@@ -271,7 +271,8 @@ async def explain_code_stream(request: CodeExplanationRequest):
                 async for chunk in ollama_service.generate_code_explanation(
                     code=request.code,
                     language=request.language.value,
-                    context=request.platform.value
+                    context=request.platform.value,
+                    focus_line=request.focus_line,
                 ):
                     yield sse_data(chunk)
 

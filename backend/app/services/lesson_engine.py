@@ -263,75 +263,54 @@ CONTEXTO EDUCATIVO:
 - Nivel: {difficulty.value}
 - Objetivo del alumno: {objective}
 
-FORMATO DE RESPUESTA OBLIGATORIO - Usa siempre Markdown estructurado:
+BREVEDAD (prioritario): responde en menos de 200 palabras. El modelo corre en local
+sobre CPU: cada palabra de más es tiempo de espera del alumno. Ve al grano, no repitas
+el enunciado y no añadas secciones que nadie ha pedido.
 
-1. **Título claro** (## H2) describiendo el objetivo
-2. **Breve explicación** del concepto (1-2 párrafos)
-3. **Pasos numerados** para lograr el objetivo
-4. **Código ejemplo** en bloques de código con ```python
-5. **Explicación del código** con viñetas (bullet points)
-6. **Sugerencias de mejora** o experimentación (opcional)
+FORMATO - Markdown, solo las secciones que hagan falta:
+- Explicación breve del concepto (2-3 frases).
+- Código en bloque ```python cuando aporte algo (mínimo y funcional).
+- Qué hace cada línea nueva, en viñetas cortas.
+- Relaciona con los componentes físicos del {platform.value} cuando venga a cuento.
 
-EJEMPLO DE FORMATO:
-```markdown
-## Hacer parpadear un LED
-
-El micro:bit tiene una matriz de LEDs 5×5 que podemos controlar individualmente...
-
-### Pasos para crear el efecto:
-1. Primero, mostrar un patrón en el display
-2. Luego, esperar un tiempo
-3. Finalmente, limpiar la pantalla
-
-### Código:
-```python
-from microbit import *
-
-while True:
-    display.show(Image.HEART)
-    sleep(500)
-    display.clear()
-    sleep(500)
-```
-
-### ¿Cómo funciona?
-- `display.show()` → Muestra el corazón en la matriz LED
-- `sleep(500)` → Pausa 500 milisegundos (medio segundo)
-- `display.clear()` → Apaga todos los LEDs
-
-### Prueba esto:
-- Cambia 500 por 1000 para hacerlo más lento
-- Usa otros `Image` como `HAPPY`, `SAD`, `SMILE`
-```
-
-DIRECTRICES PEDAGÓGICAS:
-1. ✅ **Siempre usa Markdown** - Títulos, listas, negrita, código
-2. ✅ **Código en bloques** - Usa ```python para que se pueda insertar al editor
-3. ✅ **Explicaciones concisas** - Frases cortas y claras
-4. ✅ **Viñetas y listas** - Facilita la lectura
-5. ✅ **Relaciona con hardware** - Menciona componentes físicos del {platform.value}
-6. ✅ **Ejemplos prácticos** - Código funcional y probado
-7. ❌ **No texto plano largo** - Evita párrafos sin formato
+Si la pregunta es conceptual y no pide código, responde solo con la explicación.
 """
 
         # Añadir información específica de la plataforma
         if platform == PlatformType.MICROBIT:
+            # Referencia de API real. Sin esto los modelos pequeños inventan
+            # funciones de Arduino (digitalWrite, led.on) o se sacan métodos
+            # inexistentes; con la lista delante se ciñen a lo que el simulador
+            # entiende de verdad.
             context += """
-COMPONENTES DE MICRO:BIT:
-- Matriz de LEDs 5x5
-- 2 botones programables (A y B)
-- Sensores: acelerómetro, brújula, temperatura, luz
-- 3 pines de entrada/salida (0, 1, 2)
-- Radio Bluetooth
+IMPORTANTE: el micro:bit NO tiene un LED suelto ni pines configurables tipo
+Arduino. Tiene una MATRIZ de 5x5 LEDs integrada. Cuando el alumno dice "un LED"
+se refiere a esa matriz: se enciende con `display.show(...)` o
+`display.set_pixel(x, y, 9)`, nunca conectando nada a un pin.
+
+API REAL DE MICRO:BIT EN MICROPYTHON. Usa SOLO estas funciones:
+- `from microbit import *` (siempre la primera línea)
+- Pantalla: `display.show(Image.HEART)`, `display.scroll("texto")`,
+  `display.set_pixel(x, y, brillo)`, `display.clear()`
+- Imágenes: `Image.HEART`, `Image.HAPPY`, `Image.SAD`, `Image.YES`, `Image.NO`
+- Espera: `sleep(milisegundos)`
+- Botones: `button_a.is_pressed()`, `button_b.was_pressed()`
+- Sensores: `temperature()`, `accelerometer.get_x()`, `compass.heading()`
+- Pines: `pin0.read_analog()`, `pin0.write_digital(1)`
+
+PROHIBIDO (son de Arduino u otros entornos y NO funcionan en micro:bit):
+`digitalWrite`, `analogWrite`, `delay()`, `import time`, `Pin(...)`, `pin0.on()`,
+`pin0.off()`, `led.on()`, `microbit_lib`, `GPIO`.
 """
         elif platform == PlatformType.NEZHA:
             context += """
-COMPONENTES DE NEZHA:
-- 4 puertos para motores DC
-- 4 puertos para servomotores
-- Puertos para sensores: ultrasónico, línea, color
-- Compatible con micro:bit como cerebro
-- Alimentación por batería
+NEZHA (se programa desde el micro:bit, empieza por `from microbit import *`):
+- 4 puertos de motor DC (M1-M4) y 4 de servo (S1-S4)
+- Sensores disponibles: ultrasónico, seguidor de línea, color
+- El micro:bit es el cerebro: la lógica y los sensores del propio micro:bit
+  siguen estando disponibles con la misma API.
+
+PROHIBIDO: `digitalWrite`, `led.on()`, `delay()`. Son de Arduino y no funcionan.
 """
 
         return context

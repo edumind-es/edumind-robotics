@@ -82,6 +82,13 @@ class ButtonActionRequest(BaseModel):
     action: str = Field(..., description="'press' o 'release'")
 
 
+class TouchActionRequest(BaseModel):
+    """Petición para tocar un pin del Makey Makey (la banana, la fruta...)"""
+    session_id: str
+    pin: int = Field(..., ge=0, le=2, description="Pin táctil: 0, 1 o 2")
+    action: str = Field(..., description="'touch' o 'release'")
+
+
 class SensorUpdateRequest(BaseModel):
     """Petición para actualizar valores de sensores"""
     session_id: str
@@ -242,6 +249,40 @@ async def button_action(payload: ButtonActionRequest, request: Request):
     return {
         "message": f"Button {button} {action}ed",
         "state": session.microbit.get_state()
+    }
+
+
+@router.post("/touch")
+async def touch_action(payload: TouchActionRequest, request: Request):
+    """
+    Simula que el alumno toca o suelta un pin del Makey Makey.
+
+    Es el equivalente a tocar la banana: cierra el circuito y el pin pasa a
+    estado tocado, que es lo que el programa consulta.
+    """
+    session = simulator_manager.get_session(payload.session_id, _owner_id(request))
+
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    if not session.makey:
+        raise HTTPException(
+            status_code=400,
+            detail="Esta sesión no es de Makey Makey. Crea una con platform='makey_makey'.",
+        )
+
+    action = payload.action.lower()
+    if action not in ["touch", "release"]:
+        raise HTTPException(status_code=400, detail="Invalid action. Use 'touch' or 'release'")
+
+    if action == "touch":
+        session.makey.touch_pin(payload.pin)
+    else:
+        session.makey.release_pin(payload.pin)
+
+    return {
+        "message": f"Pin {payload.pin} {action}ed",
+        "state": session.makey.get_state(),
     }
 
 

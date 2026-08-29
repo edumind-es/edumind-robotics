@@ -2,6 +2,7 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
+  "author": "Luis Vilela Acuña <contacto@edumind.es>",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,29 +16,29 @@
   "dependencies": {
     "@edumind/footer": "github:edumind-es/edumind-footer",
     "@monaco-editor/react": "^4.7.0",
-    "axios": "^1.20.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "axios": "^1.13.2",
+    "monaco-editor": "^0.56.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
-    "zustand": "^5.0.15"
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.60.0",
     "@types/node": "^24.10.0",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.5.5",
+    "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.68.0",
+    "typescript-eslint": "^8.46.3",
     "vite": "^7.2.2"
   },
-  "license": "(AGPL-3.0-or-later OR EUPL-1.2)",
-  "author": "Luis Vilela Acuña <contacto@edumind.es>"
+  "license": "(AGPL-3.0-or-later OR EUPL-1.2)"
 }

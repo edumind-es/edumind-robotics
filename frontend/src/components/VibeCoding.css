@@ -8,10 +8,10 @@
 /* ─── Root ─── */
 .vc-root {
   min-height: 100vh;
-  background: var(--edm-bg, linear-gradient(135deg, #0f0c29 0%, #1a1a2e 60%, #16213e 100%));
+  background: var(--edm-bg, linear-gradient(135deg, var(--lm-paper) 0%, var(--lm-paper) 60%, var(--lm-paper-2) 100%));
   padding: 1.5rem clamp(1rem, 3vw, 2.5rem) 3rem;
-  font-family: var(--edm-font-body, 'Nunito', 'Segoe UI', sans-serif);
-  color: #eee;
+  font-family: var(--edm-font-body);
+  color: var(--lm-ink);
 }
 
 /* ─── Hardware selector ─── */
@@ -28,9 +28,9 @@
   gap: 0.5rem;
   padding: 0.6rem 1.2rem;
   border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.05);
-  color: #aaa;
+  border: 2px solid color-mix(in srgb, var(--lm-paper-2) 30%, transparent);
+  background: color-mix(in srgb, var(--lm-paper-2) 10%, transparent);
+  color: var(--lm-ink-3);
   font-size: 0.95rem;
   font-weight: 600;
   font-family: inherit;
@@ -39,16 +39,16 @@
 }
 
 .vc-hw-btn:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--lm-ink-3);
+  color: var(--lm-ink);
+  background: color-mix(in srgb, var(--lm-paper-2) 20%, transparent);
 }
 
 .vc-hw-btn--active {
-  border-color: var(--hw-color, #00d9ff);
-  background: color-mix(in srgb, var(--hw-color, #00d9ff) 15%, transparent);
-  color: var(--hw-color, #00d9ff);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hw-color, #00d9ff) 40%, transparent);
+  border-color: var(--hw-color, var(--lm-mental-text));
+  background: color-mix(in srgb, var(--hw-color, var(--lm-mental-text)) 15%, transparent);
+  color: var(--hw-color, var(--lm-mental-text));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hw-color, var(--lm-mental-text)) 40%, transparent);
 }
 
 .vc-hw-icon {
@@ -72,7 +72,7 @@
   flex: 1;
   min-width: 90px;
   position: relative;
-  opacity: 0.4;
+  opacity: 0.62;
   transition: opacity 0.3s ease;
 }
 
@@ -84,7 +84,7 @@
   transform: translateY(-50%);
   width: 1px;
   height: 60%;
-  background: rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, var(--lm-paper-2) 20%, transparent);
 }
 
 .vc-step--active {
@@ -99,8 +99,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(0, 217, 255, 0.1);
-  border: 2px solid rgba(0, 217, 255, 0.3);
+  background: color-mix(in srgb, var(--lm-mental) 16%, transparent);
+  border: 2px solid color-mix(in srgb, var(--lm-mental) 48%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,15 +109,15 @@
 }
 
 .vc-step--active .vc-step-circle {
-  background: rgba(0, 217, 255, 0.2);
-  border-color: #00d9ff;
-  box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
+  background: color-mix(in srgb, var(--lm-mental) 32%, transparent);
+  border-color: var(--lm-mental-text);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--lm-mental) 60%, transparent);
 }
 
 .vc-step--done .vc-step-circle {
-  background: rgba(0, 255, 136, 0.15);
-  border-color: #00ff88;
-  color: #00ff88;
+  background: color-mix(in srgb, var(--lm-emocional) 24%, transparent);
+  border-color: var(--lm-emocional-text);
+  color: var(--lm-emocional-text);
 }
 
 .vc-step-text {
@@ -128,13 +128,13 @@
 .vc-step-title {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #eee;
+  color: var(--lm-ink);
   line-height: 1.2;
 }
 
 .vc-step-desc {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--lm-ink-3);
   line-height: 1.2;
 }
 
@@ -162,16 +162,16 @@
 
 /* ─── Cards ─── */
 .vc-card {
-  background: rgba(22, 33, 62, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--lm-paper-2);
+  border: 1px solid color-mix(in srgb, var(--lm-paper-2) 16%, transparent);
   border-radius: 16px;
   padding: 1.5rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .vc-card--active {
-  border-color: rgba(0, 217, 255, 0.35);
-  box-shadow: 0 0 0 1px rgba(0, 217, 255, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-color: color-mix(in srgb, var(--lm-mental) 56%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lm-mental) 19%, transparent), 0 8px 32px color-mix(in srgb, var(--lm-rule) 30%, transparent);
 }
 
 .vc-card-header {
@@ -184,14 +184,14 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #00d9ff;
+  color: var(--lm-mental-text);
   margin-bottom: 0.4rem;
 }
 
 .vc-card h3 {
-  font-family: var(--edm-font-head, 'Orbitron', 'Arial', sans-serif);
+  font-family: var(--edm-font-head);
   font-size: 1.2rem;
-  color: #fff;
+  color: var(--lm-ink);
   margin: 0 0 0.5rem 0;
   display: flex;
   align-items: center;
@@ -201,26 +201,26 @@
 
 .vc-card-hint {
   font-size: 0.95rem;
-  color: #9ab;
+  color: var(--lm-ink-3);
   line-height: 1.6;
   margin: 0;
 }
 
 .vc-card-hint strong {
-  color: #cde;
+  color: var(--lm-ink-2);
 }
 
 /* ─── Textarea / Input ─── */
 .vc-textarea {
   width: 100%;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.35);
-  border: 2px solid rgba(0, 217, 255, 0.25);
+  background: var(--lm-paper);
+  border: 2px solid color-mix(in srgb, var(--lm-mental) 40%, transparent);
   border-radius: 10px;
-  color: #fff;
+  color: var(--lm-ink);
   padding: 1rem 1.1rem;
   font-size: 1.05rem;
-  font-family: var(--edm-font-body, 'Nunito', 'Segoe UI', sans-serif);
+  font-family: var(--edm-font-body);
   line-height: 1.6;
   resize: vertical;
   transition: border-color 0.25s ease;
@@ -230,8 +230,8 @@
 
 .vc-textarea:focus {
   outline: none;
-  border-color: #00d9ff;
-  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.12);
+  border-color: var(--lm-mental-text);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lm-mental) 19%, transparent);
 }
 
 .vc-textarea:disabled {
@@ -240,7 +240,7 @@
 }
 
 .vc-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--lm-ink-3);
 }
 
 /* ─── Buttons ─── */
@@ -271,29 +271,29 @@
 }
 
 .vc-btn--generate {
-  background: linear-gradient(120deg, #00d9ff, #0099cc);
-  color: #000;
-  box-shadow: 0 4px 18px rgba(0, 217, 255, 0.35);
+  background: linear-gradient(120deg, var(--lm-mental-text), var(--lm-mental));
+  color: var(--lm-ink);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--lm-mental) 56%, transparent);
 }
 
 .vc-btn--generate:hover:not(:disabled) {
-  box-shadow: 0 6px 24px rgba(0, 217, 255, 0.55);
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--lm-mental) 60%, transparent);
 }
 
 .vc-btn--insert {
-  background: linear-gradient(120deg, #00ff88, #00cc66);
-  color: #000;
-  box-shadow: 0 4px 18px rgba(0, 255, 136, 0.3);
+  background: linear-gradient(120deg, var(--lm-emocional-text), var(--lm-emocional));
+  color: var(--lm-ink);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--lm-emocional) 48%, transparent);
   margin-top: 1rem;
 }
 
 .vc-btn--insert:hover {
-  box-shadow: 0 6px 24px rgba(0, 255, 136, 0.5);
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--lm-emocional) 60%, transparent);
 }
 
 .vc-btn--new {
-  background: linear-gradient(120deg, #ff9900, #cc7700);
-  color: #000;
+  background: linear-gradient(120deg, var(--lm-social-text), var(--lm-social-text));
+  color: var(--lm-ink);
   box-shadow: 0 4px 18px rgba(255, 153, 0, 0.35);
 }
 
@@ -301,8 +301,8 @@
 .vc-spinner {
   width: 18px;
   height: 18px;
-  border: 2.5px solid rgba(0, 0, 0, 0.2);
-  border-top-color: #000;
+  border: 2.5px solid color-mix(in srgb, var(--lm-rule) 20%, transparent);
+  border-top-color: var(--lm-ink);
   border-radius: 50%;
   animation: vc-spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -318,7 +318,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #ffcc00;
+  background: var(--lm-social-text);
   margin-right: 0.5rem;
   animation: vc-pulse 1s ease-in-out infinite;
 }
@@ -335,7 +335,7 @@
 
 .vc-quick-ideas-label {
   font-size: 0.82rem;
-  color: #888;
+  color: var(--lm-ink-3);
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -347,9 +347,9 @@
 }
 
 .vc-idea-chip {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #bcd;
+  background: color-mix(in srgb, var(--lm-paper-2) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lm-paper-2) 20%, transparent);
+  color: var(--lm-ink-2);
   padding: 0.55rem 0.9rem;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -360,9 +360,9 @@
 }
 
 .vc-idea-chip:hover:not(:disabled) {
-  background: rgba(0, 217, 255, 0.08);
-  border-color: rgba(0, 217, 255, 0.3);
-  color: #00d9ff;
+  background: color-mix(in srgb, var(--lm-mental) 13%, transparent);
+  border-color: color-mix(in srgb, var(--lm-mental) 48%, transparent);
+  color: var(--lm-mental-text);
   transform: translateX(4px);
 }
 
@@ -373,7 +373,7 @@
 
 /* ─── Response area ─── */
 .vc-response-area {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--lm-paper);
   border-radius: 10px;
   padding: 1rem;
   max-height: 480px;
@@ -386,12 +386,12 @@
 }
 
 .vc-response-area::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.15);
+  background: color-mix(in srgb, var(--lm-rule) 15%, transparent);
   border-radius: 3px;
 }
 
 .vc-response-area::-webkit-scrollbar-thumb {
-  background: rgba(0, 217, 255, 0.3);
+  background: color-mix(in srgb, var(--lm-mental) 48%, transparent);
   border-radius: 3px;
 }
 
@@ -405,7 +405,7 @@
 .vc-code-block {
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(0, 217, 255, 0.2);
+  border: 1px solid color-mix(in srgb, var(--lm-mental) 32%, transparent);
 }
 
 .vc-code-header {
@@ -413,32 +413,32 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  background: rgba(0, 217, 255, 0.08);
-  border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+  background: color-mix(in srgb, var(--lm-mental) 13%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--lm-mental) 24%, transparent);
 }
 
 .vc-code-lang {
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: #00d9ff;
+  color: var(--lm-mental-text);
   letter-spacing: 0.08em;
 }
 
 .vc-code-label {
   font-size: 0.78rem;
-  color: #667;
+  color: var(--lm-ink-3);
 }
 
 .vc-code-pre {
   margin: 0;
   padding: 1rem;
   overflow-x: auto;
-  background: rgba(0, 0, 0, 0.45);
+  background: color-mix(in srgb, var(--lm-rule) 45%, transparent);
 }
 
 .vc-code-pre code {
-  color: #00ff88;
+  color: var(--lm-emocional-text);
   font-family: 'Courier New', 'Fira Code', monospace;
   font-size: 0.92rem;
   line-height: 1.6;
@@ -449,15 +449,15 @@
 /* Explicación de la IA */
 .vc-explanation {
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: color-mix(in srgb, var(--lm-paper-2) 8%, transparent);
   border-radius: 8px;
-  border-left: 3px solid rgba(0, 217, 255, 0.4);
+  border-left: 3px solid color-mix(in srgb, var(--lm-mental) 60%, transparent);
 }
 
 .vc-explanation-label {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #00d9ff;
+  color: var(--lm-mental-text);
   margin-bottom: 0.4rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -465,7 +465,7 @@
 
 .vc-explanation-text {
   font-size: 0.97rem;
-  color: #cde;
+  color: var(--lm-ink-2);
   line-height: 1.65;
 }
 
@@ -474,12 +474,12 @@
 }
 
 .vc-explanation-text strong {
-  color: #ffcc00;
+  color: var(--lm-social-text);
 }
 
 .vc-explanation-text code {
-  background: rgba(0, 0, 0, 0.4);
-  color: #00ff88;
+  background: var(--lm-paper);
+  color: var(--lm-emocional-text);
   padding: 0.15rem 0.35rem;
   border-radius: 4px;
   font-size: 0.88em;
@@ -488,7 +488,7 @@
 
 /* Streaming text */
 .vc-streaming-text {
-  color: #dde;
+  color: var(--lm-ink-2);
   font-size: 0.95rem;
   line-height: 1.65;
   white-space: pre-wrap;
@@ -502,7 +502,7 @@
   align-items: center;
   padding: 2rem;
   gap: 1rem;
-  color: #667;
+  color: var(--lm-ink-3);
 }
 
 .vc-thinking-dots {
@@ -514,7 +514,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #00d9ff;
+  background: var(--lm-mental-text);
   animation: vc-bounce 1.2s ease-in-out infinite;
 }
 
@@ -528,8 +528,8 @@
 
 /* ─── Congrats card ─── */
 .vc-card--congrats {
-  border-color: rgba(255, 204, 0, 0.3);
-  background: rgba(255, 204, 0, 0.05);
+  border-color: color-mix(in srgb, var(--lm-social) 48%, transparent);
+  background: color-mix(in srgb, var(--lm-social) 8%, transparent);
 }
 
 .vc-congrats-inner {
@@ -551,12 +551,12 @@
 
 .vc-card--congrats h3 {
   font-size: 1.4rem;
-  color: #ffcc00;
+  color: var(--lm-social-text);
   justify-content: center;
 }
 
 .vc-card--congrats p {
-  color: #bcd;
+  color: var(--lm-ink-2);
   font-size: 0.97rem;
   line-height: 1.7;
   margin: 0.75rem 0 1.25rem;
@@ -580,7 +580,7 @@
 .vc-sensors {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid color-mix(in srgb, var(--lm-paper-2) 16%, transparent);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -590,23 +590,23 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: #aaa;
+  color: var(--lm-ink-3);
 }
 
 .vc-sensor-row strong {
-  color: #00ff88;
+  color: var(--lm-emocional-text);
 }
 
 /* ─── Explainer pedagógico ─── */
 .vc-card--explainer {
-  border-color: rgba(255, 204, 0, 0.15);
-  background: rgba(255, 204, 0, 0.04);
+  border-color: color-mix(in srgb, var(--lm-social) 24%, transparent);
+  background: color-mix(in srgb, var(--lm-social) 6%, transparent);
 }
 
 .vc-card--explainer h4 {
-  font-family: var(--edm-font-head, 'Orbitron', sans-serif);
+  font-family: var(--edm-font-head);
   font-size: 0.95rem;
-  color: #ffcc00;
+  color: var(--lm-social-text);
   margin: 0 0 1rem 0;
 }
 
@@ -622,7 +622,7 @@
   gap: 0.75rem;
   align-items: flex-start;
   font-size: 0.88rem;
-  color: #bcd;
+  color: var(--lm-ink-2);
   line-height: 1.5;
 }
 
@@ -630,9 +630,9 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgba(255, 204, 0, 0.15);
-  border: 1px solid rgba(255, 204, 0, 0.3);
-  color: #ffcc00;
+  background: color-mix(in srgb, var(--lm-social) 24%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lm-social) 48%, transparent);
+  color: var(--lm-social-text);
   font-size: 0.75rem;
   font-weight: 700;
   display: flex;
@@ -644,20 +644,20 @@
 
 .vc-explainer-footer {
   font-size: 0.85rem;
-  color: #aaa;
+  color: var(--lm-ink-3);
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid color-mix(in srgb, var(--lm-paper-2) 12%, transparent);
 }
 
 .vc-explainer-footer strong {
-  color: #ffcc00;
+  color: var(--lm-social-text);
 }
 
 /* ─── Tips card ─── */
 .vc-card--tips h4 {
-  font-family: var(--edm-font-head, 'Orbitron', sans-serif);
+  font-family: var(--edm-font-head);
   font-size: 0.95rem;
-  color: #00d9ff;
+  color: var(--lm-mental-text);
   margin: 0 0 0.75rem 0;
 }
 
@@ -672,20 +672,20 @@
 
 .vc-tips-list li {
   font-size: 0.88rem;
-  color: #9ab;
+  color: var(--lm-ink-3);
   padding-left: 0.5rem;
   line-height: 1.5;
 }
 
 .vc-tips-list kbd {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: color-mix(in srgb, var(--lm-paper-2) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lm-paper-2) 40%, transparent);
   border-radius: 4px;
   padding: 0.1rem 0.4rem;
   font-size: 0.78rem;
   font-family: monospace;
-  color: #eee;
+  color: var(--lm-ink);
 }
 
 /* ─── Responsive ─── */

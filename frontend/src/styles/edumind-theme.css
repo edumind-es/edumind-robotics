@@ -2,50 +2,64 @@
  * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
  * Author: Luis Vilela Acuña
  *
- * Sistema de diseño EDUmind premium — tema oscuro con soporte e-ink opt-in
+ * Sistema de diseño EDUmind — Lámina adoptada.
+ *
+ * Antes esto era un tema oscuro con neón cian sobre azul marino: la estética
+ * genérica de panel de IA. Ahora consume los tokens reales de la Lámina
+ * (/vendor/lamina-v1.css): papel cálido, tinta y los Cinco Mundos.
+ *
+ * El lenguaje visual es el de una lámina escolar impresa — contorno de tinta,
+ * sombra desplazada como una ficha de cartulina, colores de mundo como
+ * marcadores de capítulo. Es amable para un niño sin caer en lo infantiloide,
+ * y no se parece a ninguna app de IA.
+ *
+ * Los nombres --edm-* se mantienen para no reescribir los 20 CSS de componente:
+ * aquí es donde se traducen a la Lámina.
  */
 
-/* ─── Variables globales EDUmind ─── */
 :root {
-  /* Tipografía */
-  --edm-font-head: 'Orbitron', 'Arial Black', sans-serif;
-  --edm-font-body: 'Nunito', 'Segoe UI', sans-serif;
+  /* Tipografía de la Lámina. Bricolage tiene carácter para los títulos;
+     Poppins es redonda y muy legible para lectores jóvenes. */
+  --edm-font-head: var(--lm-display, 'Bricolage Grotesque', 'Outfit', sans-serif);
+  --edm-font-body: var(--lm-body, 'Poppins', 'Outfit', system-ui, sans-serif);
+  --edm-font-mono: var(--lm-mono, 'IBM Plex Mono', ui-monospace, monospace);
 
-  /* Paleta de fondo */
-  --edm-bg-deep:    #0a0818;
-  --edm-bg-base:    #0f0c29;
-  --edm-bg-mid:     #1a1a2e;
-  --edm-bg-soft:    #16213e;
-  --edm-bg-card:    rgba(22, 33, 62, 0.92);
+  /* Papel en lugar de fondo oscuro */
+  --edm-bg-deep:    var(--lm-paper, #e9e6dd);
+  --edm-bg-base:    var(--lm-paper, #e9e6dd);
+  --edm-bg-mid:     var(--lm-paper-2, #f0ede5);
+  --edm-bg-soft:    var(--lm-paper-2, #f0ede5);
+  --edm-bg-card:    var(--lm-paper-2, #f0ede5);
 
-  /* Acentos */
-  --edm-cyan:       #00d9ff;
-  --edm-cyan-soft:  rgba(0, 217, 255, 0.18);
-  --edm-green:      #00ff88;
-  --edm-green-soft: rgba(0, 255, 136, 0.18);
-  --edm-gold:       #ffcc00;
-  --edm-gold-soft:  rgba(255, 204, 0, 0.18);
-  --edm-pink:       #ff3399;
+  /* Acentos = Cinco Mundos. Cian neón -> mental, verde neón -> emocional,
+     oro -> social, rosa -> físico. Cada zona de la app hereda un mundo. */
+  --edm-cyan:       var(--lm-mental-text, #2f6076);
+  --edm-cyan-soft:  color-mix(in srgb, var(--lm-mental, #3f7d99) 14%, transparent);
+  --edm-green:      var(--lm-emocional-text, #3f6b2a);
+  --edm-green-soft: color-mix(in srgb, var(--lm-emocional, #6ea94a) 14%, transparent);
+  --edm-gold:       var(--lm-social-text, #7d560e);
+  --edm-gold-soft:  color-mix(in srgb, var(--lm-social, #e8a92e) 16%, transparent);
+  --edm-pink:       var(--lm-fisico-text, #a63a1f);
 
-  /* Texto */
-  --edm-text:       #eef2f7;
-  --edm-text-soft:  #9aabb8;
-  --edm-text-muted: #5e7080;
+  /* Tinta */
+  --edm-text:       var(--lm-ink, #1c1a16);
+  --edm-text-soft:  var(--lm-ink-2, #4f4a41);
+  --edm-text-muted: var(--lm-ink-3, #8a8377);
 
-  /* Bordes */
-  --edm-border:     rgba(0, 217, 255, 0.18);
+  --edm-border:     var(--lm-rule, #c7c0b1);
+  --edm-rule-strong: var(--lm-rule-strong, #1c1a16);
 
-  /* Sombras */
-  --edm-shadow:     0 8px 32px rgba(0, 0, 0, 0.45);
-  --edm-shadow-sm:  0 4px 16px rgba(0, 0, 0, 0.3);
+  /* Sombra de ficha impresa: desplazada y sólida, no un halo difuso.
+     Es lo que aleja la interfaz del aspecto "cristal" de las apps de IA. */
+  --edm-shadow:     4px 4px 0 var(--lm-rule, #c7c0b1);
+  --edm-shadow-sm:  2px 2px 0 var(--lm-rule, #c7c0b1);
+  --edm-shadow-ink: 4px 4px 0 var(--lm-ink, #1c1a16);
 
-  /* Radios */
-  --edm-radius-card: 16px;
+  --edm-radius-card: 14px;
   --edm-radius:      10px;
   --edm-radius-sm:   6px;
 
-  /* Gradiente de fondo */
-  --edm-bg: linear-gradient(135deg, var(--edm-bg-base) 0%, var(--edm-bg-mid) 60%, var(--edm-bg-soft) 100%);
+  --edm-bg: var(--lm-paper, #e9e6dd);
 }
 
 /* ─── Reset base ─── */
@@ -58,7 +72,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background: var(--edm-bg);
-  background-attachment: fixed;
   color: var(--edm-text);
   font-family: var(--edm-font-body);
   font-size: 16px;
@@ -67,10 +80,44 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
+ * Grano de papel. Una textura muy tenue basta para que la pantalla se lea como
+ * una lámina impresa y no como una superficie digital. Va en ::before para no
+ * interferir con el contenido.
+ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image: radial-gradient(
+    var(--lm-rule, #c7c0b1) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 4px 4px;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--edm-font-head);
+  color: var(--edm-text);
+  letter-spacing: -0.01em;
+}
+
+code, pre, kbd {
+  font-family: var(--edm-font-mono);
+}
+
 /* ─── Modo e-ink opt-in ─── */
-/* Se activa añadiendo class="eink" al <html> via toggle en NavBar */
+/* La Lámina ya es de papel, así que aquí solo bajamos el color y el grano. */
 html.eink {
-  filter: sepia(16%) saturate(70%) brightness(97%) contrast(86%);
+  filter: saturate(55%) contrast(94%);
 }
 
 html.eink body {
@@ -79,12 +126,8 @@ html.eink body {
   font-family: 'Atkinson Hyperlegible', 'Verdana', sans-serif;
 }
 
-html.eink :root {
-  --edm-bg:       #d4cfc7;
-  --edm-bg-card:  #ddd8d0;
-  --edm-text:     #252422;
-  --edm-text-soft:#3d3a36;
-  --edm-border:   rgba(37, 36, 34, 0.2);
+html.eink body::before {
+  display: none;
 }
 
 /* ─── Componentes base ─── */
@@ -97,117 +140,134 @@ html.eink :root {
   gap: 2rem;
 }
 
+/*
+ * Ficha de cartulina: contorno de tinta y sombra sólida desplazada. Al pasar
+ * el ratón la ficha "se levanta" y la sombra crece, como si se despegara de
+ * la lámina.
+ */
 .edm-card {
   background: var(--edm-bg-card);
   border-radius: var(--edm-radius-card);
   padding: 2rem;
-  box-shadow: var(--edm-shadow);
-  border: 1px solid var(--edm-border);
-  transition: transform 240ms ease, box-shadow 240ms ease;
+  border: 2px solid var(--edm-text);
+  box-shadow: var(--edm-shadow-ink);
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .edm-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--lm-ink, #1c1a16);
 }
 
-.edm-card--cyan {
-  border-color: rgba(0, 217, 255, 0.3);
-  background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, var(--edm-bg-card) 100%);
-}
-
-.edm-card--lime {
-  border-color: rgba(0, 255, 136, 0.3);
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.08) 0%, var(--edm-bg-card) 100%);
-}
-
-.edm-card--pink {
-  border-color: rgba(255, 51, 153, 0.3);
-  background: linear-gradient(135deg, rgba(255, 51, 153, 0.08) 0%, var(--edm-bg-card) 100%);
-}
+/* Cada tarjeta lleva el color de un mundo en su borde superior. */
+.edm-card--cyan   { border-top: 8px solid var(--lm-mental, #3f7d99); }
+.edm-card--lime   { border-top: 8px solid var(--lm-emocional, #6ea94a); }
+.edm-card--pink   { border-top: 8px solid var(--lm-fisico, #e8613f); }
 
 .edm-card h3 {
   margin-top: 0.6rem;
   margin-bottom: 0.5rem;
   font-family: var(--edm-font-head);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--edm-text);
 }
 
 .edm-card p {
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
   color: var(--edm-text-soft);
   line-height: 1.65;
   font-size: 0.97rem;
 }
 
-.edm-card--cyan h3,
-.edm-card--cyan .edm-card__badge { color: var(--edm-cyan); }
+.edm-card--cyan h3, .edm-card--cyan .edm-card__badge { color: var(--lm-mental-text, #2f6076); }
+.edm-card--lime h3, .edm-card--lime .edm-card__badge { color: var(--lm-emocional-text, #3f6b2a); }
+.edm-card--pink h3, .edm-card--pink .edm-card__badge { color: var(--lm-fisico-text, #a63a1f); }
 
-.edm-card--lime h3,
-.edm-card--lime .edm-card__badge { color: var(--edm-green); }
-
-.edm-card--pink h3,
-.edm-card--pink .edm-card__badge { color: var(--edm-pink); }
-
+/* Etiqueta tipo sello impreso, no píldora de neón. */
 .edm-card__badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.3rem 0.9rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: var(--edm-cyan-soft);
-  color: var(--edm-cyan);
+  background: transparent;
+  border: 1.5px solid currentColor;
+  color: var(--lm-mental-text, #2f6076);
 }
 
+/*
+ * Botón de tinta: relleno plano, contorno grueso y sombra sólida. Se hunde al
+ * pulsarlo, como una tecla física — un gesto que los niños entienden solo.
+ */
 .edm-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.8rem 1.75rem;
+  gap: 0.45rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 999px;
-  border: none;
+  border: 2px solid var(--edm-text);
   font-family: var(--edm-font-body);
   font-weight: 700;
   font-size: 1rem;
-  color: #000;
+  color: var(--lm-paper, #e9e6dd);
   cursor: pointer;
-  background: linear-gradient(120deg, var(--edm-cyan), #0099cc);
-  box-shadow: 0 6px 20px rgba(0, 217, 255, 0.3);
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.edm-button:focus-visible {
-  outline: 3px solid var(--edm-cyan);
-  outline-offset: 3px;
+  background: var(--lm-mental, #3f7d99);
+  box-shadow: 3px 3px 0 var(--lm-ink, #1c1a16);
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
 .edm-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(0, 217, 255, 0.45);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--lm-ink, #1c1a16);
+}
+
+.edm-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--lm-ink, #1c1a16);
+}
+
+.edm-button:focus-visible {
+  outline: 3px solid var(--lm-focus, #3f7d99);
+  outline-offset: 3px;
 }
 
 .edm-button--ghost {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--edm-text-soft);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--edm-text);
+  box-shadow: 3px 3px 0 var(--lm-rule, #c7c0b1);
 }
 
 .edm-button--ghost:hover {
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
-  color: var(--edm-text);
+  background: var(--lm-paper-2, #f0ede5);
+  box-shadow: 5px 5px 0 var(--lm-rule, #c7c0b1);
 }
 
 .edm-button--primary {
-  background: linear-gradient(120deg, var(--edm-cyan), #0099cc);
-  color: #000;
+  background: var(--lm-emocional, #6ea94a);
+  color: var(--lm-ink, #1c1a16);
+}
+
+/* Antetítulo de lámina: versalitas espaciadas sobre una regla. */
+.edm-kicker {
+  font-family: var(--edm-font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--edm-text-muted);
+  margin: 0 0 0.5rem;
 }
 
 @media (max-width: 600px) {
   .edm-card { padding: 1.4rem; }
+}
+
+/* Quien pida menos movimiento no recibe ninguno. */
+@media (prefers-reduced-motion: reduce) {
+  .edm-card, .edm-button { transition: none; }
+  .edm-card:hover, .edm-button:hover { transform: none; }
 }

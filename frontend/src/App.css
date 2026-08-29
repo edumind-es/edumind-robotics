@@ -15,7 +15,7 @@
 
 /* ─── Vista Home ─── */
 .edm-hero {
-  background: rgba(22, 33, 62, 0.72);
+  background: var(--lm-paper-2);
   border-radius: var(--edm-radius-card);
   padding: 2.5rem;
   box-shadow: var(--edm-shadow);
@@ -37,7 +37,6 @@
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   color: var(--edm-text);
   margin: 0 0 0.5rem 0;
-  text-shadow: 0 0 40px rgba(0, 217, 255, 0.25);
 }
 
 .edm-subtitle {
@@ -69,15 +68,15 @@
   font-size: 0.88rem;
   line-height: 1.5;
   text-align: left;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid color-mix(in srgb, var(--lm-rule) 15%, transparent);
+  background: color-mix(in srgb, var(--lm-rule) 25%, transparent);
   color: var(--edm-text-soft);
 }
 
 .policy-strip--ok {
-  border-color: rgba(0, 255, 136, 0.25);
-  background: rgba(0, 255, 136, 0.06);
-  color: #aad;
+  border-color: color-mix(in srgb, var(--lm-emocional) 40%, transparent);
+  background: color-mix(in srgb, var(--lm-emocional) 10%, transparent);
+  color: var(--lm-ink-2);
 }
 
 .policy-strip--warn {
@@ -164,7 +163,7 @@
 
 /* ─── LME card ─── */
 .lme-card {
-  background: rgba(22, 33, 62, 0.92);
+  background: var(--lm-paper-2);
   border-radius: var(--edm-radius-card);
   padding: 1.5rem;
   box-shadow: var(--edm-shadow);
@@ -200,7 +199,7 @@
   font-size: 0.82rem;
   border-radius: 8px;
   background: var(--edm-cyan-soft);
-  border: 1px solid rgba(0, 217, 255, 0.25);
+  border: 1px solid color-mix(in srgb, var(--lm-mental) 40%, transparent);
   color: var(--edm-cyan);
   font-family: var(--edm-font-body);
   font-weight: 600;
@@ -209,13 +208,13 @@
 }
 
 .edm-button--small:hover {
-  background: rgba(0, 217, 255, 0.2);
+  background: color-mix(in srgb, var(--lm-mental) 32%, transparent);
   border-color: var(--edm-cyan);
 }
 
 .edm-button--small.active {
   background: var(--edm-green-soft);
-  border-color: rgba(0, 255, 136, 0.4);
+  border-color: color-mix(in srgb, var(--lm-emocional) 60%, transparent);
   color: var(--edm-green);
 }
 
@@ -283,19 +282,19 @@
   place-items: center;
   padding: 1.5rem;
   background:
-    radial-gradient(circle at 20% 20%, rgba(0, 217, 255, 0.14), transparent 35%),
-    radial-gradient(circle at 80% 70%, rgba(255, 51, 153, 0.12), transparent 38%),
-    #0a0818;
-  color: #eef2f7;
+    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--lm-mental) 22%, transparent), transparent 35%),
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--lm-fisico) 19%, transparent), transparent 38%),
+    var(--lm-paper);
+  color: var(--lm-ink);
 }
 
 .auth-gate__card {
   width: min(620px, 100%);
   padding: clamp(2rem, 6vw, 4rem);
-  border: 1px solid rgba(0, 217, 255, 0.25);
+  border: 1px solid color-mix(in srgb, var(--lm-mental) 40%, transparent);
   border-radius: 24px;
-  background: rgba(16, 14, 37, 0.92);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  background: var(--lm-paper-2);
+  box-shadow: 0 24px 80px color-mix(in srgb, var(--lm-rule) 45%, transparent);
   text-align: center;
 }
 

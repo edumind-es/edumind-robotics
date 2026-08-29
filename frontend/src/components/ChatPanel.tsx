@@ -183,6 +183,28 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
                 </div>
               </div>
             ))}
+
+            {/*
+              El modelo corre en local sobre CPU y tarda unos segundos en soltar
+              la primera palabra. Sin esta burbuja el alumno se queda mirando un
+              hueco vacío y cree que la app se ha colgado. Además aprovechamos la
+              espera para recordarle por qué es local.
+            */}
+            {isStreaming && messages[messages.length - 1]?.role === 'user' && (
+              <div className="message message--assistant">
+                <div className="message-avatar">🤖</div>
+                <div className="message-content">
+                  <div className="message-thinking" aria-live="polite">
+                    <span className="message-thinking__dots" aria-hidden="true">
+                      <i></i><i></i><i></i>
+                    </span>
+                    <span className="message-thinking__note">
+                      Pensando en este ordenador. Tu pregunta no sale de aquí.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

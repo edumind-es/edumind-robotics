@@ -17,14 +17,14 @@
  */
 
 .microbit-container {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: var(--lm-paper-2);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--lm-rule) 30%, transparent);
 }
 
 .microbit-title {
-  color: #00d9ff;
+  color: #6aa3bf;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -36,7 +36,7 @@
   justify-content: center;
   gap: 1.5rem;
   padding: 2rem;
-  background: #0f3460;
+  background: var(--lm-paper);
   border-radius: 12px;
   margin-bottom: 1rem;
 }
@@ -50,7 +50,7 @@
   background: #000;
   border-radius: 8px;
   box-shadow:
-    inset 0 2px 8px rgba(0, 0, 0, 0.8),
+    inset 0 2px 8px color-mix(in srgb, var(--lm-rule) 70%, transparent),
     0 0 20px rgba(255, 51, 51, 0.3);
 }
 
@@ -66,12 +66,12 @@
   background-color: #1a1a1a;
   transition: all 0.2s ease;
   box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px color-mix(in srgb, var(--lm-rule) 50%, transparent),
     0 0 8px rgba(255, 51, 51, 0.2);
 }
 
 .led-pixel[style*="opacity: 0"] {
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 4px color-mix(in srgb, var(--lm-rule) 70%, transparent);
 }
 
 /* Buttons */
@@ -80,46 +80,46 @@
   height: 50px;
   border-radius: 50%;
   border: 3px solid #555;
-  background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
-  color: #fff;
+  background: var(--lm-paper);
+  color: var(--lm-ink);
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.15s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--lm-rule) 40%, transparent);
   user-select: none;
 }
 
 .microbit-button:hover {
-  background: linear-gradient(145deg, #3a3a4e, #2a2a3e);
+  background: linear-gradient(145deg, #3a3a4e, var(--lm-paper));
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--lm-rule) 50%, transparent);
 }
 
 .microbit-button:active,
 .microbit-button.pressed {
-  background: linear-gradient(145deg, #1a1a2e, #0f0f1e);
+  background: linear-gradient(145deg, var(--lm-paper-2), #0f0f1e);
   transform: translateY(1px);
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 8px rgba(0, 0, 0, 0.6);
+    0 2px 4px color-mix(in srgb, var(--lm-rule) 30%, transparent),
+    inset 0 2px 8px color-mix(in srgb, var(--lm-rule) 60%, transparent);
 }
 
 .microbit-button--a {
-  border-color: #00d9ff;
+  border-color: #6aa3bf;
 }
 
 .microbit-button--b {
-  border-color: #ffcc00;
+  border-color: #f2bc55;
 }
 
 .microbit-button--a.pressed {
-  background: linear-gradient(145deg, #00d9ff, #0099cc);
+  background: linear-gradient(145deg, #6aa3bf, #3f7d99);
   color: #000;
 }
 
 .microbit-button--b.pressed {
-  background: linear-gradient(145deg, #ffcc00, #cc9900);
+  background: linear-gradient(145deg, #f2bc55, #cc9900);
   color: #000;
 }
 
@@ -136,13 +136,13 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #00ff88;
-  box-shadow: 0 0 10px #00ff88;
+  background: #8cc26a;
+  box-shadow: 0 0 10px #8cc26a;
   animation: pulse 2s ease-in-out infinite;
 }
 
 .status-text {
-  color: #aaa;
+  color: var(--lm-ink-2);
   font-size: 0.9rem;
 }
 

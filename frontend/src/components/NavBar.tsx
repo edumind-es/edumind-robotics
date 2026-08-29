@@ -10,20 +10,21 @@ import { useEinkMode } from '../hooks/useEinkMode'
 import { logoutUrl, type AuthUser } from '../lib/auth'
 import './NavBar.css'
 
-type View = 'home' | 'lab' | 'vibe'
+type View = 'home' | 'lab' | 'vibe' | 'pedagogia'
 
 interface NavBarProps {
   currentView: View
   onNavigate: (view: View) => void
   isAiReady: boolean
   isStreaming: boolean
-  user: AuthUser
+  user: AuthUser | null
 }
 
 const NAV_LINKS: { view: View; label: string; icon: string }[] = [
   { view: 'home', label: 'Inicio', icon: '🏠' },
   { view: 'lab', label: 'Laboratorio', icon: '🔬' },
   { view: 'vibe', label: 'Vibe Coding', icon: '✨' },
+  { view: 'pedagogia', label: 'Pedagogía', icon: '📚' },
 ]
 
 const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isStreaming, user }) => {
@@ -83,10 +84,13 @@ const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isS
             {eink ? '📖 E-Ink' : '🖥️ Normal'}
           </button>
 
-          <div className="edm-navbar__user" title={user.email ?? user.username}>
-            <span>{user.username}</span>
-            <a href={logoutUrl()}>Salir</a>
-          </div>
+          {/* Sin SSO configurado no hay usuario: el laboratorio es de acceso libre. */}
+          {user && (
+            <div className="edm-navbar__user" title={user.email ?? user.username}>
+              <span>{user.username}</span>
+              <a href={logoutUrl()}>Salir</a>
+            </div>
+          )}
 
           {/* Hamburger móvil */}
           <button

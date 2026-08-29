@@ -54,6 +54,8 @@ class OllamaService:
         self.base_url = base_url
         self.default_model = default_model or os.getenv("OLLAMA_MODEL", "phi3:latest")
         self.allow_remote = _env_bool("EDUMIND_ALLOW_REMOTE_AI", False)
+        self.num_predict = int(os.getenv("OLLAMA_NUM_PREDICT", "400"))
+        self.keep_alive = os.getenv("OLLAMA_KEEP_ALIVE", "30m")
         self.client = httpx.AsyncClient(timeout=120.0)
 
     @property
@@ -136,9 +138,15 @@ class OllamaService:
             "model": model,
             "messages": messages,
             "stream": True,
+            # Mantener el modelo cargado en RAM entre preguntas: recargar 3,7 GB
+            # desde disco añadía varios segundos a la primera pregunta de cada clase.
+            "keep_alive": self.keep_alive,
             "options": {
                 "temperature": temperature,
-                "num_predict": 2048,  # Máximo tokens de respuesta
+                # Tope de respuesta. En CPU generamos ~13 tokens/s, así que 2048
+                # tokens eran más de 2 minutos de espera; 400 deja respuestas de
+                # ~30 s. Ajustable con OLLAMA_NUM_PREDICT.
+                "num_predict": self.num_predict,
             }
         }
 
@@ -179,7 +187,8 @@ class OllamaService:
         self,
         code: str,
         language: str,
-        context: str = "micro:bit"
+        context: str = "micro:bit",
+        focus_line: Optional[int] = None,
     ) -> AsyncGenerator[str, None]:
         """
         Genera explicación de código paso a paso.
@@ -188,6 +197,10 @@ class OllamaService:
             code: Código a explicar
             language: Lenguaje (micropython, javascript, scratch)
             context: Contexto (micro:bit, nezha)
+            focus_line: Si viene, se explica SOLO esa línea, pero con el
+                programa entero delante como contexto. Una línea aislada no
+                se puede explicar bien: `sleep(500)` significa una cosa dentro
+                de un bucle y otra fuera de él.
         """
         system_prompt = f"""Eres un tutor de robótica educativa especializado en {context}.
 Tu trabajo es explicar código de forma clara y pedagógica para estudiantes.
@@ -202,7 +215,29 @@ IMPORTANTE:
 - Menciona qué sensores/actuadores se usan
 - Da consejos de mejora si aplica"""
 
-        user_message = f"""Explica este código en {language}:
+        if focus_line is not None:
+            lineas = code.split("\n")
+            indice = focus_line - 1
+            objetivo = lineas[indice].strip() if 0 <= indice < len(lineas) else ""
+            numerado = "\n".join(
+                f"{n:>3} | {texto}" for n, texto in enumerate(lineas, start=1)
+            )
+            user_message = f"""Este es el programa completo del alumno en {language}:
+
+```
+{numerado}
+```
+
+Explica ÚNICAMENTE la línea {focus_line}: `{objetivo}`
+
+Responde en menos de 90 palabras, dirigido a un alumno de primaria:
+1. Qué hace esa línea exactamente.
+2. Por qué hace falta ahí, en relación con las líneas que la rodean.
+3. Qué pasaría si la borrase o cambiase su valor.
+
+No expliques el resto del programa. No repitas el código entero."""
+        else:
+            user_message = f"""Explica este código en {language}:
 
 ```{language}
 {code}

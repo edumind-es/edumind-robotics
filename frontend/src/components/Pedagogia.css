@@ -1,0 +1,118 @@
+/*
+ * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Author: Luis Vilela Acuña
+ *
+ * Estilos del espacio pedagógico. Se apoya en los tokens de la Lámina EDUmind
+ * (vendorizada en /vendor/lamina-v1.css) con alternativa propia por si la hoja
+ * no estuviera cargada.
+ */
+
+.pedagogia__section {
+  margin: 2.5rem 0;
+  max-width: 68ch;
+}
+
+.pedagogia__section h2 {
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem);
+  margin-bottom: 0.75rem;
+  color: var(--lm-color-ink, currentColor);
+}
+
+.pedagogia__section p {
+  line-height: 1.65;
+  margin-bottom: 0.9rem;
+}
+
+.pedagogia__section--highlight {
+  border-left: 4px solid var(--lm-color-accent, #4f9ec4);
+  padding: 1.25rem 0 1.25rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--lm-color-accent, #4f9ec4) 7%, transparent);
+}
+
+.pedagogia__list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.pedagogia__list li {
+  padding-left: 1.4rem;
+  position: relative;
+  line-height: 1.55;
+}
+
+.pedagogia__list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--lm-color-accent, #4f9ec4);
+  font-weight: 700;
+}
+
+.pedagogia__note {
+  font-size: 0.9em;
+  opacity: 0.8;
+  border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  padding-top: 0.8rem;
+}
+
+/* FAQ plegable: <details> nativo, accesible y sin JavaScript. */
+.pedagogia__faq {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 68ch;
+}
+
+.pedagogia__faq-item {
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, currentColor 3%, transparent);
+}
+
+.pedagogia__faq-item summary {
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 1.45;
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.pedagogia__faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.pedagogia__faq-item summary::before {
+  content: '+';
+  color: var(--lm-color-accent, #4f9ec4);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pedagogia__faq-item[open] summary::before {
+  content: '–';
+}
+
+.pedagogia__faq-item summary:focus-visible {
+  outline: 2px solid var(--lm-color-accent, #4f9ec4);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.pedagogia__faq-answer {
+  margin-top: 0.7rem;
+  padding-left: 1.2rem;
+  line-height: 1.6;
+  opacity: 0.92;
+}
+
+/* Modo e-ink: sin fondos tintados ni color, solo contornos legibles. */
+.eink .pedagogia__section--highlight,
+.eink .pedagogia__faq-item {
+  background: transparent;
+}

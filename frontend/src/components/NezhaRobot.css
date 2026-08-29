@@ -17,10 +17,10 @@
  */
 
 .nezha-robot {
-    background: linear-gradient(135deg, #1a2e1a 0%, #1a1a2e 100%);
+    background: var(--lm-paper-2);
     border-radius: 12px;
     padding: 1.5rem;
-    border: 2px solid rgba(0, 255, 136, 0.3);
+    border: 2px solid rgba(140, 194, 106, 0.3);
 }
 
 .nezha-header {
@@ -31,7 +31,7 @@
 }
 
 .nezha-header h3 {
-    color: #00ff88;
+    color: #8cc26a;
     margin: 0;
 }
 
@@ -41,9 +41,9 @@
 }
 
 .nezha-tabs button {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(0, 255, 136, 0.3);
-    color: #888;
+    background: color-mix(in srgb, var(--lm-rule) 30%, transparent);
+    border: 1px solid rgba(140, 194, 106, 0.3);
+    color: var(--lm-ink-2);
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
     font-size: 0.75rem;
@@ -51,9 +51,9 @@
 }
 
 .nezha-tabs button.active {
-    background: rgba(0, 255, 136, 0.2);
-    border-color: #00ff88;
-    color: #00ff88;
+    background: rgba(140, 194, 106, 0.2);
+    border-color: #8cc26a;
+    color: #8cc26a;
 }
 
 .nezha-visualization {
@@ -83,13 +83,13 @@
 }
 
 .ultrasonic-value {
-    color: #00d9ff;
+    color: #6aa3bf;
     font-size: 0.8rem;
     font-family: monospace;
 }
 
 .chassis {
-    background: linear-gradient(180deg, #333 0%, #222 100%);
+    background: var(--lm-ink-2);
     border: 3px solid #444;
     border-radius: 10px;
     padding: 1rem;
@@ -97,7 +97,7 @@
 }
 
 .cpu {
-    background: #00ff88;
+    background: #8cc26a;
     color: #000;
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
@@ -113,8 +113,8 @@
 }
 
 .port {
-    background: #111;
-    color: #888;
+    background: var(--lm-ink);
+    color: var(--lm-paper);
     padding: 2px 6px;
     border-radius: 2px;
     font-size: 0.6rem;
@@ -137,7 +137,7 @@
     align-items: center;
     justify-content: center;
     font-size: 0.6rem;
-    color: #888;
+    color: var(--lm-ink-2);
     transition: border-color 0.2s;
 }
 
@@ -189,8 +189,8 @@
 }
 
 .line-sensor.active {
-    background: #ff3366;
-    color: #fff;
+    background: #f0795a;
+    color: var(--lm-ink);
 }
 
 /* Controls */
@@ -209,7 +209,7 @@
 
 .motor-control label,
 .servo-control label {
-    color: #888;
+    color: var(--lm-ink-2);
     font-size: 0.75rem;
     width: 80px;
 }
@@ -229,7 +229,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #00ff88;
+    background: #8cc26a;
     cursor: pointer;
 }
 
@@ -242,7 +242,7 @@
 }
 
 .servo-value {
-    color: #00d9ff;
+    color: #6aa3bf;
 }
 
 /* Sensors view */
@@ -256,7 +256,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(0, 0, 0, 0.3);
+    background: color-mix(in srgb, var(--lm-rule) 30%, transparent);
     padding: 0.5rem;
     border-radius: 6px;
 }
@@ -267,12 +267,12 @@
 
 .sensor-name {
     flex: 1;
-    color: #888;
+    color: var(--lm-ink-2);
     font-size: 0.8rem;
 }
 
 .sensor-value {
-    color: #00ff88;
+    color: #8cc26a;
     font-family: monospace;
     font-size: 0.85rem;
 }

@@ -11,8 +11,29 @@ export type AuthState =
   | { status: 'checking' }
   | { status: 'authenticated'; user: AuthUser }
   | { status: 'anonymous' }
+  /* SSO desactivado: la app es de acceso libre y no se pide identidad. */
+  | { status: 'open' }
 
 export async function checkAuth(): Promise<AuthState> {
+  /*
+   * El laboratorio es de acceso libre por diseño. El SSO solo existe para que
+   * el profesorado pueda llevar un registro propio de uso, así que cuando no
+   * está configurado no tiene sentido exigir una sesión que el backend
+   * tampoco va a validar: eso dejaba la app tras un muro sin llave.
+   */
+  try {
+    const config = await fetch(`${API_BASE}/auth/config`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(5000),
+    })
+    if (config.ok) {
+      const payload = (await config.json()) as { sso_enabled?: boolean }
+      if (!payload.sso_enabled) return { status: 'open' }
+    }
+  } catch {
+    /* Si la config no responde, seguimos con la comprobación de sesión. */
+  }
+
   try {
     const response = await fetch(`${API_BASE}/auth/me`, {
       credentials: 'include',

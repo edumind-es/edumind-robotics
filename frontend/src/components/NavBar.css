@@ -6,11 +6,11 @@
   position: sticky;
   top: 0;
   z-index: 800;
-  background: rgba(10, 8, 24, 0.88);
+  background: color-mix(in srgb, var(--lm-paper-2) 92%, transparent);
   backdrop-filter: blur(12px) saturate(150%);
   -webkit-backdrop-filter: blur(12px) saturate(150%);
-  border-bottom: 1px solid rgba(0, 217, 255, 0.15);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid color-mix(in srgb, var(--lm-mental) 24%, transparent);
+  box-shadow: 0 2px 16px color-mix(in srgb, var(--lm-rule) 40%, transparent);
 }
 
 .edm-navbar__inner {
@@ -38,7 +38,7 @@
 
 .edm-navbar__logo-icon {
   font-size: 1.4rem;
-  color: #00d9ff;
+  color: var(--lm-mental-text);
   line-height: 1;
   animation: edm-spin-slow 12s linear infinite;
 }
@@ -55,26 +55,26 @@
 }
 
 .edm-navbar__logo-edu {
-  font-family: 'Orbitron', sans-serif;
+  font-family: var(--edm-font-head);
   font-weight: 800;
   font-size: 1rem;
-  color: #00d9ff;
+  color: var(--lm-mental-text);
   letter-spacing: 0.04em;
 }
 
 .edm-navbar__logo-mind {
-  font-family: 'Orbitron', sans-serif;
+  font-family: var(--edm-font-head);
   font-weight: 700;
   font-size: 1rem;
-  color: #eef2f7;
+  color: var(--lm-ink);
   letter-spacing: 0.04em;
 }
 
 .edm-navbar__logo-sub {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--edm-font-body);
   font-size: 0.72rem;
   font-weight: 600;
-  color: rgba(0, 217, 255, 0.6);
+  color: color-mix(in srgb, var(--lm-mental) 60%, transparent);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-left: 0.4rem;
@@ -99,8 +99,8 @@
   border-radius: 8px;
   border: none;
   background: transparent;
-  color: rgba(238, 242, 247, 0.6);
-  font-family: 'Nunito', sans-serif;
+  color: var(--lm-ink-2);
+  font-family: var(--edm-font-body);
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
@@ -109,14 +109,14 @@
 }
 
 .edm-navbar__link:hover {
-  background: rgba(0, 217, 255, 0.08);
-  color: #eef2f7;
+  background: color-mix(in srgb, var(--lm-mental) 13%, transparent);
+  color: var(--lm-ink);
 }
 
 .edm-navbar__link--active {
-  background: rgba(0, 217, 255, 0.15);
-  color: #00d9ff;
-  box-shadow: inset 0 0 0 1px rgba(0, 217, 255, 0.25);
+  background: color-mix(in srgb, var(--lm-mental) 24%, transparent);
+  color: var(--lm-mental-text);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lm-mental) 40%, transparent);
 }
 
 .edm-navbar__link-icon {
@@ -140,8 +140,8 @@
   gap: 0.4rem;
   padding: 0.3rem 0.75rem;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--lm-rule) 25%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lm-paper-2) 16%, transparent);
 }
 
 .edm-navbar__ai-dot {
@@ -152,17 +152,17 @@
 }
 
 .edm-navbar__ai-dot--ok {
-  background: #00ff88;
-  box-shadow: 0 0 6px rgba(0, 255, 136, 0.6);
+  background: var(--lm-emocional-text);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--lm-emocional) 60%, transparent);
 }
 
 .edm-navbar__ai-dot--thinking {
-  background: #ffcc00;
+  background: var(--lm-social-text);
   animation: edm-pulse-dot 0.9s ease-in-out infinite;
 }
 
 .edm-navbar__ai-dot--off {
-  background: #555;
+  background: var(--lm-ink-2);
 }
 
 @keyframes edm-pulse-dot {
@@ -171,10 +171,10 @@
 }
 
 .edm-navbar__ai-label {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--edm-font-body);
   font-size: 0.78rem;
   font-weight: 600;
-  color: rgba(238, 242, 247, 0.55);
+  color: var(--lm-ink-2);
   white-space: nowrap;
 }
 
@@ -185,10 +185,10 @@
   gap: 0.3rem;
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid color-mix(in srgb, var(--lm-paper-2) 24%, transparent);
   background: transparent;
-  color: rgba(238, 242, 247, 0.5);
-  font-family: 'Nunito', sans-serif;
+  color: var(--lm-ink-2);
+  font-family: var(--edm-font-body);
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
@@ -197,27 +197,27 @@
 }
 
 .edm-navbar__eink-btn:hover {
-  border-color: rgba(255, 204, 0, 0.35);
-  color: #ffcc00;
-  background: rgba(255, 204, 0, 0.06);
+  border-color: color-mix(in srgb, var(--lm-social) 56%, transparent);
+  color: var(--lm-social-text);
+  background: color-mix(in srgb, var(--lm-social) 10%, transparent);
 }
 
 .edm-navbar__eink-btn--active {
-  border-color: rgba(255, 204, 0, 0.45);
-  background: rgba(255, 204, 0, 0.1);
-  color: #ffcc00;
+  border-color: color-mix(in srgb, var(--lm-social) 60%, transparent);
+  background: color-mix(in srgb, var(--lm-social) 16%, transparent);
+  color: var(--lm-social-text);
 }
 
 .edm-navbar__user {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font: 600 0.78rem 'Nunito', sans-serif;
-  color: rgba(238, 242, 247, 0.72);
+  font: 600 0.78rem var(--edm-font-body);
+  color: var(--lm-ink-2);
 }
 
 .edm-navbar__user a {
-  color: #00d9ff;
+  color: var(--lm-mental-text);
   text-decoration: none;
 }
 
@@ -241,7 +241,7 @@
   display: block;
   width: 22px;
   height: 2px;
-  background: rgba(238, 242, 247, 0.7);
+  background: var(--lm-ink-2);
   border-radius: 1px;
   transition: all 0.2s ease;
 }
@@ -260,8 +260,8 @@
     left: 0;
     right: 0;
     flex-direction: column;
-    background: rgba(10, 8, 24, 0.97);
-    border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+    background: var(--lm-paper-2);
+    border-bottom: 1px solid color-mix(in srgb, var(--lm-mental) 24%, transparent);
     padding: 0.75rem 1rem 1rem;
     gap: 0.25rem;
   }
@@ -318,7 +318,7 @@ html.eink .edm-navbar__link {
 }
 
 html.eink .edm-navbar__link:hover {
-  background: rgba(0, 0, 0, 0.06);
+  background: color-mix(in srgb, var(--lm-rule) 6%, transparent);
   color: #1a1a18;
 }
 

@@ -17,7 +17,7 @@
  */
 
 .achievements {
-    background: linear-gradient(135deg, #2e1a4e 0%, #1a1a2e 100%);
+    background: linear-gradient(135deg, #2e1a4e 0%, var(--lm-paper) 100%);
     border-radius: 12px;
     padding: 1.5rem;
     border: 2px solid rgba(255, 215, 0, 0.3);
@@ -34,7 +34,7 @@
 }
 
 .achievements__header h3 {
-    color: #ffd700;
+    color: var(--lm-social-text);
     margin: 0;
 }
 
@@ -43,7 +43,7 @@
     gap: 1rem;
     margin-bottom: 1rem;
     padding: 0.75rem;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--lm-paper);
     border-radius: 8px;
 }
 
@@ -53,14 +53,14 @@
 }
 
 .achievements__stats .stat-value {
-    color: #ffd700;
+    color: var(--lm-social-text);
     font-size: 1.2rem;
     font-weight: bold;
     display: block;
 }
 
 .achievements__stats .stat-label {
-    color: #888;
+    color: var(--lm-ink-3);
     font-size: 0.7rem;
 }
 
@@ -74,7 +74,7 @@
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    background: linear-gradient(90deg, var(--lm-social-text), var(--lm-social));
     border-radius: 4px;
     transition: width 0.3s ease;
 }
@@ -88,9 +88,9 @@
 
 .achievements__filters button {
     flex: 1;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--lm-paper);
     border: 1px solid rgba(255, 215, 0, 0.2);
-    color: #888;
+    color: var(--lm-ink-3);
     padding: 0.4rem 0.5rem;
     border-radius: 6px;
     font-size: 0.7rem;
@@ -104,8 +104,8 @@
 
 .achievements__filters button.active {
     background: rgba(255, 215, 0, 0.2);
-    border-color: #ffd700;
-    color: #ffd700;
+    border-color: var(--lm-social-text);
+    color: var(--lm-social-text);
 }
 
 .achievements__list {
@@ -121,7 +121,7 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--lm-paper);
     border-radius: 8px;
     border: 2px solid transparent;
     transition: all 0.2s;
@@ -149,35 +149,35 @@
 }
 
 .achievement-info h4 {
-    color: #fff;
+    color: var(--lm-ink);
     margin: 0 0 0.25rem 0;
     font-size: 0.9rem;
 }
 
 .achievement-info p {
-    color: #888;
+    color: var(--lm-ink-3);
     margin: 0;
     font-size: 0.75rem;
 }
 
 .achievement-item.unlocked .achievement-info h4 {
-    color: #ffd700;
+    color: var(--lm-social-text);
 }
 
 .achievement-points {
-    color: #ffd700;
+    color: var(--lm-social-text);
     font-weight: bold;
     font-size: 0.9rem;
 }
 
 .achievement-item.locked .achievement-points {
-    color: #555;
+    color: var(--lm-ink-2);
 }
 
 .close-btn {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--lm-ink-3);
     font-size: 1.5rem;
     cursor: pointer;
 }
@@ -188,7 +188,7 @@
 }
 
 .achievements__list::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
+    background: color-mix(in srgb, var(--lm-rule) 20%, transparent);
 }
 
 .achievements__list::-webkit-scrollbar-thumb {
