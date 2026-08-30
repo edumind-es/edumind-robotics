@@ -8,8 +8,8 @@ httpx==0.26.0
 python-jose[cryptography]==3.5.0
 
 # Utilidades
-python-multipart==0.0.6
+python-multipart==0.0.31
 aiofiles==23.2.1
 
 # Logging y debugging
-python-dotenv==1.0.0
+python-dotenv==1.2.2
