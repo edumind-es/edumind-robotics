@@ -9,7 +9,6 @@ python-jose[cryptography]==3.5.0
 
 # Utilidades
 python-multipart==0.0.32
-aiofiles==23.2.1
 
 # Logging y debugging
 python-dotenv==1.2.3
