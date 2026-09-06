@@ -1,8 +1,8 @@
 # Trademarks
 
 EDUmind(R), EDUmind, related logos, product names and brand assets are
-trademarks or distinctive signs of EDUmind / Los Mundos Edufis and are
-reserved by their owner, including protection through the OEPM in Spain.
+trademarks or distinctive signs owned by Luis Vilela Acuña and are reserved
+by their owner, including protection through the OEPM in Spain.
 
 The source code in this repository is made available under the software
 licenses stated in LICENSE. That license grant does not grant permission

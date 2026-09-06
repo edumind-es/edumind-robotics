@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Copyright (C) 2024-2026 Luis Vilela Acuña <contacto@edumind.es>
  * Author: Luis Vilela Acuña
  *
  * Pedagogía — el porqué de la app: IA local, comprensión frente a copia,

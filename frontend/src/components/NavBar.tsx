@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024-2025 EDUmind - Los Mundos Edufis
+ * Copyright (C) 2024-2026 Luis Vilela Acuña <contacto@edumind.es>
  * Author: Luis Vilela Acuña
  *
  * NavBar persistente — navegación, estado IA y toggle e-ink
