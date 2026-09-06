@@ -38,3 +38,18 @@ updates:
         # Agrupadas también, pero aparte: son las que rompen y se revisan
         # con calma. Si una necesita atención propia, se saca de aquí.
         update-types: ["major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "chore(ci)"
+    groups:
+      menores-y-parches:
+        update-types: ["minor", "patch"]
+      mayores:
+        # Agrupadas también, pero aparte: son las que rompen y se revisan
+        # con calma. Si una necesita atención propia, se saca de aquí.
+        update-types: ["major"]
