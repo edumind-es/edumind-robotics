@@ -1,7 +1,7 @@
 {
-  "name": "EDUmind Robotics Guide",
+  "name": "EDUmind Robotics Lab",
   "short_name": "EDUmind",
-  "description": "Guía educativa interactiva para proyectos de robótica EDUmind.",
+  "description": "Laboratorio para aprender a programar micro:bit, Nezha y TeclaTecla con simulador y tutor de IA local.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
