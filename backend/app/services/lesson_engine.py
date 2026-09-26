@@ -68,28 +68,28 @@ class LessonEngine:
                         "title": "Hacer parpadear un LED",
                         "description": "Aprende a controlar los LEDs de la matriz 5x5",
                         "estimated_time": "10 min",
-                        "languages": [LanguageType.MICROPYTHON, LanguageType.JAVASCRIPT]
+                        "languages": [LanguageType.MICROPYTHON]
                     },
                     {
                         "id": "button_input",
                         "title": "Detectar pulsación de botones",
                         "description": "Usa los botones A y B para interactuar",
                         "estimated_time": "15 min",
-                        "languages": [LanguageType.MICROPYTHON, LanguageType.JAVASCRIPT]
+                        "languages": [LanguageType.MICROPYTHON]
                     },
                     {
                         "id": "display_text",
                         "title": "Mostrar texto en la pantalla",
                         "description": "Muestra mensajes que se desplazan en el display",
                         "estimated_time": "10 min",
-                        "languages": [LanguageType.MICROPYTHON, LanguageType.JAVASCRIPT]
+                        "languages": [LanguageType.MICROPYTHON]
                     },
                     {
                         "id": "temperature_sensor",
                         "title": "Leer el sensor de temperatura",
                         "description": "Obtén la temperatura del entorno",
                         "estimated_time": "15 min",
-                        "languages": [LanguageType.MICROPYTHON, LanguageType.JAVASCRIPT]
+                        "languages": [LanguageType.MICROPYTHON]
                     }
                 ]
             },
@@ -105,21 +105,21 @@ class LessonEngine:
                         "title": "Usar el acelerómetro",
                         "description": "Detecta movimiento y orientación",
                         "estimated_time": "20 min",
-                        "languages": [LanguageType.MICROPYTHON, LanguageType.JAVASCRIPT]
+                        "languages": [LanguageType.MICROPYTHON]
                     },
                     {
                         "id": "compass",
                         "title": "Crear una brújula digital",
                         "description": "Usa el magnetómetro para orientación",
                         "estimated_time": "25 min",
-                        "languages": [LanguageType.MICROPYTHON, LanguageType.JAVASCRIPT]
+                        "languages": [LanguageType.MICROPYTHON]
                     },
                     {
                         "id": "light_sensor",
                         "title": "Medir nivel de luz ambiental",
                         "description": "Usa el display como sensor de luz",
                         "estimated_time": "15 min",
-                        "languages": [LanguageType.MICROPYTHON, LanguageType.JAVASCRIPT]
+                        "languages": [LanguageType.MICROPYTHON]
                     }
                 ]
             },

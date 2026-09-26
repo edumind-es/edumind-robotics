@@ -52,15 +52,15 @@ const ExportPanel: React.FC<ExportPanelProps> = ({
         },
         {
             id: 'makecode' as ExportFormat,
-            title: '🧩 MakeCode',
-            description: 'Proyecto JSON para makecode.microbit.org',
+            title: '🧩 MakeCode (experimental)',
+            description: 'Proyecto JSON para makecode.microbit.org. Sin comprobar en el editor real: puede no importarse.',
             extension: '.json',
             icon: '📦'
         },
         {
             id: 'scratch' as ExportFormat,
-            title: '🐱 Scratch 3.0',
-            description: 'Proyecto .sb3 con extensión micro:bit',
+            title: '🐱 Scratch 3.0 (experimental)',
+            description: 'Proyecto .sb3 de demostración: conversión simplificada, sin comprobar en Scratch.',
             extension: '.sb3',
             icon: '🎮'
         },
