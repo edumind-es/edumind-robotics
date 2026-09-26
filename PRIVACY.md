@@ -13,3 +13,6 @@ basis, retention periods, user information, data-subject rights, processor
 agreements and secure deletion of backups.
 
 For local development, use synthetic data and placeholder credentials.
+
+What the running application itself stores and sends (browser, server,
+retention) is documented in Spanish in PRIVACIDAD.md.
