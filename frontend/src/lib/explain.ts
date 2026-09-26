@@ -9,6 +9,8 @@
  * empiece a leer a los pocos segundos en vez de mirar una pantalla quieta.
  */
 
+import { nivelExplicacion, idiomaActual } from '../hooks/usePreferencias'
+
 const API_BASE = import.meta.env.VITE_API_BASE ?? '/api'
 
 /* El backend serializa cada fragmento como JSON para no romper el formato SSE
@@ -49,6 +51,9 @@ export async function explainLine({
       language,
       platform,
       focus_line: focusLine,
+      /* Cómo quiere el alumno que se lo cuenten. */
+      nivel: nivelExplicacion(),
+      idioma: idiomaActual(),
     }),
   })
 

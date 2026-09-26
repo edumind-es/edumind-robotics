@@ -117,7 +117,7 @@ const Achievements: React.FC<AchievementsProps> = ({ onClose }) => {
         <div className="achievements">
             <div className="achievements__header">
                 <h3>🏆 Logros</h3>
-                {onClose && <button className="close-btn" onClick={onClose}>×</button>}
+                {onClose && <button className="close-btn" onClick={onClose} aria-label="Cerrar logros">×</button>}
             </div>
 
             <div className="achievements__stats">

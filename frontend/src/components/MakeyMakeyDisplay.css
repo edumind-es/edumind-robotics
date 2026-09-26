@@ -29,7 +29,7 @@
 }
 
 .makey-header h3 {
-    color: #f0795a;
+    color: var(--lm-fisico-text);
     margin: 0;
 }
 
@@ -54,7 +54,7 @@
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
     font-size: 0.7rem;
-    color: #8cc26a;
+    color: var(--lm-emocional-text);
 }
 
 .ground-wire {
@@ -163,4 +163,13 @@
     color: var(--lm-ink-2);
     font-size: 0.8rem;
     line-height: 1.4;
+}
+/* La misma placa se vende con varios nombres; decirlo evita que un docente
+   con una TeclaTecla piense que su material no sirve aquí. */
+.makey-clon {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--lm-ink-3);
 }

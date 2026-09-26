@@ -84,10 +84,10 @@ const ExamplesPanel: React.FC<ExamplesPanelProps> = ({ onSelectExample, onClose 
 
     const getDifficultyColor = (difficulty: string) => {
         switch (difficulty) {
-            case 'beginner': return '#00ff88'
-            case 'intermediate': return '#ffd700'
-            case 'advanced': return '#ff3366'
-            default: return '#00d9ff'
+            case 'beginner': return 'var(--lm-emocional-text, #3f6b2a)'
+            case 'intermediate': return 'var(--lm-social-text, #7d560e)'
+            case 'advanced': return 'var(--lm-fisico-text, #a63a1f)'
+            default: return 'var(--lm-mental-text, #2f6076)'
         }
     }
 
@@ -127,7 +127,7 @@ const ExamplesPanel: React.FC<ExamplesPanelProps> = ({ onSelectExample, onClose 
                 <div className="examples-panel__title">
                     <h3>📚 Biblioteca de Ejemplos</h3>
                     {onClose && (
-                        <button className="close-btn" onClick={onClose}>×</button>
+                        <button className="close-btn" onClick={onClose} aria-label="Cerrar ejemplos">×</button>
                     )}
                 </div>
 
@@ -136,16 +136,18 @@ const ExamplesPanel: React.FC<ExamplesPanelProps> = ({ onSelectExample, onClose 
                     <input
                         type="text"
                         placeholder="Buscar ejemplos..."
+                        aria-label="Buscar ejemplos"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                     />
-                    <button onClick={handleSearch}>🔍</button>
+                    <button onClick={handleSearch} aria-label="Buscar">🔍</button>
                 </div>
 
                 {/* Filters */}
                 <div className="examples-filters">
                     <select
+                        aria-label="Filtrar por plataforma"
                         value={filter.platform || ''}
                         onChange={(e) => setFilter({ ...filter, platform: e.target.value || undefined })}
                     >
@@ -156,6 +158,7 @@ const ExamplesPanel: React.FC<ExamplesPanelProps> = ({ onSelectExample, onClose 
                     </select>
 
                     <select
+                        aria-label="Filtrar por nivel"
                         value={filter.difficulty || ''}
                         onChange={(e) => setFilter({ ...filter, difficulty: e.target.value || undefined })}
                     >
@@ -215,7 +218,7 @@ const ExamplesPanel: React.FC<ExamplesPanelProps> = ({ onSelectExample, onClose 
                     <div className="example-preview" onClick={(e) => e.stopPropagation()}>
                         <div className="example-preview__header">
                             <h3>{selectedTemplate.title}</h3>
-                            <button onClick={() => setSelectedTemplate(null)}>×</button>
+                            <button onClick={() => setSelectedTemplate(null)} aria-label="Cerrar detalle">×</button>
                         </div>
                         <div className="example-preview__content">
                             <p className="example-preview__description">{selectedTemplate.description}</p>

@@ -34,6 +34,7 @@ from ..models.schemas import (
     MessageRole
 )
 from ..services import ollama_service, lesson_engine
+from ..services.idiomas import instruccion_idioma, modelo_para, endpoint_para
 from ..services.ai_guardian import (
     assess_prompt,
     build_guarded_system_prompt,
@@ -100,9 +101,11 @@ El código DEBE ser completo y ejecutable."""
                 objective=request.message,
                 platform=request.platform,
                 language=request.language,
-                difficulty=request.difficulty
+                difficulty=request.difficulty,
+                nivel=request.nivel.value,
             )
         system_prompt = build_guarded_system_prompt(system_prompt)
+        system_prompt = f"{system_prompt}\n\n{instruccion_idioma(request.idioma.value)}"
 
         # Streaming de respuesta
         async def generate():
@@ -110,7 +113,10 @@ El código DEBE ser completo y ejecutable."""
                 async for chunk in ollama_service.chat_stream(
                     messages=messages,
                     system_prompt=system_prompt,
-                    temperature=0.3 if is_direct_code_request else 0.7
+                    temperature=0.3 if is_direct_code_request else 0.7,
+                    model=modelo_para(request.idioma.value, ollama_service.default_model),
+                    base_url=endpoint_para(request.idioma.value),
+                    idioma=request.idioma.value,
                 ):
                     # Enviar chunk como Server-Sent Event
                     yield sse_data(chunk)
@@ -159,9 +165,13 @@ async def chat_message(request: ChatRequest):
             objective=request.message,
             platform=request.platform,
             language=request.language,
-            difficulty=request.difficulty
+            difficulty=request.difficulty,
+            nivel=request.nivel.value,
         )
         educational_context = build_guarded_system_prompt(educational_context)
+        educational_context = (
+            f"{educational_context}\n\n{instruccion_idioma(request.idioma.value)}"
+        )
 
         # Preparar mensajes
         messages = sanitize_history(
@@ -273,6 +283,10 @@ async def explain_code_stream(request: CodeExplanationRequest):
                     language=request.language.value,
                     context=request.platform.value,
                     focus_line=request.focus_line,
+                    nivel=request.nivel.value,
+                    model=modelo_para(request.idioma.value, ollama_service.default_model),
+                    base_url=endpoint_para(request.idioma.value),
+                    idioma=request.idioma.value,
                 ):
                     yield sse_data(chunk)
 

@@ -52,15 +52,15 @@ const ExportPanel: React.FC<ExportPanelProps> = ({
         },
         {
             id: 'makecode' as ExportFormat,
-            title: '🧩 MakeCode',
-            description: 'Proyecto JSON para makecode.microbit.org',
+            title: '🧩 MakeCode (experimental)',
+            description: 'Proyecto JSON para makecode.microbit.org. Sin comprobar en el editor real: puede no importarse.',
             extension: '.json',
             icon: '📦'
         },
         {
             id: 'scratch' as ExportFormat,
-            title: '🐱 Scratch 3.0',
-            description: 'Proyecto .sb3 con extensión micro:bit',
+            title: '🐱 Scratch 3.0 (experimental)',
+            description: 'Proyecto .sb3 de demostración: conversión simplificada, sin comprobar en Scratch.',
             extension: '.sb3',
             icon: '🎮'
         },
@@ -136,7 +136,7 @@ const ExportPanel: React.FC<ExportPanelProps> = ({
             <div className="export-panel__header">
                 <h3>📤 Exportar Código</h3>
                 {onClose && (
-                    <button className="close-btn" onClick={onClose}>×</button>
+                    <button className="close-btn" onClick={onClose} aria-label="Cerrar exportación">×</button>
                 )}
             </div>
 
@@ -198,7 +198,7 @@ const ExportPanel: React.FC<ExportPanelProps> = ({
                     <div className="instructions-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="instructions-header">
                             <h3>📖 Instrucciones</h3>
-                            <button onClick={() => setShowInstructions(false)}>×</button>
+                            <button onClick={() => setShowInstructions(false)} aria-label="Cerrar instrucciones">×</button>
                         </div>
                         <div className="instructions-content">
                             <pre>{instructions}</pre>

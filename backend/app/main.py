@@ -49,7 +49,7 @@ logger = logging.getLogger(__name__)
 # Crear aplicación FastAPI
 app = FastAPI(
     title="EDUmind Robotics API",
-    version="1.0.0",
+    version="1.0.1",
     description="API para aprendizaje de robótica educativa con IA local (micro:bit + Nezha)",
     docs_url="/api/docs",
     redoc_url="/api/redoc"
@@ -136,7 +136,7 @@ async def health_check():
         status="ok" if ollama_available else "degraded",
         ollama_available=ollama_available,
         models_available=model_names,
-        version="1.0.0"
+        version="1.0.1"
     )
 
 
@@ -167,7 +167,7 @@ async def readiness_check():
             "ai_endpoint_local": policy["ai_endpoint_local"],
             "remote_ai_allowed": policy["remote_ai_allowed"],
         },
-        "version": "1.0.0",
+        "version": "1.0.1",
     }
 
 
@@ -243,7 +243,7 @@ async def root():
     """Endpoint raíz con información de la API"""
     return {
         "name": "EDUmind Robotics API",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "description": "API para aprendizaje de robótica educativa con IA",
         "docs": "/api/docs",
         "endpoints": {

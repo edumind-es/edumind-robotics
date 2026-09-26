@@ -426,11 +426,11 @@ Este paquete se ha generado localmente desde EDUmind Robotics Lab.
 - Perfil: {profile["label"]}
 - Plataforma: {profile["platform"]}
 - Runtime: {profile["runtime"]}
-- Conexion: {profile["connection"]}
+- Conexión: {profile["connection"]}
 
 ## Archivos
 
-- `main.py`: codigo MicroPython principal.
+- `main.py`: código MicroPython principal.
 - `hardware_settings.py`: ajustes de puertos, velocidad segura y supervision.
 - `hardware_profile.json`: perfil legible por herramientas o auditoria docente.
 - `README_HARDWARE.md`: estas instrucciones.
@@ -458,7 +458,7 @@ Este paquete se ha generado localmente desde EDUmind Robotics Lab.
 
 ## Privacidad
 
-Este paquete no requiere nube ni servicios externos. No incluye datos personales por diseno.
+Este paquete no requiere nube ni servicios externos. No incluye datos personales por diseño.
 """
 
     def get_hex_instructions(self) -> str:
@@ -472,22 +472,26 @@ Este paquete no requiere nube ni servicios externos. No incluye datos personales
         return """
 Para cargar tu código al micro:bit físico:
 
-1. **Usando mu-editor (recomendado):**
-   - Descarga mu-editor: https://codewith.mu/
-   - Conecta tu micro:bit por USB
-   - Copia el código .py
-   - Haz clic en "Flash"
+1. **Desde esta app, por USB (lo más directo):**
+   - Conecta el micro:bit por USB y pulsa «Enviar al micro:bit»
+     en el editor (necesita Chrome o Edge).
+   - Si el navegador no lo permite, descarga el archivo .hex y
+     arrástralo a la unidad MICROBIT que aparece como un pendrive.
 
-2. **Usando MakeCode:**
-   - Exporta como MakeCode JSON
-   - Abre https://makecode.microbit.org/
-   - Importa el proyecto
-   - Descarga el .hex desde MakeCode
+2. **Con Mu o Thonny (editores de Python):**
+   - Descarga Mu: https://codewith.mu/ (o Thonny: https://thonny.org/)
+   - Abre el archivo .py exportado, conecta el micro:bit y pulsa
+     «Flash» (Mu) o «Ejecutar» (Thonny).
 
-3. **Usando Python directo:**
-   - Conecta tu micro:bit
-   - Copia el archivo .py a la unidad MICROBIT
-   - El micro:bit ejecutará main.py automáticamente
+3. **Ojo: el archivo .py NO se puede arrastrar a la unidad MICROBIT.**
+   - La placa solo acepta archivos .hex. Si copias el .py, no pasa
+     nada y el micro:bit sigue con el programa anterior.
+   - El .py sirve para abrirlo en Mu/Thonny o para guardarlo.
+
+4. **Con MakeCode (experimental):**
+   - La exportación a MakeCode está sin comprobar en el editor real:
+     MakeCode usa su propio dialecto de Python y puede no aceptar
+     el proyecto tal cual. Si la pruebas, cuéntanoslo en GitHub.
 """
 
 

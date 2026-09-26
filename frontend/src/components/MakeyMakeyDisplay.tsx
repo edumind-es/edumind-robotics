@@ -17,6 +17,7 @@
  */
 
 import React, { useState } from 'react'
+import { useTextos } from '../hooks/usePreferencias'
 import './MakeyMakeyDisplay.css'
 
 interface WindowWithWebkitAudio extends Window {
@@ -35,6 +36,13 @@ interface MakeyMakeyDisplayProps {
     onPinRelease: (pin: number) => void
 }
 
+/* Qué se conecta a cada pin, para poder nombrarlo en voz alta. */
+const OBJETOS: Record<number, string> = {
+    0: 'una banana',
+    1: 'una cuchara',
+    2: 'un trozo de plastilina',
+}
+
 const MakeyMakeyDisplay: React.FC<MakeyMakeyDisplayProps> = ({
     pins = {
         0: { state: 'released', is_touched: false, touch_count: 0 },
@@ -44,6 +52,7 @@ const MakeyMakeyDisplay: React.FC<MakeyMakeyDisplayProps> = ({
     onPinTouch,
     onPinRelease
 }) => {
+    const { t } = useTextos()
     const [activeNotes] = useState(['Do', 'Re', 'Mi'])
 
     const handleTouchStart = (pin: number) => {
@@ -83,6 +92,7 @@ const MakeyMakeyDisplay: React.FC<MakeyMakeyDisplayProps> = ({
             <div className="makey-header">
                 <h3>🎹 Makey Makey</h3>
                 <span className="makey-subtitle">Toca los pines conductores</span>
+                <span className="makey-clon">{t('makey.tambien')}</span>
             </div>
 
             <div className="makey-board">
@@ -93,17 +103,38 @@ const MakeyMakeyDisplay: React.FC<MakeyMakeyDisplayProps> = ({
 
                 <div className="makey-pins">
                     {[0, 1, 2].map(pin => (
-                        <div
+                        /*
+                          Eran <div> con eventos de ratón: no se podían enfocar
+                          ni activar con teclado, así que el Makey Makey quedaba
+                          fuera del alcance de quien no usa ratón. Ahora son
+                          botones de verdad y responden a Espacio y Enter.
+                        */
+                        <button
                             key={pin}
+                            type="button"
                             className={`makey-pin ${pins[pin]?.is_touched ? 'touched' : ''}`}
+                            aria-pressed={Boolean(pins[pin]?.is_touched)}
+                            aria-label={`Pin ${pin}, ${OBJETOS[pin]}. Tocado ${pins[pin]?.touch_count || 0} veces. Mantén pulsado Espacio para tocarlo.`}
                             onMouseDown={() => handleTouchStart(pin)}
                             onMouseUp={() => handleTouchEnd(pin)}
                             onMouseLeave={() => handleTouchEnd(pin)}
                             onTouchStart={() => handleTouchStart(pin)}
                             onTouchEnd={() => handleTouchEnd(pin)}
+                            onKeyDown={(e) => {
+                                if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) {
+                                    e.preventDefault()
+                                    handleTouchStart(pin)
+                                }
+                            }}
+                            onKeyUp={(e) => {
+                                if (e.key === ' ' || e.key === 'Enter') {
+                                    e.preventDefault()
+                                    handleTouchEnd(pin)
+                                }
+                            }}
                         >
                             <div className="pin-touch-zone">
-                                <div className="pin-icon">
+                                <div className="pin-icon" aria-hidden="true">
                                     {pin === 0 && '🍌'}
                                     {pin === 1 && '🥄'}
                                     {pin === 2 && '🧱'}
@@ -111,8 +142,8 @@ const MakeyMakeyDisplay: React.FC<MakeyMakeyDisplayProps> = ({
                                 <div className="pin-label">Pin {pin}</div>
                                 <div className="pin-note">{activeNotes[pin]}</div>
                             </div>
-                            <div className="pin-count">×{pins[pin]?.touch_count || 0}</div>
-                        </div>
+                            <div className="pin-count" aria-hidden="true">×{pins[pin]?.touch_count || 0}</div>
+                        </button>
                     ))}
                 </div>
 

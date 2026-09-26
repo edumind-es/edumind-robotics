@@ -217,7 +217,7 @@
 }
 
 .example-tag {
-    background: color-mix(in srgb, var(--lm-mental) 32%, transparent);
+    background: color-mix(in srgb, var(--lm-mental) 12%, transparent); /* al 32 % daba 3,8:1 */
     color: var(--lm-mental-text);
     font-size: 0.65rem;
     padding: 0.2rem 0.5rem;

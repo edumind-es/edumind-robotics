@@ -273,6 +273,8 @@ while True:
                 platform=Platform.NEZHA,
                 code='''from microbit import *
 from nezha import *
+# AVISO: la librería «nezha» solo existe en este simulador. Un Nezha real
+# se programa con la extensión MakeCode de ElecFreaks, con otros nombres.
 
 # Crear objeto Nezha
 robot = Nezha()
@@ -294,7 +296,7 @@ while True:
     sleep(50)
 ''',
                 tags=["motores", "robot", "nezha"],
-                explanation="Los motores aceptan valores de -100 a 100. Negativo = reversa."
+                explanation="Los motores aceptan valores de -100 a 100. Negativo = reversa. Ojo: «from nezha import *» solo funciona en este simulador; en un Nezha real hay que usar la extensión MakeCode de ElecFreaks."
             ),
 
             "nezha_servo": CodeTemplate(
@@ -305,6 +307,8 @@ while True:
                 platform=Platform.NEZHA,
                 code='''from microbit import *
 from nezha import *
+# AVISO: la librería «nezha» solo existe en este simulador. Un Nezha real
+# se programa con la extensión MakeCode de ElecFreaks, con otros nombres.
 
 robot = Nezha()
 angulo = 90  # Posición inicial: centro
@@ -325,7 +329,7 @@ while True:
     sleep(100)
 ''',
                 tags=["servo", "robot", "nezha"],
-                explanation="Los servos tienen un rango de 0° a 180°."
+                explanation="Los servos tienen un rango de 0° a 180°. Ojo: «from nezha import *» solo funciona en este simulador; en un Nezha real hay que usar la extensión MakeCode de ElecFreaks."
             ),
 
             "nezha_obstacle": CodeTemplate(
@@ -336,6 +340,8 @@ while True:
                 platform=Platform.NEZHA,
                 code='''from microbit import *
 from nezha import *
+# AVISO: la librería «nezha» solo existe en este simulador. Un Nezha real
+# se programa con la extensión MakeCode de ElecFreaks, con otros nombres.
 
 robot = Nezha()
 DISTANCIA_SEGURA = 20  # centímetros
@@ -364,7 +370,7 @@ while True:
     sleep(100)
 ''',
                 tags=["ultrasónico", "robot", "autónomo"],
-                explanation="El sensor ultrasónico mide distancias de 2 a 400 cm."
+                explanation="El sensor ultrasónico mide distancias de 2 a 400 cm. Ojo: «from nezha import *» solo funciona en este simulador; en un Nezha real hay que usar la extensión MakeCode de ElecFreaks."
             ),
 
             "nezha_line_follower": CodeTemplate(
@@ -375,6 +381,8 @@ while True:
                 platform=Platform.NEZHA,
                 code='''from microbit import *
 from nezha import *
+# AVISO: la librería «nezha» solo existe en este simulador. Un Nezha real
+# se programa con la extensión MakeCode de ElecFreaks, con otros nombres.
 
 robot = Nezha()
 
@@ -404,7 +412,7 @@ while True:
     sleep(50)
 ''',
                 tags=["línea", "robot", "autónomo"],
-                explanation="Los sensores de línea detectan superficies oscuras/claras."
+                explanation="Los sensores de línea detectan superficies oscuras/claras. Ojo: «from nezha import *» solo funciona en este simulador; en un Nezha real hay que usar la extensión MakeCode de ElecFreaks."
             ),
 
             # ===== MAKEY MAKEY TEMPLATES =====

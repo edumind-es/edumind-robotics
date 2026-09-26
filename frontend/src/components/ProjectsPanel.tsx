@@ -168,7 +168,7 @@ const ProjectsPanel: React.FC<ProjectsPanelProps> = ({
             <div className="projects-panel__header">
                 <h3>💾 Mis Proyectos</h3>
                 {onClose && (
-                    <button className="close-btn" onClick={onClose}>×</button>
+                    <button className="close-btn" onClick={onClose} aria-label="Cerrar proyectos">×</button>
                 )}
             </div>
 

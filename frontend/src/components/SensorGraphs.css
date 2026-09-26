@@ -31,7 +31,7 @@
 }
 
 .sensor-graphs__header h3 {
-    color: #6aa3bf;
+    color: var(--lm-mental-text);
     font-size: 1rem;
     margin: 0;
 }
@@ -61,8 +61,8 @@
 
 .sensor-graphs__tabs button.active {
     background: rgba(106, 163, 191, 0.2);
-    border-color: #6aa3bf;
-    color: #6aa3bf;
+    border-color: var(--lm-mental-text);
+    color: var(--lm-mental-text);
 }
 
 .sensor-graphs__canvas {
@@ -99,15 +99,15 @@
 }
 
 .stat-value.temp {
-    color: #f0795a;
+    color: var(--lm-fisico-text);
 }
 
 .stat-value.light {
-    color: #f2bc55;
+    color: var(--lm-social-text);
 }
 
 .stat-value.accel {
-    color: #8cc26a;
+    color: var(--lm-emocional-text);
 }
 
 .close-btn {

@@ -1,21 +1,24 @@
-EDUmind - edumind_robotics
-===================================
+EDUmind Robotics Lab
+====================
 
-AUTORES PRINCIPALES:
+AUTOR Y TITULAR:
 
-Luis Vilela Acuña <contacto@edumind.es>
-  - Concepción original y arquitectura
-  - Desarrollo principal
-  - Diseño y UX
+Luis Vilela Acuña <contacto@edumind.es> · EDUmind®
+  - Concepción original, pedagogía y arquitectura
+  - Desarrollo principal (vibe coding con asistencia de IA, ver README)
+  - Diseño y accesibilidad
 
 CONTRIBUIDORES:
 
-[Lista de contribuidores]
+Por ahora no hay más contribuidores. Si envías un cambio que se fusione,
+añade aquí tu nombre en el mismo PR.
 
 ---
 
 NOTA LEGAL:
-Todos los contribuidores aceptan que sus aportaciones se licencien
-bajo GNU AGPL v3.0 y que EDUmind mantenga la gestión del proyecto.
-El código es libre; la marca EDUmind® es propiedad de Luis Vilela Acuña
-y no se cede con el código (ver TRADEMARKS.md).
+
+Quien contribuye acepta que su aportación se licencie con la misma doble
+licencia del proyecto (AGPL-3.0-or-later OR EUPL-1.2, ver LICENSE) y que
+Luis Vilela Acuña mantenga la gestión del proyecto. El código es libre; la
+marca EDUmind® es propiedad de Luis Vilela Acuña y no se cede con el
+código (ver TRADEMARKS.md).

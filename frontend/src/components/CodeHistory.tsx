@@ -103,7 +103,7 @@ const CodeHistory: React.FC<CodeHistoryProps> = ({ onLoadCode, onClose }) => {
                         </button>
                     )}
                     {onClose && (
-                        <button className="close-btn" onClick={onClose}>×</button>
+                        <button className="close-btn" onClick={onClose} aria-label="Cerrar historial">×</button>
                     )}
                 </div>
             </div>

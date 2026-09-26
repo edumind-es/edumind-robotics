@@ -13,6 +13,7 @@ import CodeEditor from './CodeEditor'
 import MicrobitDisplay from './MicrobitDisplay'
 import MakeyMakeyDisplay from './MakeyMakeyDisplay'
 import NezhaRobot from './NezhaRobot'
+import MBot from './MBot'
 import { useAppStore } from '../store/useAppStore'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -36,7 +37,7 @@ interface SimulatorState {
   }
 }
 
-type HardwareType = 'microbit' | 'nezha' | 'makey'
+type HardwareType = 'microbit' | 'nezha' | 'mbot' | 'makey'
 type Step = 1 | 2 | 3 | 4 | 5
 
 interface VibeCodingProps {
@@ -63,8 +64,14 @@ const HARDWARE_INFO: Record<HardwareType, { label: string; icon: string; color: 
     color: 'var(--lm-emocional-text)',
     promptHint: 'Ej: mover los motores hacia adelante, hacer girar las ruedas, parar el robot...',
   },
+  mbot: {
+    label: 'mBot',
+    icon: '🚗',
+    color: 'var(--lm-social-text)',
+    promptHint: 'Ej: avanzar y parar antes de la pared, seguir una línea negra, encender los LEDs en verde...',
+  },
   makey: {
-    label: 'Makey Makey',
+    label: 'Makey Makey / TeclaTecla',
     icon: '🎹',
     color: 'var(--lm-social-text)',
     promptHint: 'Ej: tocar una nota al tocar la banana, crear un piano con frutas, controlar un juego...',
@@ -74,6 +81,7 @@ const HARDWARE_INFO: Record<HardwareType, { label: string; icon: string; color: 
 const HARDWARE_PLATFORM: Record<HardwareType, string> = {
   microbit: 'micro:bit',
   nezha: 'Nezha',
+  mbot: 'mBot',
   makey: 'Makey Makey',
 }
 
@@ -99,6 +107,13 @@ const QUICK_IDEAS: Record<HardwareType, string[]> = {
     'Parar el robot cuando detecte un obstáculo',
     'Mover el servo 90 grados',
     'Hacer que el robot zigzaguee',
+  ],
+  mbot: [
+    'Avanzar y parar antes de chocar con la pared',
+    'Seguir una línea negra en el suelo',
+    'Encender los LEDs en verde mientras avanza',
+    'Girar cuando el sensor vea un obstáculo cerca',
+    'Hacer que el robot dibuje un cuadrado',
   ],
   makey: [
     'Reproducir una nota al tocar la banana',
@@ -152,6 +167,10 @@ const VibeCoding: React.FC<VibeCodingProps> = ({
   const setMotor = useAppStore((s) => s.setMotor)
   const setServo = useAppStore((s) => s.setServo)
   const initNezhaSession = useAppStore((s) => s.initNezhaSession)
+  const mbotState = useAppStore((s) => s.mbotState)
+  const setMBotMotor = useAppStore((s) => s.setMBotMotor)
+  const setMBotSensor = useAppStore((s) => s.setMBotSensor)
+  const initMBotSession = useAppStore((s) => s.initMBotSession)
   const touchPin = useAppStore((s) => s.touchPin)
   const releasePin = useAppStore((s) => s.releasePin)
   const initMakeySession = useAppStore((s) => s.initMakeySession)
@@ -163,8 +182,10 @@ const VibeCoding: React.FC<VibeCodingProps> = ({
       initMakeySession()
     } else if (hardware === 'nezha') {
       initNezhaSession()
+    } else if (hardware === 'mbot') {
+      initMBotSession()
     }
-  }, [hardware, initMakeySession, initNezhaSession])
+  }, [hardware, initMakeySession, initNezhaSession, initMBotSession])
 
   const lastAiMessage = messages.filter((m) => m.role === 'assistant').pop()
   const extractedCode = lastAiMessage ? extractCode(lastAiMessage.content) : null
@@ -239,7 +260,8 @@ AHORA genera el código para: ${objective}`
   }
 
   return (
-    <div className="vc-root">
+    <main className="vc-root" id="contenido">
+      <h1 className="vc-titulo-oculto">Vibe Coding: describe, lee, prueba</h1>
       {/* Selector de hardware */}
       <div className="vc-hardware-bar">
         {(Object.keys(HARDWARE_INFO) as HardwareType[]).map((hw) => (
@@ -279,7 +301,7 @@ AHORA genera el código para: ${objective}`
           <div className={`vc-card vc-card--idea ${step === 1 ? 'vc-card--active' : ''}`}>
             <div className="vc-card-header">
               <span className="vc-card-step">Paso 1</span>
-              <h3>💭 ¿Qué quieres crear?</h3>
+              <h2>💭 ¿Qué quieres crear?</h2>
               <p className="vc-card-hint">
                 Escríbelo con tus palabras. La IA lo convierte en código para{' '}
                 <strong style={{ color: HARDWARE_INFO[hardware].color }}>
@@ -333,7 +355,7 @@ AHORA genera el código para: ${objective}`
             <div className={`vc-card vc-card--response ${step === 2 || step === 3 ? 'vc-card--active' : ''}`}>
               <div className="vc-card-header">
                 <span className="vc-card-step">Paso 2 → 3</span>
-                <h3>
+                <h2>
                   {isStreaming ? (
                     <><span className="vc-dot-pulse" />La IA está escribiendo tu código...</>
                   ) : extractedCode ? (
@@ -341,7 +363,7 @@ AHORA genera el código para: ${objective}`
                   ) : (
                     <>🤔 La IA ha respondido</>
                   )}
-                </h3>
+                </h2>
                 {!isStreaming && (
                   <p className="vc-card-hint">
                     La Inteligencia Artificial ha leído lo que pediste y ha escrito instrucciones en
@@ -404,9 +426,9 @@ AHORA genera el código para: ${objective}`
             <div className={`vc-card vc-card--editor ${step === 4 || step === 5 ? 'vc-card--active' : ''}`}>
               <div className="vc-card-header">
                 <span className="vc-card-step">Paso 4 → 5</span>
-                <h3>
+                <h2>
                   {executedOnce ? '✏️ Modifica y experimenta' : '▶ Prueba en el simulador'}
-                </h3>
+                </h2>
                 <p className="vc-card-hint">
                   {executedOnce
                     ? '¡El código funciona! Ahora puedes cambiarlo: modifica números, textos o instrucciones. La IA cometió errores? Corrígelos tú.'
@@ -426,7 +448,7 @@ AHORA genera el código para: ${objective}`
             <div className="vc-card vc-card--congrats">
               <div className="vc-congrats-inner">
                 <div className="vc-congrats-emoji">🎉</div>
-                <h3>¡Lo has conseguido!</h3>
+                <h2>¡Lo has conseguido!</h2>
                 <p>
                   Has pedido a la IA que cree código, lo has leído, lo has cargado en el editor
                   y lo has ejecutado en el simulador. Eso es exactamente lo que hacen los
@@ -447,13 +469,15 @@ AHORA genera el código para: ${objective}`
           <div className="vc-card vc-card--simulator">
             <div className="vc-card-header">
               <span className="vc-card-step">Simulador</span>
-              <h3>{HARDWARE_INFO[hardware].icon} {HARDWARE_INFO[hardware].label} Virtual</h3>
+              <h2>{HARDWARE_INFO[hardware].icon} {HARDWARE_INFO[hardware].label} Virtual</h2>
               <p className="vc-card-hint">
                 Este es el robot virtual. Cuando ejecutes el código, verás aquí lo que pasaría
                 en el robot real.
               </p>
             </div>
-            {hardware === 'nezha' ? (
+            {hardware === 'mbot' ? (
+              <MBot estado={mbotState} onMotor={setMBotMotor} onSensor={setMBotSensor} />
+            ) : hardware === 'nezha' ? (
               <NezhaRobot
                 motors={nezhaState.motors}
                 servos={nezhaState.servos}
@@ -489,7 +513,7 @@ AHORA genera el código para: ${objective}`
 
           {/* Burbuja pedagógica: explica qué hace la IA */}
           <div className="vc-card vc-card--explainer">
-            <h4>🧠 ¿Qué hace la IA?</h4>
+            <h3>🧠 ¿Qué hace la IA?</h3>
             <div className="vc-explainer-steps">
               <div className="vc-explainer-item">
                 <span className="vc-explainer-num">1</span>
@@ -515,7 +539,7 @@ AHORA genera el código para: ${objective}`
 
           {/* Atajos de teclado */}
           <div className="vc-card vc-card--tips">
-            <h4>⌨️ Atajos</h4>
+            <h3>⌨️ Atajos</h3>
             <ul className="vc-tips-list">
               <li><kbd>Enter</kbd> en el cuadro de texto → Generar código</li>
               <li>Botones <strong>A</strong> y <strong>B</strong> del micro:bit → clic en el simulador</li>
@@ -524,7 +548,7 @@ AHORA genera el código para: ${objective}`
           </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 

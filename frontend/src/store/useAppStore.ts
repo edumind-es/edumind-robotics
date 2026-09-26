@@ -18,6 +18,8 @@
 
 import { create } from 'zustand'
 import axios from 'axios'
+import { nivelExplicacion, idiomaActual } from '../hooks/usePreferencias'
+import type { EstadoMBot } from '../components/MBot'
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? '/api'
 
@@ -91,6 +93,10 @@ interface AppState {
   nezhaSessionId: string | null
   nezhaState: NezhaState
 
+  /* mBot: el robot de los Polos Creativos, con placa propia. */
+  mbotSessionId: string | null
+  mbotState: EstadoMBot
+
   // Actions
   initSession: () => Promise<void>
   initMakeySession: () => Promise<void>
@@ -99,12 +105,22 @@ interface AppState {
   initNezhaSession: () => Promise<void>
   setMotor: (motor: string, speed: number) => Promise<void>
   setServo: (servo: string, angle: number) => Promise<void>
+  initMBotSession: () => Promise<void>
+  setMBotMotor: (motor: string, speed: number) => Promise<void>
+  setMBotSensor: (cambio: Record<string, number | boolean>) => Promise<void>
   executeCode: (code: string) => Promise<void>
   sendChatMessage: (message: string) => Promise<void>
   pressButton: (button: 'a' | 'b') => Promise<void>
   releaseButton: (button: 'a' | 'b') => Promise<void>
   resetSimulator: () => Promise<void>
   updateSensor: (sensor: string, value: SensorValue) => Promise<void>
+}
+
+const initialMBotState: EstadoMBot = {
+  motors: { m1: 0, m2: 0 },
+  leds: { izquierdo: { r: 0, g: 0, b: 0 }, derecho: { r: 0, g: 0, b: 0 } },
+  sensors: { ultrasonic: 100, line: { izquierdo: false, derecho: false }, light: 512 },
+  buzzer: 0,
 }
 
 export interface NezhaState {
@@ -230,6 +246,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   makeyPins: initialMakeyPins,
   nezhaSessionId: null,
   nezhaState: initialNezhaState,
+  mbotSessionId: null,
+  mbotState: initialMBotState,
   messages: [],
   isStreaming: false,
   isExecuting: false,
@@ -330,6 +348,47 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
   },
 
+  initMBotSession: async () => {
+    if (get().mbotSessionId) return
+    try {
+      const response = await axios.post(`${API_BASE}/simulator/session/create`, {
+        platform: 'mbot',
+      })
+      set({ mbotSessionId: response.data.session_id, mbotState: initialMBotState })
+    } catch (error) {
+      console.error('❌ Error creando sesión de mBot:', error)
+    }
+  },
+
+  setMBotMotor: async (motor: string, speed: number) => {
+    const { mbotSessionId } = get()
+    if (!mbotSessionId) return
+    try {
+      const response = await axios.post(`${API_BASE}/simulator/mbot/motor`, {
+        session_id: mbotSessionId,
+        motor,
+        speed,
+      })
+      set({ mbotState: response.data.state })
+    } catch (error) {
+      console.error('❌ Error moviendo el motor del mBot:', error)
+    }
+  },
+
+  setMBotSensor: async (cambio: Record<string, number | boolean>) => {
+    const { mbotSessionId } = get()
+    if (!mbotSessionId) return
+    try {
+      const response = await axios.post(`${API_BASE}/simulator/mbot/sensor`, {
+        session_id: mbotSessionId,
+        ...cambio,
+      })
+      set({ mbotState: response.data.state })
+    } catch (error) {
+      console.error('❌ Error cambiando los sensores del mBot:', error)
+    }
+  },
+
   executeCode: async (code: string) => {
     const { sessionId } = get()
     if (!sessionId) {
@@ -383,6 +442,8 @@ export const useAppStore = create<AppState>((set, get) => ({
         platform: 'micro:bit',
         language: 'micropython',
         difficulty: 'beginner',
+        nivel: nivelExplicacion(),
+        idioma: idiomaActual(),
       }
 
       const response = await fetch(`${API_BASE}/chat/message/stream`, {

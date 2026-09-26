@@ -75,6 +75,7 @@ const SensorPanel: React.FC<SensorPanelProps> = ({ sensors, onUpdateSensor }) =>
                         type="range"
                         min="-5"
                         max="50"
+                        aria-label="Temperatura simulada, en grados"
                         value={localTemp}
                         onChange={(e) => handleTempChange(parseInt(e.target.value))}
                         className="sensor-slider sensor-slider--temp"
@@ -96,6 +97,7 @@ const SensorPanel: React.FC<SensorPanelProps> = ({ sensors, onUpdateSensor }) =>
                         type="range"
                         min="0"
                         max="255"
+                        aria-label="Nivel de luz simulado, de 0 a 255"
                         value={localLight}
                         onChange={(e) => handleLightChange(parseInt(e.target.value))}
                         className="sensor-slider sensor-slider--light"
@@ -115,8 +117,10 @@ const SensorPanel: React.FC<SensorPanelProps> = ({ sensors, onUpdateSensor }) =>
 
                     <div className="accel-axes">
                         <div className="accel-axis">
-                            <label>X:</label>
+                            <label htmlFor="sensor-accel-x">X:</label>
                             <input
+                                id="sensor-accel-x"
+                                aria-label="Acelerómetro, eje X"
                                 type="range"
                                 min="-2000"
                                 max="2000"
@@ -128,8 +132,10 @@ const SensorPanel: React.FC<SensorPanelProps> = ({ sensors, onUpdateSensor }) =>
                         </div>
 
                         <div className="accel-axis">
-                            <label>Y:</label>
+                            <label htmlFor="sensor-accel-y">Y:</label>
                             <input
+                                id="sensor-accel-y"
+                                aria-label="Acelerómetro, eje Y"
                                 type="range"
                                 min="-2000"
                                 max="2000"
@@ -141,8 +147,10 @@ const SensorPanel: React.FC<SensorPanelProps> = ({ sensors, onUpdateSensor }) =>
                         </div>
 
                         <div className="accel-axis">
-                            <label>Z:</label>
+                            <label htmlFor="sensor-accel-z">Z:</label>
                             <input
+                                id="sensor-accel-z"
+                                aria-label="Acelerómetro, eje Z"
                                 type="range"
                                 min="-2000"
                                 max="2000"

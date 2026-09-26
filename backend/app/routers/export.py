@@ -26,6 +26,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any
 
 from ..services.export_service import export_service
+from ..services.hex_builder import crear_hex, ScriptDemasiadoLargo
 
 
 router = APIRouter(
@@ -74,6 +75,31 @@ async def export_micropython(request: ExportRequest):
         headers={
             "Content-Disposition": f"attachment; filename={result.filename}"
         }
+    )
+
+
+@router.post("/hex")
+async def export_hex(request: ExportRequest):
+    """
+    Genera el .hex que el micro:bit puede arrancar.
+
+    Es el runtime de MicroPython con el programa del alumno dentro. Se copia
+    a la unidad MICROBIT y la placa se reinicia ejecutándolo.
+
+    Antes esta ruta no existía: el formato .hex del exportador devolvía
+    instrucciones para ir a MakeCode a descargarlo.
+    """
+    try:
+        contenido = crear_hex(request.code)
+    except ScriptDemasiadoLargo as error:
+        # 413: el programa no cabe. El mensaje explica qué hacer.
+        raise HTTPException(status_code=413, detail=str(error))
+
+    nombre = f"{export_service._safe_name(request.project_name or 'edumind')}.hex"
+    return Response(
+        content=contenido,
+        media_type="application/octet-stream",
+        headers={"Content-Disposition": f"attachment; filename={nombre}"},
     )
 
 

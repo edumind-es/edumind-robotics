@@ -26,6 +26,7 @@ import uuid
 from .microbit_sim import MicrobitSimulator
 from .nezha_sim import NezhaSimulator
 from .makey_makey_sim import MakeyMakeySimulator
+from .mbot_sim import MBotSimulator
 from .code_executor import CodeExecutor
 
 
@@ -48,11 +49,14 @@ class SimulatorSession:
         self.microbit = MicrobitSimulator(session_id)
         self.nezha: Optional[NezhaSimulator] = None
         self.makey: Optional[MakeyMakeySimulator] = None
+        self.mbot: Optional[MBotSimulator] = None
 
         if platform == "nezha":
             self.nezha = NezhaSimulator(session_id)
         elif platform == "makey_makey":
             self.makey = MakeyMakeySimulator(session_id)
+        elif platform == "mbot":
+            self.mbot = MBotSimulator(session_id)
 
         # Crear ejecutor de código
         self.executor = CodeExecutor(self.microbit, self.nezha)
@@ -71,6 +75,9 @@ class SimulatorSession:
 
         if self.makey:
             state["makey_makey"] = self.makey.get_state()
+
+        if self.mbot:
+            state["mbot"] = self.mbot.get_state()
 
         return state
 
@@ -105,7 +112,7 @@ class SimulatorManager:
         Crea una nueva sesión de simulación.
 
         Args:
-            platform: "micro:bit", "nezha" o "makey_makey"
+            platform: "micro:bit", "nezha", "makey_makey" o "mbot"
 
         Returns:
             session_id: ID único de la sesión
