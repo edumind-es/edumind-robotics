@@ -315,3 +315,17 @@
 .auth-gate__error {
   color: #ff8db8;
 }
+
+/* Aviso de traducción sin revisar: discreto pero siempre presente, para que
+   nadie tome por error propio lo que es un fallo de la traducción. */
+.aviso-traduccion {
+  margin: 1.5rem 0 0;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid var(--lm-rule);
+  border-left: 5px solid var(--lm-social);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--lm-social) 8%, transparent);
+  color: var(--lm-ink-2);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}

@@ -1,0 +1,212 @@
+/*
+ * Copyright (C) 2024-2026 Luis Vilela Acuña <contacto@edumind.es>
+ * Author: Luis Vilela Acuña
+ *
+ * Cómo las preferencias de acceso transforman la interfaz.
+ *
+ * Todo cuelga de atributos en <html>, así que ningún componente necesita
+ * saber que existen. Se apoya en los tokens de la Lámina.
+ */
+
+/* ─── Tamaño de texto ───────────────────────────────────────────────────
+   Se escala la raíz, no cada componente: así crecen también los espacios
+   definidos en rem y la interfaz no se amontona. */
+html[data-texto='grande']  { font-size: 118%; }
+html[data-texto='enorme']  { font-size: 138%; }
+
+/* ─── Tipografía legible ────────────────────────────────────────────────
+   Atkinson Hyperlegible fue diseñada por el Braille Institute para
+   distinguir caracteres que se confunden (l/I/1, O/0). Ayuda a mucho
+   lector con dislexia o baja visión. */
+html[data-fuente='legible'] body,
+html[data-fuente='legible'] button,
+html[data-fuente='legible'] input,
+html[data-fuente='legible'] textarea,
+html[data-fuente='legible'] select {
+  font-family: 'Atkinson Hyperlegible', 'Verdana', system-ui, sans-serif;
+}
+
+html[data-fuente='legible'] h1,
+html[data-fuente='legible'] h2,
+html[data-fuente='legible'] h3,
+html[data-fuente='legible'] h4 {
+  font-family: 'Atkinson Hyperlegible', 'Verdana', system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+/* Texto más aireado: renglones separados y algo de espacio entre letras
+   reduce el "apiñamiento" que dificulta seguir la línea. */
+html[data-fuente='legible'] body {
+  line-height: 1.85;
+  letter-spacing: 0.012em;
+  word-spacing: 0.06em;
+}
+
+html[data-fuente='legible'] p,
+html[data-fuente='legible'] li {
+  max-width: 62ch;
+}
+
+/* ─── Contraste alto ────────────────────────────────────────────────────
+   No es "más oscuro": es separar figura y fondo sin ambigüedad, con
+   contornos sólidos que no dependen del color. */
+html[data-contraste='alto'] {
+  --lm-paper: #ffffff;
+  --lm-paper-2: #ffffff;
+  --lm-ink: #000000;
+  --lm-ink-2: #1a1a1a;
+  --lm-ink-3: #3a3a3a;
+  --lm-rule: #000000;
+
+  --lm-mental-text: #00407a;
+  --lm-emocional-text: #1f5000;
+  --lm-social-text: #6b3d00;
+  --lm-fisico-text: #8c1400;
+}
+
+html[data-contraste='alto'][data-theme='dark'],
+html[data-contraste='alto'] body.oscuro {
+  --lm-paper: #000000;
+  --lm-paper-2: #000000;
+  --lm-ink: #ffffff;
+  --lm-ink-2: #f0f0f0;
+  --lm-ink-3: #d0d0d0;
+  --lm-rule: #ffffff;
+}
+
+html[data-contraste='alto'] .edm-card,
+html[data-contraste='alto'] .edm-button,
+html[data-contraste='alto'] .board,
+html[data-contraste='alto'] input,
+html[data-contraste='alto'] textarea,
+html[data-contraste='alto'] select {
+  border: 2px solid var(--lm-ink) !important;
+}
+
+html[data-contraste='alto'] .edm-button--ghost {
+  background: var(--lm-paper) !important;
+  color: var(--lm-ink) !important;
+}
+
+/* Se eliminan los fondos tintados muy suaves: a alto contraste se leen como
+   suciedad y bajan la legibilidad en vez de subirla. */
+html[data-contraste='alto'] .message-content,
+html[data-contraste='alto'] .policy-strip,
+html[data-contraste='alto'] .explain-panel {
+  background: var(--lm-paper) !important;
+}
+
+/* ─── Movimiento reducido ───────────────────────────────────────────────
+   Para quien se marea, se distrae o simplemente no quiere nada moviéndose.
+   Se corta todo, incluido lo decorativo. */
+html[data-movimiento='reducido'] *,
+html[data-movimiento='reducido'] *::before,
+html[data-movimiento='reducido'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+html[data-movimiento='reducido'] .edm-card:hover,
+html[data-movimiento='reducido'] .edm-button:hover {
+  transform: none !important;
+}
+
+/* El grano de papel es textura decorativa: a quien pide calma visual le
+   añade ruido de fondo sin aportar nada. */
+html[data-movimiento='reducido'] body::before {
+  display: none;
+}
+
+/* ─── Modo calma ────────────────────────────────────────────────────────
+   Menos cosas en pantalla a la vez. No esconde funciones: esconde adorno,
+   baja el color de lo secundario y deja respirar lo que importa. */
+html[data-calma='si'] body::before { display: none; }
+
+html[data-calma='si'] .edm-card,
+html[data-calma='si'] .board,
+html[data-calma='si'] .explain-panel,
+html[data-calma='si'] .chat-panel-container,
+html[data-calma='si'] .code-editor-container,
+html[data-calma='si'] .microbit-container {
+  box-shadow: none !important;
+}
+
+html[data-calma='si'] .lm-plate-top,
+html[data-calma='si'] .quick-prompts,
+html[data-calma='si'] .code-editor-tips,
+html[data-calma='si'] .makey-instructions {
+  display: none !important;
+}
+
+html[data-calma='si'] .edm-grid {
+  gap: 1.5rem;
+}
+
+/* La barra de mundos y los bordes de color se atenúan: siguen orientando,
+   pero dejan de competir por la atención. */
+html[data-calma='si'] .edm-card--cyan,
+html[data-calma='si'] .edm-card--lime,
+html[data-calma='si'] .edm-card--pink {
+  border-top-color: var(--lm-rule) !important;
+}
+
+/* ─── Color de los LEDs ─────────────────────────────────────────────────
+   El rojo sobre negro es la peor combinación posible para buena parte del
+   daltonismo (protanopia) y para baja visión: el rojo se oscurece hasta
+   confundirse con el fondo apagado. Se puede cambiar. */
+html[data-leds='ambar']  { --led-encendido: #ffb300; }
+html[data-leds='blanco'] { --led-encendido: #ffffff; }
+html[data-leds='rojo']   { --led-encendido: #ff3333; }
+
+:root { --led-apagado: #241f1a; }
+html[data-contraste='alto'] { --led-apagado: #000000; }
+
+/* ─── Foco visible siempre ──────────────────────────────────────────────
+   Quien navega con teclado necesita saber dónde está, sin excepciones. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--lm-mental, #3f7d99);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+html[data-contraste='alto'] :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 4px solid var(--lm-ink);
+  outline-offset: 3px;
+}
+
+/* ─── Enlace para saltar al contenido ───────────────────────────────────
+   Primer elemento tabulable: evita recorrer toda la navegación en cada
+   pantalla. Invisible hasta que recibe el foco. */
+.saltar-al-contenido {
+  position: absolute;
+  left: 0.5rem;
+  top: -4rem;
+  z-index: 1000;
+  background: var(--lm-ink);
+  color: var(--lm-paper);
+  padding: 0.7rem 1.1rem;
+  border-radius: 0 0 8px 8px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 140ms ease;
+}
+
+.saltar-al-contenido:focus {
+  top: 0;
+}
+
+/* Texto solo para lectores de pantalla: describe lo que el color o la
+   posición cuentan visualmente. */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

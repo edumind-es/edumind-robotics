@@ -107,7 +107,8 @@ class OllamaService:
         messages: List[Dict[str, str]],
         model: Optional[str] = None,
         temperature: float = 0.7,
-        system_prompt: Optional[str] = None
+        system_prompt: Optional[str] = None,
+        base_url: Optional[str] = None,
     ) -> AsyncGenerator[str, None]:
         """
         Chat con streaming de respuestas.
@@ -122,6 +123,14 @@ class OllamaService:
             Fragmentos de texto de la respuesta
         """
         model = model or self.default_model
+        # Algunas lenguas necesitan el modelo grande, que vive en la otra
+        # instancia local de Ollama. Se comprueba igual que la de siempre: la
+        # política privacy-first no se salta por cambiar de puerto.
+        destino = base_url or self.base_url
+        if not (self.allow_remote or _is_local_url(destino)):
+            logger.error("Endpoint de IA no local bloqueado: %s", destino)
+            yield "IA local bloqueada por política privacy-first."
+            return
         if not self.is_local_first_safe:
             yield (
                 "IA local bloqueada por política privacy-first: el endpoint configurado "
@@ -141,6 +150,9 @@ class OllamaService:
             # Mantener el modelo cargado en RAM entre preguntas: recargar 3,7 GB
             # desde disco añadía varios segundos a la primera pregunta de cada clase.
             "keep_alive": self.keep_alive,
+            # gemma4 razona antes de responder si no se le dice lo contrario:
+            # en CPU eso son minutos de silencio para el alumno.
+            "think": False,
             "options": {
                 "temperature": temperature,
                 # Tope de respuesta. En CPU generamos ~13 tokens/s, así que 2048
@@ -153,7 +165,7 @@ class OllamaService:
         try:
             async with self.client.stream(
                 "POST",
-                f"{self.base_url}/api/chat",
+                f"{destino}/api/chat",
                 json=payload,
                 timeout=120.0
             ) as response:
@@ -189,6 +201,10 @@ class OllamaService:
         language: str,
         context: str = "micro:bit",
         focus_line: Optional[int] = None,
+        nivel: str = "normal",
+        model: Optional[str] = None,
+        base_url: Optional[str] = None,
+        idioma: str = "es",
     ) -> AsyncGenerator[str, None]:
         """
         Genera explicación de código paso a paso.
@@ -202,6 +218,8 @@ class OllamaService:
                 se puede explicar bien: `sleep(500)` significa una cosa dentro
                 de un bucle y otra fuera de él.
         """
+        from .idiomas import instruccion_idioma, plantilla_linea
+
         system_prompt = f"""Eres un tutor de robótica educativa especializado en {context}.
 Tu trabajo es explicar código de forma clara y pedagógica para estudiantes.
 
@@ -213,7 +231,22 @@ IMPORTANTE:
 - Usa lenguaje simple y ejemplos prácticos
 - Relaciona el código con el hardware ({context})
 - Menciona qué sensores/actuadores se usan
-- Da consejos de mejora si aplica"""
+- Da consejos de mejora si aplica
+
+{instruccion_idioma(idioma)}"""
+
+        FORMAS = {
+            "sencillo": (
+                "Escríbelo muy claro: menos de 60 palabras, una idea por frase, "
+                "frases cortas, sin metáforas y sin palabras técnicas sin explicar. "
+                "No digas 'es muy fácil' ni 'solo tienes que'."
+            ),
+            "normal": "Escríbelo en menos de 90 palabras, claro y directo.",
+            "detalle": (
+                "Puedes usar hasta 160 palabras. Explica también por qué funciona "
+                "así y termina proponiendo un cambio concreto para probar."
+            ),
+        }
 
         if focus_line is not None:
             lineas = code.split("\n")
@@ -222,20 +255,9 @@ IMPORTANTE:
             numerado = "\n".join(
                 f"{n:>3} | {texto}" for n, texto in enumerate(lineas, start=1)
             )
-            user_message = f"""Este es el programa completo del alumno en {language}:
-
-```
-{numerado}
-```
-
-Explica ÚNICAMENTE la línea {focus_line}: `{objetivo}`
-
-Responde en menos de 90 palabras, dirigido a un alumno de primaria:
-1. Qué hace esa línea exactamente.
-2. Por qué hace falta ahí, en relación con las líneas que la rodean.
-3. Qué pasaría si la borrase o cambiase su valor.
-
-No expliques el resto del programa. No repitas el código entero."""
+            user_message = plantilla_linea(idioma).format(
+                numerado=numerado, linea=focus_line, objetivo=objetivo
+            ) + "\n\n" + FORMAS[nivel if nivel in FORMAS else "normal"]
         else:
             user_message = f"""Explica este código en {language}:
 
@@ -251,7 +273,9 @@ Por favor explica:
 
         messages = [{"role": "user", "content": user_message}]
 
-        async for chunk in self.chat_stream(messages, system_prompt=system_prompt):
+        async for chunk in self.chat_stream(
+            messages, system_prompt=system_prompt, model=model, base_url=base_url
+        ):
             yield chunk
 
     async def generate_code(

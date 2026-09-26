@@ -20,6 +20,7 @@ import React, { isValidElement, useState, useRef, useEffect, useCallback } from 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
+import { useTextos } from '../hooks/usePreferencias'
 import './ChatPanel.css'
 
 interface Message {
@@ -40,6 +41,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
   isStreaming,
   onInsertCode,
 }) => {
+  const { t } = useTextos()
   const [input, setInput] = useState('')
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
@@ -128,10 +130,10 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
     <div className="lme-card chat-panel-container">
       <div className="chat-header">
         <div className="lme-card__badge">Asistente IA</div>
-        <h3>Tutor EDUmind</h3>
+        <h2>{t('chat.titulo')}</h2>
         <div className="ai-status">
           <span className={`status-indicator ${isStreaming ? 'thinking' : 'ready'}`}></span>
-          <span className="status-label">{isStreaming ? 'Pensando...' : 'Listo'}</span>
+          <span className="status-label">{isStreaming ? t('chat.pensando') : t('chat.listo')}</span>
         </div>
       </div>
 
@@ -139,7 +141,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
         {messages.length === 0 ? (
           <div className="welcome-message">
             <p className="welcome-icon">🤖</p>
-            <h4>¡Hola! Soy tu tutor de robótica</h4>
+            <h3>¡Hola! Soy tu tutor de robótica</h3>
             <p>
               Pregúntame sobre micro:bit, Nezha, o pídeme que te ayude con tu código.
               Puedo explicarte conceptos, generar ejemplos y guiarte paso a paso. No necesito
@@ -199,7 +201,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
                       <i></i><i></i><i></i>
                     </span>
                     <span className="message-thinking__note">
-                      Pensando en este ordenador. Tu pregunta no sale de aquí.
+                      {t('chat.esperando')}
                     </span>
                   </div>
                 </div>
@@ -213,7 +215,8 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
         <input
           type="text"
           className="chat-input"
-          placeholder="Escribe tu pregunta o solicitud..."
+          placeholder={t('chat.escribe')}
+          aria-label={t('chat.escribe')}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isStreaming}

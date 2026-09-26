@@ -82,6 +82,31 @@ class ButtonActionRequest(BaseModel):
     action: str = Field(..., description="'press' o 'release'")
 
 
+class MBotMotorRequest(BaseModel):
+    """Mover un motor del mBot."""
+    session_id: str
+    motor: str = Field(..., description="'m1' (izquierdo) o 'm2' (derecho)")
+    speed: int = Field(..., ge=-255, le=255, description="Velocidad en escala PWM")
+
+
+class MBotLedRequest(BaseModel):
+    """Color de los LEDs de la placa."""
+    session_id: str
+    led: str = Field(default="ambos", description="'izquierdo', 'derecho' o 'ambos'")
+    r: int = Field(..., ge=0, le=255)
+    g: int = Field(..., ge=0, le=255)
+    b: int = Field(..., ge=0, le=255)
+
+
+class MBotSensorRequest(BaseModel):
+    """Simula lo que ven los sensores del mBot."""
+    session_id: str
+    ultrasonic: Optional[int] = Field(default=None, ge=3, le=400)
+    line_left: Optional[bool] = None
+    line_right: Optional[bool] = None
+    light: Optional[int] = Field(default=None, ge=0, le=1023)
+
+
 class TouchActionRequest(BaseModel):
     """Petición para tocar un pin del Makey Makey (la banana, la fruta...)"""
     session_id: str
@@ -284,6 +309,63 @@ async def touch_action(payload: TouchActionRequest, request: Request):
         "message": f"Pin {payload.pin} {action}ed",
         "state": session.makey.get_state(),
     }
+
+
+def _sesion_mbot(session_id: str, request: Request):
+    """La sesión de mBot, o un error que explica qué falta."""
+    session = simulator_manager.get_session(session_id, _owner_id(request))
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    if not session.mbot:
+        raise HTTPException(
+            status_code=400,
+            detail="Esta sesión no es de mBot. Crea una con platform='mbot'.",
+        )
+    return session
+
+
+@router.post("/mbot/motor")
+async def mbot_motor(payload: MBotMotorRequest, request: Request):
+    """Mueve un motor del mBot."""
+    session = _sesion_mbot(payload.session_id, request)
+    try:
+        session.mbot.mover_motor(payload.motor, payload.speed)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
+    return {"message": f"Motor {payload.motor} a {payload.speed}", "state": session.mbot.get_state()}
+
+
+@router.post("/mbot/led")
+async def mbot_led(payload: MBotLedRequest, request: Request):
+    """Cambia el color de los LEDs de la placa."""
+    session = _sesion_mbot(payload.session_id, request)
+    try:
+        session.mbot.encender_led(payload.led, payload.r, payload.g, payload.b)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
+    return {"message": f"LED {payload.led}", "state": session.mbot.get_state()}
+
+
+@router.post("/mbot/sensor")
+async def mbot_sensor(payload: MBotSensorRequest, request: Request):
+    """
+    Simula lo que ven los sensores.
+
+    Es lo que permite al alumno probar "para el robot si hay una pared"
+    sin tener una pared delante.
+    """
+    session = _sesion_mbot(payload.session_id, request)
+    if payload.ultrasonic is not None:
+        session.mbot.poner_distancia(payload.ultrasonic)
+    if payload.line_left is not None or payload.line_right is not None:
+        actual = session.mbot.estado.seguidor
+        session.mbot.poner_seguidor(
+            payload.line_left if payload.line_left is not None else actual["izquierdo"],
+            payload.line_right if payload.line_right is not None else actual["derecho"],
+        )
+    if payload.light is not None:
+        session.mbot.poner_luz(payload.light)
+    return {"message": "Sensores actualizados", "state": session.mbot.get_state()}
 
 
 # ==================== ACTUALIZACIÓN DE SENSORES ====================

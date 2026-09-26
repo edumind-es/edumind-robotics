@@ -8,6 +8,7 @@
 import React, { useState } from 'react'
 import { useEinkMode } from '../hooks/useEinkMode'
 import { logoutUrl, type AuthUser } from '../lib/auth'
+import { useTextos } from '../hooks/usePreferencias'
 import './NavBar.css'
 
 type View = 'home' | 'lab' | 'vibe' | 'pedagogia'
@@ -18,16 +19,18 @@ interface NavBarProps {
   isAiReady: boolean
   isStreaming: boolean
   user: AuthUser | null
+  onAbrirAcceso: () => void
 }
 
-const NAV_LINKS: { view: View; label: string; icon: string }[] = [
-  { view: 'home', label: 'Inicio', icon: '🏠' },
-  { view: 'lab', label: 'Laboratorio', icon: '🔬' },
-  { view: 'vibe', label: 'Vibe Coding', icon: '✨' },
-  { view: 'pedagogia', label: 'Pedagogía', icon: '📚' },
+const NAV_LINKS: { view: View; clave: string; icon: string }[] = [
+  { view: 'home', clave: 'nav.inicio', icon: '🏠' },
+  { view: 'lab', clave: 'nav.laboratorio', icon: '🔬' },
+  { view: 'vibe', clave: 'nav.vibe', icon: '✨' },
+  { view: 'pedagogia', clave: 'nav.pedagogia', icon: '📚' },
 ]
 
-const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isStreaming, user }) => {
+const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isStreaming, user, onAbrirAcceso }) => {
+  const { t } = useTextos()
   const { eink, setEink } = useEinkMode()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -50,7 +53,7 @@ const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isS
 
         {/* Links desktop */}
         <ul className={`edm-navbar__links ${menuOpen ? 'edm-navbar__links--open' : ''}`} role="list">
-          {NAV_LINKS.map(({ view, label, icon }) => (
+          {NAV_LINKS.map(({ view, clave, icon }) => (
             <li key={view}>
               <button
                 className={`edm-navbar__link ${currentView === view ? 'edm-navbar__link--active' : ''}`}
@@ -58,7 +61,7 @@ const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isS
                 aria-current={currentView === view ? 'page' : undefined}
               >
                 <span className="edm-navbar__link-icon">{icon}</span>
-                <span>{label}</span>
+                <span>{t(clave)}</span>
               </button>
             </li>
           ))}
@@ -70,11 +73,19 @@ const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isS
           <div className="edm-navbar__ai-status" title={isStreaming ? 'IA pensando...' : isAiReady ? 'IA local activa' : 'IA no disponible'}>
             <span className={`edm-navbar__ai-dot ${isStreaming ? 'edm-navbar__ai-dot--thinking' : isAiReady ? 'edm-navbar__ai-dot--ok' : 'edm-navbar__ai-dot--off'}`} />
             <span className="edm-navbar__ai-label">
-              {isStreaming ? 'IA activa' : 'IA local'}
+              {isStreaming ? t('nav.iaActiva') : t('nav.iaLocal')}
             </span>
           </div>
 
           {/* Toggle e-ink */}
+          <button
+            className="edm-navbar__eink-btn"
+            onClick={onAbrirAcceso}
+            title="Cómo aprendo mejor: tamaño de letra, colores, movimiento"
+          >
+            ⚙ {t('nav.ajustes')}
+          </button>
+
           <button
             className={`edm-navbar__eink-btn ${eink ? 'edm-navbar__eink-btn--active' : ''}`}
             onClick={() => setEink(!eink)}
@@ -88,7 +99,7 @@ const NavBar: React.FC<NavBarProps> = ({ currentView, onNavigate, isAiReady, isS
           {user && (
             <div className="edm-navbar__user" title={user.email ?? user.username}>
               <span>{user.username}</span>
-              <a href={logoutUrl()}>Salir</a>
+              <a href={logoutUrl()}>{t('nav.salir')}</a>
             </div>
           )}
 

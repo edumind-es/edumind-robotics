@@ -243,12 +243,36 @@ class LessonEngine:
             None
         )
 
+    # Cómo contar lo mismo de tres maneras. No cambia el concepto ni lo
+    # rebaja: cambia la forma de acceder a él. "Muy claro" no es para quien
+    # sabe menos, es para quien necesita frases cortas y sin metáforas para
+    # poder seguir el hilo.
+    FORMAS_DE_CONTAR = {
+        "sencillo": """CÓMO CONTARLO (muy claro):
+- Máximo 60 palabras. Una idea por frase, y frases de menos de 15 palabras.
+- Nada de metáforas, ironía ni dobles sentidos: se entienden literalmente.
+- Palabras corrientes. Si necesitas una palabra técnica, dila y explícala
+  justo después con otras palabras.
+- Di primero lo que pasa, después el porqué. Nunca al revés.
+- Nada de "simplemente", "solo tienes que" ni "es muy fácil": si al alumno le
+  está costando, esas palabras le dicen que el problema es suyo.""",
+        "normal": """CÓMO CONTARLO (normal):
+- Menos de 120 palabras. Frases claras y directas.
+- Puedes usar una comparación si aclara de verdad.
+- Nombra la función y explica qué hace.""",
+        "detalle": """CÓMO CONTARLO (con detalle):
+- Hasta 200 palabras. Explica también POR QUÉ funciona así, no solo qué hace.
+- Añade un ejemplo de variación: qué pasaría con otro valor u otra función.
+- Relaciona con lo que ya se ha visto y termina proponiendo algo que probar.""",
+    }
+
     def build_educational_context(
         self,
         objective: str,
         platform: PlatformType,
         language: LanguageType,
-        difficulty: DifficultyLevel
+        difficulty: DifficultyLevel,
+        nivel: str = "normal",
     ) -> str:
         """
         Construye contexto educativo para la IA.
@@ -263,9 +287,11 @@ CONTEXTO EDUCATIVO:
 - Nivel: {difficulty.value}
 - Objetivo del alumno: {objective}
 
-BREVEDAD (prioritario): responde en menos de 200 palabras. El modelo corre en local
-sobre CPU: cada palabra de más es tiempo de espera del alumno. Ve al grano, no repitas
-el enunciado y no añadas secciones que nadie ha pedido.
+{self.FORMAS_DE_CONTAR.get(nivel, self.FORMAS_DE_CONTAR["normal"])}
+
+BREVEDAD (prioritario): el modelo corre en local sobre CPU y cada palabra de más
+es tiempo de espera del alumno. Ve al grano, no repitas el enunciado y no añadas
+secciones que nadie ha pedido.
 
 FORMATO - Markdown, solo las secciones que hagan falta:
 - Explicación breve del concepto (2-3 frases).
@@ -302,6 +328,55 @@ PROHIBIDO (son de Arduino u otros entornos y NO funcionan en micro:bit):
 `digitalWrite`, `analogWrite`, `delay()`, `import time`, `Pin(...)`, `pin0.on()`,
 `pin0.off()`, `led.on()`, `microbit_lib`, `GPIO`.
 """
+        elif getattr(platform, "value", platform) == "makey_makey":
+            context += """
+MAKEY MAKEY. En muchas aulas aparece con otro nombre: TeclaTecla y otras
+copias de marca blanca son exactamente la misma placa y se programan igual.
+Si el alumno la llama TeclaTecla, respóndele con ese nombre, sin corregirle.
+
+LO MÁS IMPORTANTE, Y NO LO OLVIDES: al Makey Makey NO SE LE PROGRAMA. La
+placa no lleva código dentro. Es un teclado disfrazado: cuando el circuito
+se cierra, envía una pulsación de tecla al ordenador, igual que si el alumno
+apretase una tecla de verdad.
+
+Por eso NUNCA escribas `pin0.irq(...)`, `from microbit import *` ni nada que
+programe la placa: eso no existe aquí y confundiría al alumno.
+
+Lo que sí se programa es lo que REACCIONA a esas teclas, en el ordenador.
+En este laboratorio, el simulador avisa cuando se toca cada pin:
+
+- Pin 0, pin 1 y pin 2: los tres objetos conductores.
+- Toca la tierra con una mano y el objeto con la otra: el circuito se cierra.
+- Objetos que funcionan: una banana, una cuchara, plastilina, agua, papel de
+  aluminio. Cualquier cosa que conduzca.
+
+Si el alumno pide "un piano de frutas", explícale que conecte cada fruta a
+un pin y que el programa reaccione a cada toque con una nota distinta. La
+gracia está en el circuito y en el objeto, no en el código de la placa.
+"""
+
+        elif getattr(platform, "value", platform) == "mbot":
+            # Sin esto el tutor mezcla el mBot con Arduino o con el micro:bit:
+            # son placas distintas con librerías distintas.
+            context += """
+mBot (Makeblock). Se programa en Python con la librería del robot:
+
+- Motores: `bot.move(m1, m2)` con velocidades de -255 a 255.
+  M1 es el motor izquierdo y M2 el derecho.
+  Los dos positivos = avanza. Los dos negativos = retrocede.
+  Uno positivo y otro negativo = gira sobre sí mismo.
+- Atajos: `bot.forward(v)`, `bot.backward(v)`, `bot.left(v)`, `bot.right(v)`, `bot.stop()`
+- Distancia: `bot.ultrasonic()` devuelve centímetros (de 3 a 400).
+- Línea: `bot.line_left()` y `bot.line_right()` devuelven True si ven negro.
+- LEDs: `bot.led("ambos", r, g, b)` con valores de 0 a 255.
+- Zumbador: `bot.buzzer(frecuencia)`; `bot.buzzer(0)` lo apaga.
+
+IMPORTANTE: el mBot NO usa `from microbit import *` ni `display.show()`. Eso
+es del micro:bit. Y no uses `digitalWrite` ni `analogWrite`: eso es Arduino.
+
+La velocidad va de -255 a 255, NO de -100 a 100 (eso es el Nezha).
+"""
+
         elif platform == PlatformType.NEZHA:
             context += """
 NEZHA (se programa desde el micro:bit, empieza por `from microbit import *`):

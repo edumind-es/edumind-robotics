@@ -5,6 +5,13 @@
 
 import { Suspense, lazy, useEffect, useState } from 'react'
 import './App.css'
+import './styles/preferencias.css'
+import Acceso from './components/Acceso'
+import {
+  usePreferencias,
+  useTextos,
+  TRADUCCION_SIN_REVISAR,
+} from './hooks/usePreferencias'
 import MicrobitDisplay from './components/MicrobitDisplay'
 
 import SensorPanel from './components/SensorPanel'
@@ -34,7 +41,7 @@ const Pedagogia = lazy(() => import('./components/Pedagogia'))
 
 /* Mensaje mientras llega el trozo de código de la vista. */
 const Cargando = () => (
-  <main className="edm-app" aria-live="polite">
+  <main className="edm-app" id="contenido" aria-live="polite">
     <div className="edm-container">
       <p className="edm-kicker">Cargando…</p>
     </div>
@@ -65,8 +72,12 @@ function App() {
   const [policyStatus, setPolicyStatus] = useState<PolicyStatus | null>(null)
   const [auth, setAuth] = useState<AuthState>({ status: 'checking' })
 
-  /* Inicializar e-ink desde localStorage en el arranque */
-  useEinkMode()
+  /* Preferencias de acceso: gobiernan tipografía, contraste, movimiento,
+     color de los LEDs y el nivel de explicación del tutor. */
+  const { preferencias, cambiar, restablecer } = usePreferencias()
+  const { t } = useTextos()
+  const [mostrarAcceso, setMostrarAcceso] = useState(false)
+  const { eink, setEink } = useEinkMode()
 
   const {
     isSessionReady,
@@ -148,21 +159,34 @@ function App() {
 
   const PolicyStrip = () => (
     <aside className={`policy-strip ${aiLocal ? 'policy-strip--ok' : 'policy-strip--warn'}`}>
-      <strong>IA local y privacidad:</strong>{' '}
-      {aiLocal ? 'Ollama local activo' : 'Revisar endpoint de IA'} · {aiModel} ·{' '}
-      {promptsPersisted ? 'historial persistente' : 'sin persistir conversaciones'} · uso guiado para robótica educativa.
+      <strong>{t('politica.titulo')}</strong>{' '}
+      {aiLocal ? t('politica.ok') : t('politica.warn')} · {aiModel} ·{' '}
+      {promptsPersisted ? '' : t('politica.sinHistorial')} · {t('politica.uso')}
     </aside>
   )
 
   return (
     <>
+      <a className="saltar-al-contenido" href="#contenido">{t('nav.saltar')}</a>
       <NavBar
         currentView={view}
         onNavigate={(v) => setView(v)}
         isAiReady={aiLocal}
         isStreaming={isStreaming}
         user={'user' in auth ? auth.user : null}
+        onAbrirAcceso={() => setMostrarAcceso(true)}
       />
+
+      {mostrarAcceso && (
+        <Acceso
+          preferencias={preferencias}
+          cambiar={cambiar}
+          restablecer={restablecer}
+          onCerrar={() => setMostrarAcceso(false)}
+          eink={eink}
+          setEink={setEink}
+        />
+      )}
 
       {view === 'pedagogia' && (
         <Suspense fallback={<Cargando />}>
@@ -171,57 +195,54 @@ function App() {
       )}
 
       {view === 'home' && (
-        <main className="edm-app">
+        <main className="edm-app" id="contenido">
           <div className="edm-container">
             <header className="edm-hero">
-              <p className="edm-kicker">Laboratorio virtual · NEZHA + micro:bit + Makey Makey</p>
+              <p className="edm-kicker">{t('home.kicker')}</p>
               <h1>EDUmind Robotics Lab</h1>
               <p className="edm-subtitle">
-                Aprende programación con micro:bit y Nezha mediante IA local
+                {t('home.subtitulo')}
               </p>
               <PolicyStrip />
               <div className="edm-hero-actions">
                 <button className="edm-button" type="button" onClick={() => setView('vibe')}>
-                  ✨ Vibe Coding
+                  ✨ {t('home.vibe')}
                 </button>
                 <button className="edm-button" type="button" onClick={() => setView('lab')}>
-                  🔬 Abrir Laboratorio
+                  🔬 {t('home.abrirLab')}
                 </button>
                 <button
                   className="edm-button edm-button--ghost"
                   type="button"
                   onClick={() => setView('pedagogia')}
                 >
-                  📚 Por qué la IA es local
+                  📚 {t('home.porQueLocal')}
                 </button>
               </div>
             </header>
 
             <section className="edm-grid" aria-label="Características">
               <article className="edm-card edm-card--cyan">
-                <div className="edm-card__badge">Simulador</div>
-                <h3>Laboratorio virtual</h3>
+                <div className="edm-card__badge">{t('card.sim')}</div>
+                <h3>{t('card.simT')}</h3>
                 <p>
-                  Experimenta con micro:bit sin hardware físico. Matriz LED interactiva,
-                  botones, sensores y control de Nezha en tiempo real.
+{t('card.simD')}
                 </p>
               </article>
 
               <article className="edm-card edm-card--lime">
-                <div className="edm-card__badge">Asistente IA</div>
-                <h3>Tutor educativo local</h3>
+                <div className="edm-card__badge">{t('card.ia')}</div>
+                <h3>{t('card.iaT')}</h3>
                 <p>
-                  Pregunta, aprende y genera código con una IA que se ejecuta en el
-                  propio centro. Te explica cada línea, no solo te la entrega.
+{t('card.iaD')}
                 </p>
               </article>
 
               <article className="edm-card edm-card--pink">
-                <div className="edm-card__badge">Editor</div>
-                <h3>Código MicroPython</h3>
+                <div className="edm-card__badge">{t('card.ed')}</div>
+                <h3>{t('card.edT')}</h3>
                 <p>
-                  Escribe y ejecuta código Python instantáneamente. Visualiza resultados
-                  en el simulador y experimenta sin límites.
+{t('card.edD')}
                 </p>
               </article>
 
@@ -253,6 +274,14 @@ function App() {
               </article>
             </section>
           </div>
+          {/* Aviso permanente: quien llegue con la lengua ya guardada no
+              abrirá el panel de ajustes y nunca vería el aviso de allí. */}
+          {TRADUCCION_SIN_REVISAR.includes(preferencias.idioma) && (
+            <p className="aviso-traduccion" role="note" lang={preferencias.idioma}>
+              {t('idioma.avisoTraduccion')}
+            </p>
+          )}
+
           <EDUmindFooter
             appName="EDUmind Robotics"
             version="1.0.0"
@@ -278,7 +307,7 @@ function App() {
 
       {view === 'lab' && (
         <Suspense fallback={<Cargando />}>
-        <main className="edm-app lab-view">
+        <main className="edm-app lab-view" id="contenido">
           <div className="lab-container">
             <header className="lab-header">
               <div className="lab-title">

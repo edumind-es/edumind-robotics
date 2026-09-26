@@ -154,3 +154,83 @@
     opacity: 0.5;
   }
 }
+
+/* ─── Accesibilidad de la pantalla ───────────────────────────────────────
+   El color del LED sale de una variable que el alumno elige en los ajustes:
+   el rojo sobre negro es la peor combinación para buena parte del
+   daltonismo y para baja visión. */
+.led-pixel {
+  background: var(--led-apagado, #1a1a1a);
+}
+
+.led-pixel--on {
+  background: var(--led-encendido, #ff3333);
+}
+
+/* A contraste alto, un punto encendido se distingue además por su tamaño y
+   su borde: no depende solo del color. */
+html[data-contraste='alto'] .led-pixel--on {
+  outline: 2px solid #ffffff;
+  outline-offset: -1px;
+}
+
+.microbit-lectura {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.microbit-lectura__btn {
+  background: transparent;
+  border: 2px solid var(--lm-rule);
+  border-radius: 999px;
+  color: var(--lm-ink-2);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.95rem;
+}
+
+.microbit-lectura__btn:hover {
+  border-color: var(--lm-ink);
+  color: var(--lm-ink);
+}
+
+.microbit-lectura__panel {
+  width: 100%;
+  background: var(--lm-paper-2);
+  border: 2px solid var(--lm-rule);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  text-align: left;
+}
+
+.microbit-lectura__resumen {
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+  color: var(--lm-ink);
+}
+
+.microbit-lectura__filas {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--lm-ink-2);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.microbit-lectura__dibujo {
+  margin: 0.7rem 0 0;
+  font-family: var(--edm-font-mono);
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--lm-ink);
+  background: var(--lm-paper);
+  border: 1px solid var(--lm-rule);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  overflow-x: auto;
+}

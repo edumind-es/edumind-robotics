@@ -164,3 +164,12 @@
     font-size: 0.8rem;
     line-height: 1.4;
 }
+/* La misma placa se vende con varios nombres; decirlo evita que un docente
+   con una TeclaTecla piense que su material no sirve aquí. */
+.makey-clon {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--lm-ink-3);
+}

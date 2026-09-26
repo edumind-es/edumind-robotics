@@ -225,3 +225,127 @@
 @media (prefers-reduced-motion: reduce) {
   .explain-panel__dots i { animation: none; opacity: 0.6; }
 }
+
+/* ─── Editor sencillo ────────────────────────────────────────────────────
+   Un campo de texto normal. Menos potente que Monaco a propósito: sin
+   autocompletado que salte solo, sin decenas de atajos y con el contenido
+   entero en el DOM, que es lo que un lector de pantalla puede recorrer. */
+.editor-sencillo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.editor-sencillo__etiqueta {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--lm-ink);
+}
+
+.editor-sencillo__campo {
+  width: 100%;
+  min-height: 20rem;
+  resize: vertical;
+  font-family: var(--edm-font-mono);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--lm-ink);
+  background: var(--lm-paper);
+  border: 2px solid var(--lm-rule);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  tab-size: 4;
+}
+
+.editor-sencillo__campo:focus {
+  outline: 3px solid var(--lm-mental);
+  outline-offset: 2px;
+  border-color: var(--lm-ink);
+}
+
+.editor-sencillo__ayuda {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--lm-ink-2);
+  line-height: 1.55;
+}
+
+html[data-contraste='alto'] .editor-sencillo__campo {
+  border-color: var(--lm-ink);
+}
+
+/* Con el editor sencillo la tarjeta deja de ser oscura: ese fondo existía
+   para enmarcar el tema oscuro de Monaco, y dejaba las etiquetas en tinta
+   oscura sobre oscuro, ilegibles. */
+html[data-editor='sencillo'] .code-editor-container {
+  background: var(--lm-paper-2);
+  border: 2px solid var(--lm-ink);
+}
+
+html[data-editor='sencillo'] .code-editor-container h2,
+html[data-editor='sencillo'] .code-editor-header h2 {
+  color: var(--lm-ink);
+}
+
+html[data-editor='sencillo'] .code-editor-tips,
+html[data-editor='sencillo'] .tip-text {
+  color: var(--lm-ink-2);
+}
+
+html[data-editor='sencillo'] .explain-button {
+  color: var(--lm-ink);
+  border-color: var(--lm-ink);
+}
+
+/* Aviso del envío a la placa. */
+.envio-placa {
+  margin: 0.9rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  border: 2px solid var(--lm-rule);
+}
+
+.envio-placa--listo {
+  border-color: var(--lm-emocional);
+  background: color-mix(in srgb, var(--lm-emocional) 12%, var(--lm-paper-2));
+  color: var(--lm-ink);
+}
+
+.envio-placa--error {
+  border-color: var(--lm-fisico);
+  background: color-mix(in srgb, var(--lm-fisico) 12%, var(--lm-paper-2));
+  color: var(--lm-ink);
+}
+
+/* Resultado de ejecutar: errores y lo que el programa imprime. */
+.ejecucion {
+  margin: 0.9rem 0 0;
+  border: 2px solid var(--lm-rule);
+  border-left-width: 8px;
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1rem;
+  background: var(--lm-paper-2);
+}
+
+.ejecucion--error { border-left-color: var(--lm-fisico); }
+.ejecucion--salida { border-left-color: var(--lm-mental); }
+
+.ejecucion__titulo {
+  margin: 0 0 0.4rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--lm-ink);
+}
+
+.ejecucion__detalle {
+  margin: 0;
+  font-family: var(--edm-font-mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--lm-ink-2);
+  white-space: pre-wrap;
+  overflow-x: auto;
+}

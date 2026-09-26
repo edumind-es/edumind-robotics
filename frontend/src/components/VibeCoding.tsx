@@ -13,6 +13,7 @@ import CodeEditor from './CodeEditor'
 import MicrobitDisplay from './MicrobitDisplay'
 import MakeyMakeyDisplay from './MakeyMakeyDisplay'
 import NezhaRobot from './NezhaRobot'
+import MBot from './MBot'
 import { useAppStore } from '../store/useAppStore'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -36,7 +37,7 @@ interface SimulatorState {
   }
 }
 
-type HardwareType = 'microbit' | 'nezha' | 'makey'
+type HardwareType = 'microbit' | 'nezha' | 'mbot' | 'makey'
 type Step = 1 | 2 | 3 | 4 | 5
 
 interface VibeCodingProps {
@@ -63,8 +64,14 @@ const HARDWARE_INFO: Record<HardwareType, { label: string; icon: string; color: 
     color: 'var(--lm-emocional-text)',
     promptHint: 'Ej: mover los motores hacia adelante, hacer girar las ruedas, parar el robot...',
   },
+  mbot: {
+    label: 'mBot',
+    icon: '🚗',
+    color: 'var(--lm-social-text)',
+    promptHint: 'Ej: avanzar y parar antes de la pared, seguir una línea negra, encender los LEDs en verde...',
+  },
   makey: {
-    label: 'Makey Makey',
+    label: 'Makey Makey / TeclaTecla',
     icon: '🎹',
     color: 'var(--lm-social-text)',
     promptHint: 'Ej: tocar una nota al tocar la banana, crear un piano con frutas, controlar un juego...',
@@ -74,6 +81,7 @@ const HARDWARE_INFO: Record<HardwareType, { label: string; icon: string; color: 
 const HARDWARE_PLATFORM: Record<HardwareType, string> = {
   microbit: 'micro:bit',
   nezha: 'Nezha',
+  mbot: 'mBot',
   makey: 'Makey Makey',
 }
 
@@ -99,6 +107,13 @@ const QUICK_IDEAS: Record<HardwareType, string[]> = {
     'Parar el robot cuando detecte un obstáculo',
     'Mover el servo 90 grados',
     'Hacer que el robot zigzaguee',
+  ],
+  mbot: [
+    'Avanzar y parar antes de chocar con la pared',
+    'Seguir una línea negra en el suelo',
+    'Encender los LEDs en verde mientras avanza',
+    'Girar cuando el sensor vea un obstáculo cerca',
+    'Hacer que el robot dibuje un cuadrado',
   ],
   makey: [
     'Reproducir una nota al tocar la banana',
@@ -152,6 +167,10 @@ const VibeCoding: React.FC<VibeCodingProps> = ({
   const setMotor = useAppStore((s) => s.setMotor)
   const setServo = useAppStore((s) => s.setServo)
   const initNezhaSession = useAppStore((s) => s.initNezhaSession)
+  const mbotState = useAppStore((s) => s.mbotState)
+  const setMBotMotor = useAppStore((s) => s.setMBotMotor)
+  const setMBotSensor = useAppStore((s) => s.setMBotSensor)
+  const initMBotSession = useAppStore((s) => s.initMBotSession)
   const touchPin = useAppStore((s) => s.touchPin)
   const releasePin = useAppStore((s) => s.releasePin)
   const initMakeySession = useAppStore((s) => s.initMakeySession)
@@ -163,8 +182,10 @@ const VibeCoding: React.FC<VibeCodingProps> = ({
       initMakeySession()
     } else if (hardware === 'nezha') {
       initNezhaSession()
+    } else if (hardware === 'mbot') {
+      initMBotSession()
     }
-  }, [hardware, initMakeySession, initNezhaSession])
+  }, [hardware, initMakeySession, initNezhaSession, initMBotSession])
 
   const lastAiMessage = messages.filter((m) => m.role === 'assistant').pop()
   const extractedCode = lastAiMessage ? extractCode(lastAiMessage.content) : null
@@ -453,7 +474,9 @@ AHORA genera el código para: ${objective}`
                 en el robot real.
               </p>
             </div>
-            {hardware === 'nezha' ? (
+            {hardware === 'mbot' ? (
+              <MBot estado={mbotState} onMotor={setMBotMotor} onSensor={setMBotSensor} />
+            ) : hardware === 'nezha' ? (
               <NezhaRobot
                 motors={nezhaState.motors}
                 servos={nezhaState.servos}

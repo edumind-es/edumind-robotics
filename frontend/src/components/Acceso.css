@@ -1,0 +1,198 @@
+/*
+ * Copyright (C) 2024-2026 Luis Vilela Acuña <contacto@edumind.es>
+ * Author: Luis Vilela Acuña
+ *
+ * Panel "Cómo aprendo mejor". Las opciones son fichas grandes: un objetivo
+ * táctil amplio ayuda a quien tiene dificultades motrices y a quien usa la
+ * pantalla táctil de una tablet en clase.
+ */
+
+.acceso-fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: color-mix(in srgb, var(--lm-ink) 45%, transparent);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.acceso-panel {
+  background: var(--lm-paper);
+  color: var(--lm-ink);
+  border: 2px solid var(--lm-ink);
+  border-radius: 14px;
+  box-shadow: 6px 6px 0 var(--lm-rule);
+  width: min(560px, 100%);
+  max-height: min(88vh, 900px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.acceso-cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 1.4rem 0.9rem;
+  border-bottom: 2px solid var(--lm-rule);
+}
+
+.acceso-cabecera h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.acceso-cerrar {
+  background: none;
+  border: 2px solid var(--lm-rule);
+  border-radius: 8px;
+  color: var(--lm-ink);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.45rem 0.6rem;
+  flex-shrink: 0;
+}
+
+.acceso-cerrar:hover { border-color: var(--lm-ink); }
+
+.acceso-intro {
+  margin: 0;
+  padding: 0.9rem 1.4rem 0;
+  font-size: 0.92rem;
+  color: var(--lm-ink-2);
+}
+
+.acceso-cuerpo {
+  padding: 1rem 1.4rem 1.2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.acceso-grupo {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.acceso-grupo__titulo {
+  font-family: var(--edm-font-head);
+  font-size: 1.02rem;
+  font-weight: 700;
+  padding: 0;
+  margin-bottom: 0.2rem;
+}
+
+.acceso-grupo__desc {
+  margin: 0 0 0.6rem;
+  font-size: 0.86rem;
+  color: var(--lm-ink-2);
+  line-height: 1.5;
+}
+
+.acceso-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Ficha seleccionable: el radio real sigue ahí (teclado y lector de
+   pantalla lo usan), pero el área que se pulsa es toda la ficha. */
+.acceso-opcion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  border: 2px solid var(--lm-rule);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  min-width: 7.5rem;
+  flex: 1 1 auto;
+  background: var(--lm-paper-2);
+}
+
+.acceso-opcion input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.acceso-opcion__etiqueta {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.acceso-opcion__ayuda {
+  font-size: 0.78rem;
+  color: var(--lm-ink-2);
+  line-height: 1.4;
+}
+
+.acceso-opcion--activa {
+  border-color: var(--lm-ink);
+  background: color-mix(in srgb, var(--lm-mental) 14%, var(--lm-paper-2));
+  box-shadow: 2px 2px 0 var(--lm-ink);
+}
+
+/* La selección no puede depender solo del color: se marca también con una
+   señal que se ve en escala de grises. */
+.acceso-opcion--activa .acceso-opcion__etiqueta::before {
+  content: '● ' / '';
+  color: var(--lm-mental-text);
+}
+
+.acceso-opcion:has(input:focus-visible) {
+  outline: 3px solid var(--lm-mental);
+  outline-offset: 3px;
+}
+
+.acceso-interruptor {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.acceso-interruptor input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--lm-mental);
+  cursor: pointer;
+}
+
+.acceso-pie {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1.4rem 1.2rem;
+  border-top: 2px solid var(--lm-rule);
+}
+
+@media (max-width: 480px) {
+  .acceso-opcion { min-width: 100%; }
+  .acceso-pie .edm-button { flex: 1 1 auto; }
+}
+
+/* Aviso honesto sobre lo que el tutor puede hacer en cada lengua. */
+.acceso-aviso {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border: 2px solid var(--lm-social);
+  border-left-width: 8px;
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--lm-social) 12%, var(--lm-paper-2));
+  color: var(--lm-ink);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}

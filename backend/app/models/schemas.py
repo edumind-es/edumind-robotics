@@ -36,6 +36,7 @@ class PlatformType(str, Enum):
     MICROBIT = "micro:bit"
     NEZHA = "nezha"
     MAKEY = "makey_makey"
+    MBOT = "mbot"
 
 
 class LanguageType(str, Enum):
@@ -44,6 +45,29 @@ class LanguageType(str, Enum):
     JAVASCRIPT = "javascript"
     MAKECODE = "makecode"
     SCRATCH = "scratch"
+
+
+class NivelExplicacion(str, Enum):
+    """
+    Cómo quiere el alumno que se lo cuenten.
+
+    No son niveles de dificultad del contenido: el concepto es el mismo. Es la
+    forma de contarlo lo que cambia, porque no todo el mundo accede a la
+    información de la misma manera.
+    """
+    SENCILLO = "sencillo"
+    NORMAL = "normal"
+    DETALLE = "detalle"
+
+
+class Idioma(str, Enum):
+    """Lenguas de la interfaz y del tutor."""
+    ES = "es"
+    GL = "gl"
+    CA = "ca"
+    EU = "eu"
+    EN = "en"
+    ZH = "zh"
 
 
 class MessageRole(str, Enum):
@@ -81,6 +105,14 @@ class ChatRequest(BaseModel):
     difficulty: DifficultyLevel = Field(
         default=DifficultyLevel.BEGINNER,
         description="Nivel de dificultad"
+    )
+    nivel: NivelExplicacion = Field(
+        default=NivelExplicacion.NORMAL,
+        description="Cómo debe contarse la respuesta",
+    )
+    idioma: Idioma = Field(
+        default=Idioma.ES,
+        description="Lengua en la que debe responder el tutor",
     )
     lesson_id: Optional[str] = Field(
         default=None,
@@ -147,6 +179,14 @@ class CodeExplanationRequest(BaseModel):
     specific_question: Optional[str] = Field(
         default=None,
         description="Pregunta específica sobre el código"
+    )
+    nivel: NivelExplicacion = Field(
+        default=NivelExplicacion.NORMAL,
+        description="Cómo debe contarse la explicación",
+    )
+    idioma: Idioma = Field(
+        default=Idioma.ES,
+        description="Lengua en la que debe responder el tutor",
     )
     focus_line: Optional[int] = Field(
         default=None,

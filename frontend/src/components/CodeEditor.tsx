@@ -23,6 +23,9 @@ import '../lib/monaco'
 import Editor from '@monaco-editor/react'
 import ReactMarkdown from 'react-markdown'
 import { explainLine } from '../lib/explain'
+import { enviarAlMicrobit, navegadorSoportaGuardar, type EstadoEnvio } from '../lib/microbit'
+import { usePreferencias, useTextos } from '../hooks/usePreferencias'
+import { useAppStore } from '../store/useAppStore'
 import './CodeEditor.css'
 
 interface CodeEditorProps {
@@ -52,6 +55,35 @@ display.show(Image.HEART)
   onCodeChange,
 }) => {
   const [code, setCode] = useState(defaultCode)
+  const { preferencias } = usePreferencias()
+  const { t } = useTextos()
+  /*
+   * Los errores de ejecución estaban en el store y no se pintaban en ningún
+   * sitio: el alumno cambiaba una línea, el programa fallaba y la pantalla
+   * se quedaba con el dibujo anterior, sin decir nada. Es peor que un error
+   * feo: parece que la app no hace caso.
+   */
+  const executionErrors = useAppStore((s) => s.executionErrors)
+  const executionOutput = useAppStore((s) => s.executionOutput)
+  const editorSencillo = preferencias.editor === 'sencillo'
+  const areaRef = useRef<HTMLTextAreaElement>(null)
+  const [envio, setEnvio] = useState<EstadoEnvio>({ fase: 'inactivo' })
+
+  const handleEnviarPlaca = async () => {
+    setEnvio({ fase: 'generando' })
+    try {
+      const nombre = await enviarAlMicrobit(code, 'edumind')
+      setEnvio({ fase: 'listo', nombre })
+    } catch (error) {
+      /* Si el alumno cierra el diálogo de guardar no es un fallo: se vuelve
+         al estado inicial sin darle un susto. */
+      if ((error as Error).name === 'AbortError') {
+        setEnvio({ fase: 'inactivo' })
+        return
+      }
+      setEnvio({ fase: 'error', mensaje: (error as Error).message })
+    }
+  }
 
   /* Línea donde está el cursor: es la que el alumno mira ahora mismo. */
   const [lineaActual, setLineaActual] = useState(1)
@@ -60,6 +92,15 @@ display.show(Image.HEART)
   const [explicando, setExplicando] = useState(false)
   const [errorExplicacion, setErrorExplicacion] = useState('')
   const abortarRef = useRef<AbortController | null>(null)
+
+  /* En el campo de texto no hay API de cursor: la línea se deduce contando
+     los saltos que hay antes de la posición del cursor. */
+  const actualizarLineaDesdeArea = () => {
+    const area = areaRef.current
+    if (!area) return
+    const hasta = area.value.slice(0, area.selectionStart)
+    setLineaActual(hasta.split('\n').length)
+  }
 
   const textoLinea = (code.split('\n')[lineaActual - 1] ?? '').trim()
   const lineaVacia = textoLinea === '' || textoLinea.startsWith('#')
@@ -86,7 +127,7 @@ display.show(Image.HEART)
       })
     } catch (error) {
       if ((error as Error).name !== 'AbortError') {
-        setErrorExplicacion('No se pudo pedir la explicación. Inténtalo otra vez.')
+        setErrorExplicacion(t('editor.errorExplicacion'))
       }
     } finally {
       if (abortarRef.current === controlador) {
@@ -119,7 +160,7 @@ display.show(Image.HEART)
     <div className="lme-card code-editor-container">
       <div className="code-editor-header">
         <div className="lme-card__badge">Editor</div>
-        <h3>Código MicroPython</h3>
+        <h2>{t('editor.titulo')}</h2>
         <div className="code-editor-actions">
           <button
             className="edm-button edm-button--ghost explain-button"
@@ -133,7 +174,17 @@ display.show(Image.HEART)
                 : `Explicar la línea ${lineaActual}`
             }
           >
-            {explicando ? '💡 Pensando…' : `💡 Explícame la línea ${lineaActual}`}
+            {explicando ? `💡 ${t('editor.pensando')}` : `💡 ${t('editor.explicar')} ${lineaActual}`}
+          </button>
+          <button
+            className="edm-button edm-button--ghost"
+            type="button"
+            data-testid="send-microbit"
+            onClick={handleEnviarPlaca}
+            disabled={envio.fase === 'generando'}
+            title={t('usb.ayuda')}
+          >
+            {envio.fase === 'generando' ? `🔌 ${t('usb.enviando')}` : `🔌 ${t('usb.enviar')}`}
           </button>
           <button
             className="edm-button edm-button--primary"
@@ -142,11 +193,39 @@ display.show(Image.HEART)
             onClick={handleExecute}
             disabled={isExecuting}
           >
-            {isExecuting ? '▶ Ejecutando...' : '▶ Ejecutar código'}
+            {isExecuting ? `▶ ${t('editor.ejecutando')}` : `▶ ${t('editor.ejecutar')}`}
           </button>
         </div>
       </div>
 
+      {editorSencillo ? (
+        <div className="editor-sencillo">
+          <label htmlFor="editor-sencillo-campo" className="editor-sencillo__etiqueta">
+            {t('editor.etiquetaCampo')}
+          </label>
+          <textarea
+            id="editor-sencillo-campo"
+            ref={areaRef}
+            className="editor-sencillo__campo"
+            value={code}
+            spellCheck={false}
+            autoCorrect="off"
+            autoCapitalize="off"
+            rows={14}
+            onChange={(e) => {
+              handleCodeChange(e.target.value)
+              actualizarLineaDesdeArea()
+            }}
+            onKeyUp={actualizarLineaDesdeArea}
+            onClick={actualizarLineaDesdeArea}
+            aria-describedby="editor-sencillo-ayuda"
+          />
+          <p id="editor-sencillo-ayuda" className="editor-sencillo__ayuda">
+            Estás en la línea {lineaActual} de {code.split('\n').length}. El
+            tabulador sale del campo; para sangrar, escribe cuatro espacios.
+          </p>
+        </div>
+      ) : (
       <div className="code-editor-wrapper">
         <Editor
           height="400px"
@@ -170,9 +249,54 @@ display.show(Image.HEART)
             automaticLayout: true,
             tabSize: 4,
             wordWrap: 'on',
+            /*
+              Monaco solo activa su modo accesible completo si "detecta" un
+              lector de pantalla, y esa detección falla a menudo. Forzarlo
+              hace que exponga el contenido real en lugar de un lienzo.
+            */
+            accessibilitySupport: 'on',
+            /* Se anunciaba como "Editor content", en inglés y sin decir qué
+               contiene. */
+            ariaLabel:
+              'Editor de código MicroPython para micro:bit. Pulsa Escape para salir del editor con el tabulador.',
+            accessibilityPageSize: 100,
+            /* Sin esto, autocompletar salta solo mientras el alumno escribe:
+               para quien usa lector de pantalla es una interrupción constante. */
+            quickSuggestions: false,
+            suggestOnTriggerCharacters: false,
+            /* Un editor de aula no necesita minimapa ni lentes de código. */
+            codeLens: false,
+            renderLineHighlight: 'all',
           }}
         />
       </div>
+      )}
+
+      {executionErrors.length > 0 && (
+        <div className="ejecucion ejecucion--error" role="alert">
+          <p className="ejecucion__titulo">{t('ejec.error')}</p>
+          <pre className="ejecucion__detalle">{executionErrors.join('\n')}</pre>
+        </div>
+      )}
+
+      {executionErrors.length === 0 && executionOutput.length > 0 && (
+        <div className="ejecucion ejecucion--salida" aria-live="polite">
+          <p className="ejecucion__titulo">{t('ejec.salida')}</p>
+          <pre className="ejecucion__detalle">{executionOutput.join('\n')}</pre>
+        </div>
+      )}
+
+      {(envio.fase === 'listo' || envio.fase === 'error') && (
+        <p
+          className={`envio-placa envio-placa--${envio.fase}`}
+          role="status"
+          aria-live="polite"
+        >
+          {envio.fase === 'listo'
+            ? `${t('usb.listo')}${navegadorSoportaGuardar() ? '' : ` ${t('usb.sinSoporte')}`}`
+            : envio.mensaje}
+        </p>
+      )}
 
       {(explicando || explicacion || errorExplicacion) && (
         <section className="explain-panel" aria-live="polite">
@@ -190,7 +314,7 @@ display.show(Image.HEART)
                 setErrorExplicacion('')
                 setExplicando(false)
               }}
-              aria-label="Cerrar la explicación"
+              aria-label={t('editor.cerrarExplicacion')}
             >
               ✕
             </button>
@@ -207,7 +331,7 @@ display.show(Image.HEART)
               <span className="explain-panel__dots" aria-hidden="true">
                 <i></i><i></i><i></i>
               </span>
-              Pensando en este ordenador. Tu código no sale de aquí.
+              {t('chat.esperandoCodigo')}
             </p>
           )}
         </section>
