@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2024-2026 Luis Vilela Acuña <contacto@edumind.es>
- * Author: Luis Vilela Acuña
+ * Author: Luis Vilela Acuña (de este fichero de declaración, no de las fuentes)
  *
  * Tipografías servidas desde el propio centro.
  *
@@ -13,6 +13,20 @@
  * los subconjuntos latin y latin-ext: cubren castellano, galego, català,
  * euskara e inglés. El chino usa la tipografía del sistema, porque una
  * fuente CJK completa pesa varios megabytes.
+ *
+ * Las tipografías NO son obra de EDUmind. Este fichero solo las declara.
+ * Todas se distribuyen bajo la SIL Open Font License 1.1 (texto completo
+ * en OFL.txt, en esta misma carpeta):
+ *   - Atkinson Hyperlegible — Braille Institute of America
+ *     https://brailleinstitute.org/freefont
+ *   - Bricolage Grotesque — Mathieu Triay
+ *     https://github.com/ateliertriay/bricolage
+ *   - Poppins — Indian Type Foundry (Jonny Pinhorn, Ninad Kale)
+ *     https://github.com/itfoundry/Poppins
+ *   - IBM Plex Mono — IBM (Mike Abbink, Bold Monday)
+ *     https://github.com/IBM/plex
+ * Los subconjuntos .woff2 se obtuvieron de las copias publicadas en
+ * Google Fonts y se sirven sin modificar. Lista completa: CREDITS.md.
  */
 
 @font-face {

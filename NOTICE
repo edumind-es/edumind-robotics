@@ -13,3 +13,7 @@ signs. See TRADEMARKS.md.
 Safe Creative registrations and timestamped authorship records may apply
 to the original works. These notices do not restrict the software license
 grants for the code released in this repository.
+
+Third-party material (fonts under SIL OFL 1.1, MicroPython firmware under
+MIT, libraries under MIT/BSD/Apache-2.0) is listed with authors and
+licenses in CREDITS.md.
