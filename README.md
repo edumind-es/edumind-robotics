@@ -43,7 +43,7 @@ Todo está pensado para tocarse sin conocer el proyecto entero:
 - **Añadir una plantilla de código**: `backend/app/services/code_generator.py`, diccionario `templates` (id, título, dificultad, plataforma, código y explicación). Las plantillas se ejecutan en el simulador en las pruebas (`backend/tests/test_templates_execute.py`), así que si la nueva falla, lo verás en `pytest`.
 - **Añadir una lección**: `backend/app/services/lesson_engine.py`, diccionario `lessons`. La referencia de la API que se pasa al modelo está al final del mismo fichero.
 - **Añadir o revisar un idioma**: textos de la interfaz en `frontend/src/i18n/textos.ts`; instrucciones del tutor por idioma en `backend/app/services/idiomas.py`.
-- **Cambiar el modelo de IA**: `OLLAMA_MODEL` en `backend/.env` (por defecto `qwen2.5:3b`). El backend rechaza cualquier `OLLAMA_BASE_URL` que no sea local: está hecho a propósito.
+- **Cambiar el modelo de IA**: `OLLAMA_MODEL` en `backend/.env` (si no se indica, `phi3:latest`; la instancia pública usa `qwen2.5:3b`). El backend rechaza cualquier `OLLAMA_BASE_URL` que no sea local: está hecho a propósito.
 - **Desactivar el inicio de sesión (SSO)**: `AUTHENTIK_ENABLED=false` en `backend/.env`. Sin SSO la app es de acceso libre y no muestra ningún dato de usuario.
 - **Añadir un simulador de hardware**: `backend/app/simulator/` (un fichero por placa: `microbit_sim.py`, `nezha_sim.py`, `mbot_sim.py`, `makey_makey_sim.py`) y su vista en `frontend/src/components/`.
 - **Cambiar la apariencia**: los colores y tipografías son variables CSS del sistema Lámina (`frontend/public/vendor/lamina-v1.css`, `frontend/src/styles/edumind-theme.css`). Las tipografías se sirven desde `frontend/public/fuentes/`.
@@ -56,7 +56,7 @@ Este recurso se ha desarrollado con *vibe coding* con asistencia de IA (Claude C
 - Las {nb} pruebas automáticas del backend (API, simulador, guardarraíles del tutor, generación del .hex y SSO) y las {ne} pruebas de extremo a extremo con Playwright pasan en la integración continua de cada PR.
 - Las licencias del material ajeno (tipografías, firmware, bibliotecas) están revisadas y listadas en [CREDITS.md](CREDITS.md).
 - Los textos que ve el alumnado (plantillas, explicaciones, instrucciones de carga en el hardware) están revisados; las exportaciones a MakeCode y Scratch siguen marcadas como experimentales porque no se han probado en esos editores.
-- La app se ha ejecutado en navegador de escritorio (Chrome, Firefox) y en tableta; el envío por USB requiere Chrome o Edge (WebUSB).
+- La versión compilada se ha abierto en Chromium (Playwright) para la auditoría automática de accesibilidad con axe-core (contraste y nombres accesibles). El envío por USB usa WebUSB y la propia app avisa de que necesita Chrome o Edge (`frontend/src/lib/microbit.ts`).
 
 Además, en tiempo de ejecución la app usa un modelo de IA local (Ollama) como tutor: es la función central, y está descrita en la página «Pedagogía» de la propia app.
 
