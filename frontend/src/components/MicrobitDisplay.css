@@ -24,7 +24,7 @@
 }
 
 .microbit-title {
-  color: #6aa3bf;
+  color: var(--lm-mental-text);
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -106,11 +106,11 @@
 }
 
 .microbit-button--a {
-  border-color: #6aa3bf;
+  border-color: var(--lm-mental-text);
 }
 
 .microbit-button--b {
-  border-color: #f2bc55;
+  border-color: var(--lm-social-text);
 }
 
 .microbit-button--a.pressed {

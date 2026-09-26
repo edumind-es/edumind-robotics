@@ -29,7 +29,7 @@
 }
 
 .makey-header h3 {
-    color: #f0795a;
+    color: var(--lm-fisico-text);
     margin: 0;
 }
 
@@ -54,7 +54,7 @@
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
     font-size: 0.7rem;
-    color: #8cc26a;
+    color: var(--lm-emocional-text);
 }
 
 .ground-wire {

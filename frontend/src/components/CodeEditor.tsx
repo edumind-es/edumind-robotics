@@ -232,6 +232,16 @@ display.show(Image.HEART)
           defaultLanguage="python"
           value={code}
           onChange={handleCodeChange}
+          beforeMount={(monaco) => {
+            /* vs-dark pinta los comentarios en #608b4e (4,2:1 sobre #1e1e1e).
+               Los comentarios son justo lo que más lee el alumnado. */
+            monaco.editor.defineTheme('edumind-oscuro', {
+              base: 'vs-dark',
+              inherit: true,
+              rules: [{ token: 'comment', foreground: '7cb26a' }],
+              colors: {},
+            })
+          }}
           onMount={(editor) => {
             /* Seguimos el cursor para saber qué línea está mirando el alumno:
                así el botón siempre dice el número que tiene delante. */
@@ -240,7 +250,7 @@ display.show(Image.HEART)
               setLineaActual(evento.position.lineNumber)
             })
           }}
-          theme="vs-dark"
+          theme="edumind-oscuro"
           options={{
             minimap: { enabled: false },
             fontSize: 14,

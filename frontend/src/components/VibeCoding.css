@@ -46,7 +46,7 @@
 
 .vc-hw-btn--active {
   border-color: var(--hw-color, var(--lm-mental-text));
-  background: color-mix(in srgb, var(--hw-color, var(--lm-mental-text)) 15%, transparent);
+  background: color-mix(in srgb, var(--hw-color, var(--lm-mental-text)) 7%, transparent); /* al 15 % daba 4,5:1 justo */
   color: var(--hw-color, var(--lm-mental-text));
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--hw-color, var(--lm-mental-text)) 40%, transparent);
 }
@@ -72,7 +72,7 @@
   flex: 1;
   min-width: 90px;
   position: relative;
-  opacity: 0.62;
+  opacity: 1; /* antes atenuado: los pasos pendientes no llegaban a 4,5:1 */
   transition: opacity 0.3s ease;
 }
 
@@ -92,7 +92,7 @@
 }
 
 .vc-step--done {
-  opacity: 0.7;
+  opacity: 1; /* la atenuación dejaba el texto por debajo de 2:1; el ✓ ya marca el paso hecho */
 }
 
 .vc-step-circle {

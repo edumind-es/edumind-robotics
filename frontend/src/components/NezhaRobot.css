@@ -31,7 +31,7 @@
 }
 
 .nezha-header h3 {
-    color: #8cc26a;
+    color: var(--lm-emocional-text);
     margin: 0;
 }
 
@@ -52,8 +52,8 @@
 
 .nezha-tabs button.active {
     background: rgba(140, 194, 106, 0.2);
-    border-color: #8cc26a;
-    color: #8cc26a;
+    border-color: var(--lm-emocional-text);
+    color: var(--lm-emocional-text);
 }
 
 .nezha-visualization {
@@ -83,7 +83,7 @@
 }
 
 .ultrasonic-value {
-    color: #6aa3bf;
+    color: var(--lm-mental-text);
     font-size: 0.8rem;
     font-family: monospace;
 }
@@ -242,7 +242,7 @@
 }
 
 .servo-value {
-    color: #6aa3bf;
+    color: var(--lm-mental-text);
 }
 
 /* Sensors view */
@@ -272,7 +272,7 @@
 }
 
 .sensor-value {
-    color: #8cc26a;
+    color: var(--lm-emocional-text);
     font-family: monospace;
     font-size: 0.85rem;
 }

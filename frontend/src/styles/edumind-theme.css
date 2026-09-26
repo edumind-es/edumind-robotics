@@ -42,6 +42,11 @@
   --edm-pink:       var(--lm-fisico-text, #a63a1f);
 
   /* Tinta */
+  /* La Lámina define --lm-ink-3 a 3:1 (solo texto grande o decorativo), pero
+     esta app lo usa en texto pequeño: pistas, descripciones, etiquetas de
+     sensores. Se redefine aquí para que dé más de 4,5:1 sobre ambos papeles,
+     en claro (#66604f: 5,0:1) y en el tema nocturno (#948c7e: 5,3:1). */
+  --lm-ink-3: #66604f;
   --edm-text:       var(--lm-ink, #1c1a16);
   --edm-text-soft:  var(--lm-ink-2, #4f4a41);
   --edm-text-muted: var(--lm-ink-3, #8a8377);
@@ -271,4 +276,9 @@ html.eink body::before {
 @media (prefers-reduced-motion: reduce) {
   .edm-card, .edm-button { transition: none; }
   .edm-card:hover, .edm-button:hover { transform: none; }
+}
+
+/* Mismo ajuste de --lm-ink-3 para el tema nocturno de la Lámina. */
+[data-lm-theme="noche"] {
+  --lm-ink-3: #948c7e;
 }
