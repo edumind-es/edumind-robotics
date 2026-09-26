@@ -74,7 +74,8 @@
   font-family: var(--edm-font-body);
   font-size: 0.72rem;
   font-weight: 600;
-  color: color-mix(in srgb, var(--lm-mental) 60%, transparent);
+  /* Antes iba al 60 % de opacidad: 2,1:1 sobre papel. El token «deep» cumple 4,5:1. */
+  color: var(--lm-mental-text);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-left: 0.4rem;

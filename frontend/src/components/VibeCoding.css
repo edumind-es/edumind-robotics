@@ -188,7 +188,7 @@
   margin-bottom: 0.4rem;
 }
 
-.vc-card h3 {
+.vc-card h2 {
   font-family: var(--edm-font-head);
   font-size: 1.2rem;
   color: var(--lm-ink);
@@ -549,7 +549,7 @@
   100% { transform: scale(1) rotate(0); }
 }
 
-.vc-card--congrats h3 {
+.vc-card--congrats h2 {
   font-size: 1.4rem;
   color: var(--lm-social-text);
   justify-content: center;
@@ -603,7 +603,7 @@
   background: color-mix(in srgb, var(--lm-social) 6%, transparent);
 }
 
-.vc-card--explainer h4 {
+.vc-card--explainer h3 {
   font-family: var(--edm-font-head);
   font-size: 0.95rem;
   color: var(--lm-social-text);
@@ -654,7 +654,7 @@
 }
 
 /* ─── Tips card ─── */
-.vc-card--tips h4 {
+.vc-card--tips h3 {
   font-family: var(--edm-font-head);
   font-size: 0.95rem;
   color: var(--lm-mental-text);
@@ -723,4 +723,15 @@
   .vc-right .vc-card {
     flex: 1 1 100%;
   }
+}
+
+/* Título de la vista para lectores de pantalla: la vista ya tiene su
+   cabecera visual en la barra de pasos, pero necesita un h1. */
+.vc-titulo-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

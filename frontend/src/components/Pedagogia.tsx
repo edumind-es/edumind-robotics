@@ -92,7 +92,7 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
 
 const Pedagogia: React.FC<PedagogiaProps> = ({ aiModel, aiLocal, onStart }) => {
   return (
-    <main className="edm-app pedagogia">
+    <main className="edm-app pedagogia" id="contenido">
       <div className="edm-container">
         <header className="edm-hero">
           <p className="edm-kicker">La pedagogía detrás del laboratorio</p>

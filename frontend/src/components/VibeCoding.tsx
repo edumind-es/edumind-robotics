@@ -260,7 +260,8 @@ AHORA genera el código para: ${objective}`
   }
 
   return (
-    <div className="vc-root">
+    <main className="vc-root" id="contenido">
+      <h1 className="vc-titulo-oculto">Vibe Coding: describe, lee, prueba</h1>
       {/* Selector de hardware */}
       <div className="vc-hardware-bar">
         {(Object.keys(HARDWARE_INFO) as HardwareType[]).map((hw) => (
@@ -300,7 +301,7 @@ AHORA genera el código para: ${objective}`
           <div className={`vc-card vc-card--idea ${step === 1 ? 'vc-card--active' : ''}`}>
             <div className="vc-card-header">
               <span className="vc-card-step">Paso 1</span>
-              <h3>💭 ¿Qué quieres crear?</h3>
+              <h2>💭 ¿Qué quieres crear?</h2>
               <p className="vc-card-hint">
                 Escríbelo con tus palabras. La IA lo convierte en código para{' '}
                 <strong style={{ color: HARDWARE_INFO[hardware].color }}>
@@ -354,7 +355,7 @@ AHORA genera el código para: ${objective}`
             <div className={`vc-card vc-card--response ${step === 2 || step === 3 ? 'vc-card--active' : ''}`}>
               <div className="vc-card-header">
                 <span className="vc-card-step">Paso 2 → 3</span>
-                <h3>
+                <h2>
                   {isStreaming ? (
                     <><span className="vc-dot-pulse" />La IA está escribiendo tu código...</>
                   ) : extractedCode ? (
@@ -362,7 +363,7 @@ AHORA genera el código para: ${objective}`
                   ) : (
                     <>🤔 La IA ha respondido</>
                   )}
-                </h3>
+                </h2>
                 {!isStreaming && (
                   <p className="vc-card-hint">
                     La Inteligencia Artificial ha leído lo que pediste y ha escrito instrucciones en
@@ -425,9 +426,9 @@ AHORA genera el código para: ${objective}`
             <div className={`vc-card vc-card--editor ${step === 4 || step === 5 ? 'vc-card--active' : ''}`}>
               <div className="vc-card-header">
                 <span className="vc-card-step">Paso 4 → 5</span>
-                <h3>
+                <h2>
                   {executedOnce ? '✏️ Modifica y experimenta' : '▶ Prueba en el simulador'}
-                </h3>
+                </h2>
                 <p className="vc-card-hint">
                   {executedOnce
                     ? '¡El código funciona! Ahora puedes cambiarlo: modifica números, textos o instrucciones. La IA cometió errores? Corrígelos tú.'
@@ -447,7 +448,7 @@ AHORA genera el código para: ${objective}`
             <div className="vc-card vc-card--congrats">
               <div className="vc-congrats-inner">
                 <div className="vc-congrats-emoji">🎉</div>
-                <h3>¡Lo has conseguido!</h3>
+                <h2>¡Lo has conseguido!</h2>
                 <p>
                   Has pedido a la IA que cree código, lo has leído, lo has cargado en el editor
                   y lo has ejecutado en el simulador. Eso es exactamente lo que hacen los
@@ -468,7 +469,7 @@ AHORA genera el código para: ${objective}`
           <div className="vc-card vc-card--simulator">
             <div className="vc-card-header">
               <span className="vc-card-step">Simulador</span>
-              <h3>{HARDWARE_INFO[hardware].icon} {HARDWARE_INFO[hardware].label} Virtual</h3>
+              <h2>{HARDWARE_INFO[hardware].icon} {HARDWARE_INFO[hardware].label} Virtual</h2>
               <p className="vc-card-hint">
                 Este es el robot virtual. Cuando ejecutes el código, verás aquí lo que pasaría
                 en el robot real.
@@ -512,7 +513,7 @@ AHORA genera el código para: ${objective}`
 
           {/* Burbuja pedagógica: explica qué hace la IA */}
           <div className="vc-card vc-card--explainer">
-            <h4>🧠 ¿Qué hace la IA?</h4>
+            <h3>🧠 ¿Qué hace la IA?</h3>
             <div className="vc-explainer-steps">
               <div className="vc-explainer-item">
                 <span className="vc-explainer-num">1</span>
@@ -538,7 +539,7 @@ AHORA genera el código para: ${objective}`
 
           {/* Atajos de teclado */}
           <div className="vc-card vc-card--tips">
-            <h4>⌨️ Atajos</h4>
+            <h3>⌨️ Atajos</h3>
             <ul className="vc-tips-list">
               <li><kbd>Enter</kbd> en el cuadro de texto → Generar código</li>
               <li>Botones <strong>A</strong> y <strong>B</strong> del micro:bit → clic en el simulador</li>
@@ -547,7 +548,7 @@ AHORA genera el código para: ${objective}`
           </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 

@@ -224,7 +224,7 @@ function App() {
             <section className="edm-grid" aria-label="Características">
               <article className="edm-card edm-card--cyan">
                 <div className="edm-card__badge">{t('card.sim')}</div>
-                <h3>{t('card.simT')}</h3>
+                <h2>{t('card.simT')}</h2>
                 <p>
 {t('card.simD')}
                 </p>
@@ -232,7 +232,7 @@ function App() {
 
               <article className="edm-card edm-card--lime">
                 <div className="edm-card__badge">{t('card.ia')}</div>
-                <h3>{t('card.iaT')}</h3>
+                <h2>{t('card.iaT')}</h2>
                 <p>
 {t('card.iaD')}
                 </p>
@@ -240,7 +240,7 @@ function App() {
 
               <article className="edm-card edm-card--pink">
                 <div className="edm-card__badge">{t('card.ed')}</div>
-                <h3>{t('card.edT')}</h3>
+                <h2>{t('card.edT')}</h2>
                 <p>
 {t('card.edD')}
                 </p>
@@ -248,7 +248,7 @@ function App() {
 
               <article className="edm-card edm-card--cyan">
                 <div className="edm-card__badge">Nuevo</div>
-                <h3>📚 Biblioteca de ejemplos</h3>
+                <h2>📚 Biblioteca de ejemplos</h2>
                 <p>
                   15+ plantillas de código para micro:bit, Nezha y Makey Makey.
                   Aprende con ejemplos comentados en español.
@@ -257,7 +257,7 @@ function App() {
 
               <article className="edm-card edm-card--lime">
                 <div className="edm-card__badge">Nuevo</div>
-                <h3>📤 Exportar a hardware</h3>
+                <h2>📤 Exportar a hardware</h2>
                 <p>
                   Exporta tu código a .py o paquete ZIP listo para cargar en
                   micro:bit, Nezha o Makey Makey real.
@@ -266,7 +266,7 @@ function App() {
 
               <article className="edm-card edm-card--pink">
                 <div className="edm-card__badge">Nuevo</div>
-                <h3>✨ Vibe Coding con IA</h3>
+                <h2>✨ Vibe Coding con IA</h2>
                 <p>
                   Describe lo que quieres crear con tus palabras. La IA escribe
                   el código, tú lo lees, pruebas y modificas.

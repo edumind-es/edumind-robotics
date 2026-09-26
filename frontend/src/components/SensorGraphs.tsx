@@ -168,7 +168,7 @@ const SensorGraphs: React.FC<SensorGraphsProps> = ({ sensors, onClose }) => {
         <div className="sensor-graphs">
             <div className="sensor-graphs__header">
                 <h3>📊 Gráficas de Sensores</h3>
-                {onClose && <button className="close-btn" onClick={onClose}>×</button>}
+                {onClose && <button className="close-btn" onClick={onClose} aria-label="Cerrar gráficas">×</button>}
             </div>
 
             <div className="sensor-graphs__tabs">

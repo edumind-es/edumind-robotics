@@ -137,6 +137,10 @@ export default function EDUmindFooter({
                     <a href="https://github.com/edumind-es/edumind-robotics" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
                         Código fuente en GitHub
                     </a>
+                    <span style={{ margin: '0 0.5rem' }}>·</span>
+                    <a href="https://github.com/edumind-es/edumind-robotics/blob/main/CREDITS.md" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                        Créditos
+                    </a>
                 </p>
             </div>
 
@@ -144,7 +148,7 @@ export default function EDUmindFooter({
                 marginTop: '1rem',
                 textAlign: 'center',
                 fontSize: '0.875rem',
-                color: '#6b7280'
+                color: 'inherit'
             }}>
                 <a href="https://edumind.es/es/legal/privacidad" target="_blank" rel="noopener noreferrer" style={{
                     color: 'inherit',
@@ -167,23 +171,18 @@ export default function EDUmindFooter({
                     textDecoration: 'none'
                 }}>Política de IA</a>
                 <span style={{ margin: '0 0.5rem' }}>·</span>
-                <a href="/proponer-deporte" style={{
-                    color: 'inherit',
-                    textDecoration: 'none'
-                }}>Proponer Deporte</a>
-                <span style={{ margin: '0 0.5rem' }}>·</span>
                 <a href="https://donar.edumind.es" target="_blank" rel="noopener noreferrer" style={{
-                    color: '#10b981',
+                    color: 'var(--lm-emocional-text, #3f6b2a)',
                     textDecoration: 'none',
                     fontWeight: '500'
                 }}>💚 Apoyar</a>
 
                 <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                    <a href="https://t.me/EDUmind_es" target="_blank" rel="noopener noreferrer" style={{ color: '#0088cc', textDecoration: 'none' }}>📢 Telegram</a>
-                    <a href="https://instagram.com/edumind_es" target="_blank" rel="noopener noreferrer" style={{ color: '#E1306C', textDecoration: 'none' }}>📸 Instagram</a>
-                    <a href="https://x.com/edumind_es" target="_blank" rel="noopener noreferrer" style={{ color: '#000000', textDecoration: 'none' }}>𝕏 Twitter</a>
-                    <a href="https://mastodon.social/@EDUmind" target="_blank" rel="noopener noreferrer" style={{ color: '#6364FF', textDecoration: 'none' }}>🐘 Mastodon</a>
-                    <a href="https://blog.edumind.es" target="_blank" rel="noopener noreferrer" style={{ color: '#10b981', textDecoration: 'none' }}>📝 Blog</a>
+                    <a href="https://t.me/EDUmind_es" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>📢 Telegram</a>
+                    <a href="https://instagram.com/edumind_es" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>📸 Instagram</a>
+                    <a href="https://x.com/edumind_es" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>𝕏 Twitter</a>
+                    <a href="https://mastodon.social/@EDUmind" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>🐘 Mastodon</a>
+                    <a href="https://blog.edumind.es" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>📝 Blog</a>
                 </div>
             </div>
 

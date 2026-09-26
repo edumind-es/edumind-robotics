@@ -164,7 +164,7 @@ html.eink body::before {
 .edm-card--lime   { border-top: 8px solid var(--lm-emocional, #6ea94a); }
 .edm-card--pink   { border-top: 8px solid var(--lm-fisico, #e8613f); }
 
-.edm-card h3 {
+.edm-card h2, .edm-card h3 {
   margin-top: 0.6rem;
   margin-bottom: 0.5rem;
   font-family: var(--edm-font-head);
@@ -179,9 +179,9 @@ html.eink body::before {
   font-size: 0.97rem;
 }
 
-.edm-card--cyan h3, .edm-card--cyan .edm-card__badge { color: var(--lm-mental-text, #2f6076); }
-.edm-card--lime h3, .edm-card--lime .edm-card__badge { color: var(--lm-emocional-text, #3f6b2a); }
-.edm-card--pink h3, .edm-card--pink .edm-card__badge { color: var(--lm-fisico-text, #a63a1f); }
+.edm-card--cyan h2, .edm-card--cyan h3, .edm-card--cyan .edm-card__badge { color: var(--lm-mental-text, #2f6076); }
+.edm-card--lime h2, .edm-card--lime h3, .edm-card--lime .edm-card__badge { color: var(--lm-emocional-text, #3f6b2a); }
+.edm-card--pink h2, .edm-card--pink h3, .edm-card--pink .edm-card__badge { color: var(--lm-fisico-text, #a63a1f); }
 
 /* Etiqueta tipo sello impreso, no píldora de neón. */
 .edm-card__badge {
@@ -215,7 +215,8 @@ html.eink body::before {
   font-size: 1rem;
   color: var(--lm-paper, #e9e6dd);
   cursor: pointer;
-  background: var(--lm-mental, #3f7d99);
+  /* El azul base (#3f7d99) daba 3,65:1 con el texto papel; el «deep» pasa de 6:1. */
+  background: var(--lm-mental-text, #2f6076);
   box-shadow: 3px 3px 0 var(--lm-ink, #1c1a16);
   transition: transform 120ms ease, box-shadow 120ms ease;
 }

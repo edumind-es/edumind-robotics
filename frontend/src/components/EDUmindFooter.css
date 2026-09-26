@@ -29,7 +29,8 @@
     /* Visual */
     background-color: var(--footer-bg, #f8f9fa);
     border-top: 1px solid var(--footer-border, #e9ecef);
-    color: var(--footer-text, #6c757d);
+    /* #6c757d daba menos de 4,5:1 sobre el papel de la Lámina. */
+    color: var(--footer-text, var(--lm-ink-2, #4f4a41));
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: 0.9rem;
 
@@ -104,7 +105,7 @@
 }
 
 .footer-info strong {
-    color: var(--footer-text-strong, #495057);
+    color: var(--footer-text-strong, var(--lm-ink, #1c1a16));
     font-weight: 600;
 }
 

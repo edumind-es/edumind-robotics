@@ -136,7 +136,7 @@ const ExportPanel: React.FC<ExportPanelProps> = ({
             <div className="export-panel__header">
                 <h3>📤 Exportar Código</h3>
                 {onClose && (
-                    <button className="close-btn" onClick={onClose}>×</button>
+                    <button className="close-btn" onClick={onClose} aria-label="Cerrar exportación">×</button>
                 )}
             </div>
 
@@ -198,7 +198,7 @@ const ExportPanel: React.FC<ExportPanelProps> = ({
                     <div className="instructions-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="instructions-header">
                             <h3>📖 Instrucciones</h3>
-                            <button onClick={() => setShowInstructions(false)}>×</button>
+                            <button onClick={() => setShowInstructions(false)} aria-label="Cerrar instrucciones">×</button>
                         </div>
                         <div className="instructions-content">
                             <pre>{instructions}</pre>
