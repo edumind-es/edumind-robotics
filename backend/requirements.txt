@@ -1,6 +1,6 @@
 # Core Framework
 fastapi==0.141.1
-uvicorn[standard]==0.52.4
+uvicorn[standard]==0.54.0
 pydantic==2.13.5
 
 # HTTP Client para Ollama
